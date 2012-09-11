@@ -10,6 +10,8 @@ colorscheme desert256
 
 set hlsearch
 set incsearch
+set showfulltag
+set smartcase
 set notitle
 set ruler
 set wildmenu
@@ -24,8 +26,10 @@ set backspace=indent,eol,start
 set exrc
 set guifont=DejaVu\ Sans\ Mono\ 11
 set guioptions=
+set linebreak
 set listchars=tab:\|-,trail:@
 set mousefocus " GUI only:cursor focus follows mouse
+set pt=<f12>
 set rnu
 set secure
 set shiftround

@@ -8,6 +8,7 @@ filetype on
 filetype plugin on
 colorscheme desert256
 
+set cinkeys-=0#
 set hlsearch
 set incsearch
 set showfulltag

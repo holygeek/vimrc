@@ -1,18 +1,24 @@
-inoremap <c-d> :w
-nnoremap <c-d> :w<cr>
-nnoremap Q :q
-nnoremap <c-k> <c-w>k
-nnoremap <c-j> <c-w>j
-nnoremap <c-h> <c-w>h
-nnoremap <c-l> <c-w>l
 cnoremap <c-k> <up>
-nnoremap <tab> gt
-nnoremap  gT
+inoremap <c-d> :w
+nnoremap <bs> !!sh<cr>
+nnoremap <c-d> :w<cr>
 nnoremap <c-]> g<c-]>
+nnoremap <c-h> <c-w>h
+nnoremap <c-j> <c-w>j
+nnoremap <c-k> <c-w>k
+nnoremap <c-l> <c-w>l
+nnoremap <c-w><c-]> <c-w>g]
 nnoremap <c-w>] <c-w>g]
 nnoremap <f2> :bprev<cr>
 nnoremap <f3> :bnext<cr>
 nnoremap <c-i> :call PreviewWord()<cr>
+nnoremap  gT
+nnoremap <leader>] :<C-U>exec "tab tjump " . expand('<cword>')<cr>
+nnoremap mm :nohl<CR>
+nnoremap ( :nohl<CR>
+nnoremap ) :nohl<CR>
+nnoremap Q :q
+nnoremap <tab> gt
 
 " Copy/paste stuff to desktop clipboard <-> window's clipboard (vmware
 " clipboard sharing)

@@ -12,6 +12,7 @@ nnoremap <c-]> g<c-]>
 nnoremap <c-w>] <c-w>g]
 nnoremap <f2> :bprev<cr>
 nnoremap <f3> :bnext<cr>
+nnoremap <c-i> :call PreviewWord()<cr>
 
 " Copy/paste stuff to desktop clipboard <-> window's clipboard (vmware
 " clipboard sharing)

@@ -41,6 +41,10 @@ source ~/.vim/autocommands.vim
 source ~/.vim/customcolors.vim
 source ~/.vim/functions.vim
 source ~/.vim/map.vim
-if filereadable(expand("~/.vim/work.vim"))
-  source ~/.vim/work.vim
-endif
+
+for i in [ 'work', 'home', 'addons', 'clang' ]
+	let fullpath = expand('~/.vim/' . i . '.vim')
+	if filereadable(fullpath)
+		exec 'source ' . fullpath
+	endif
+endfor

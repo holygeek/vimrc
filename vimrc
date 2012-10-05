@@ -42,9 +42,9 @@ source ~/.vim/customcolors.vim
 source ~/.vim/functions.vim
 source ~/.vim/map.vim
 
-for i in [ 'work', 'home', 'addons', 'clang' ]
-	let fullpath = expand('~/.vim/' . i . '.vim')
-	if filereadable(fullpath)
-		exec 'source ' . fullpath
-	endif
+for name in [ 'addons', 'home', 'clang', 'completion', 'work' ]
+  let fullpath = expand('~/.vim/' . name . '.vim')
+  if filereadable(fullpath)
+    exec 'source ' . fullpath
+  endif
 endfor

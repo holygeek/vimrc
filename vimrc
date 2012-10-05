@@ -33,6 +33,7 @@ set mousefocus " GUI only:cursor focus follows mouse
 set pt=<f12>
 set rnu
 set secure
+set autoindent smartindent
 set shiftround
 set wildmode=full:list wildmenu
 

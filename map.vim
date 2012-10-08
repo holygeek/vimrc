@@ -14,9 +14,7 @@ nnoremap <f3> :bnext<cr>
 nnoremap <c-i> :call PreviewWord()<cr>
 nnoremap  gT
 nnoremap <leader>] :<C-U>exec "tab tjump " . expand('<cword>')<cr>
-nnoremap mm :nohl<CR>
-nnoremap ( :nohl<CR>
-nnoremap ) :nohl<CR>
+nnoremap <cr> :nohl<cr>
 nnoremap Q :q
 nnoremap <tab> gt
 

@@ -19,7 +19,7 @@ function! OpenOtherFile()
 endfun
 
 " Adapted from :help CursorHold-example
-func PreviewWord()
+function! PreviewWord()
   let w = expand("<cword>")	" get the word under cursor
   if w !~ '\a'			" if the word contains a letter
     return

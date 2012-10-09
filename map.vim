@@ -16,7 +16,6 @@ nnoremap  gT
 nnoremap <leader>] :<C-U>exec "tab tjump " . expand('<cword>')<cr>
 nnoremap <cr> :nohl<cr>
 nnoremap Q :q
-nnoremap <tab> gt
 
 " Copy/paste stuff to desktop clipboard <-> window's clipboard (vmware
 " clipboard sharing)

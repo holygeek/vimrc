@@ -42,9 +42,25 @@ source ~/.vim/customcolors.vim
 source ~/.vim/functions.vim
 source ~/.vim/map.vim
 
-for name in [ 'addons', 'home', 'clang', 'completion', 'work' ]
+function LoadIfExists(name)
   let fullpath = expand('~/.vim/' . name . '.vim')
   if filereadable(fullpath)
     exec 'source ' . fullpath
   endif
-endfor
+endfun
+
+if v:version <= 604
+  call LoadIfExists('addons')
+  call LoadIfExists('clang')
+  call LoadIfExists('completion')
+  call LoadIfExists('home')
+  call LoadIfExists('work')
+else
+  let scriptnames = [ 'addons', 'home', 'clang', 'completion', 'work' ]
+  for name in scriptnames
+    let fullpath = expand('~/.vim/' . name . '.vim')
+    if filereadable(fullpath)
+      exec 'source ' . fullpath
+    endif
+  endfor
+endif

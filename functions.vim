@@ -57,3 +57,21 @@ function! PreviewWord()
     endif
   endif
 endfun
+
+function! FindAndSetLocalTags()
+  let dir = expand("%:p:h")
+  let tagfile = dir . '/tags'
+  while ! filereadable(tagfile)
+    if dir == ''
+      " echoerr "work.vim: Could not find tags file"
+      let tagfile = ''
+      break
+    endif
+    let dir = substitute(dir, '/[^/]\+$', '', '')
+    let tagfile = dir . '/tags'
+  endwhile
+
+  if strlen(tagfile) > 0
+    exec 'setlocal tags=' . tagfile
+  endif
+endfun

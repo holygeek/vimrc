@@ -16,3 +16,27 @@ function! TermsMatch()
     return ''
 endfun
 
+fun! GetBaseColumnUpto(pattern)
+    " locate the start of the word
+    let line = getline('.')
+    let start = col('.') - 1
+    while start > 0 && line[start - 1] != a:pattern
+      let start -= 1
+    endwhile
+    return start
+endfun
+
+fun! ArrayFrom(cmd)
+  return split(system(a:cmd), '\n')
+endfun
+
+fun! CompleteZshOptions(findstart, base)
+  if a:findstart
+    return GetBaseColumnUpto(' ')
+  else
+    " find zshoptions matching "^a:base"
+    let cmd = "~/.vim/bin/zshoptions | grep -i '^" . a:base . "'"
+    return ArrayFrom(cmd)
+  endif
+endfunction
+

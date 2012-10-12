@@ -3,3 +3,17 @@ au BufReadPost * if line("'\"") > 0|if line("'\"") <= line("$")|exe("norm '\"")|
 au BufReadPost ~/.shell/* set ft=sh
 
 au BufReadPost *.{[ch],ps,vim} call FindAndSetLocalTags()
+
+au BufReadPost ~/.shell/opt.rc
+\ set completefunc=CompleteZshOptions |
+
+fun! Foo()
+  return 0
+endfun
+au BufReadPost ~/.shell/opt.rc
+\ set completefunc=CompleteZshOptions |
+\ let g:acp_behavior['*'][0]['command'] = '' |
+\ let g:acp_behavior['*'][0]['completefunc'] = 'CompleteZshOptions' |
+\ let g:acp_behavior['*'][0]['meets'] = 'len' |
+\ let g:acp_behavior['*'][0]['onPopupClose'] = 'Foo' |
+\ set keywordprg=zshoptions

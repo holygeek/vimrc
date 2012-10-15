@@ -1,0 +1,3 @@
+#!/bin/sh
+# Created: Thu Oct 11 12:52:22 MYT 2012
+vi -c "help $1|only"

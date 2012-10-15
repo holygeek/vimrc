@@ -1,0 +1,44 @@
+#!/bin/sh
+# Created: Thu Oct 11 13:40:43 MYT 2012
+
+me=`basename $0`
+usage() {
+    echo -n "NAME
+  $me - Show zsh options scraped from its man page
+SYNOPSIS
+  $me
+  $me [-h]
+  $me [option]
+DESCRIPTION
+  When run without any option or arguments, show all zsh options scraped from
+  its man page.
+
+  When run with an argument [option], run 'man zshoptions' and jump to the
+  explanation of the given option.
+OPTIONS
+  -h
+    Show this help message
+"
+}
+
+dry_run=
+while getopts h opt
+do
+  case "$opt" in
+    h) usage ; exit;;
+    \?) echo Unknown option ; exit;;
+  esac
+done
+shift $(($OPTIND -1))
+
+if [ -n "$1" ]; then
+  man -P "less -I -p '^ {7}$1'" zshoptions
+  exit 0
+fi
+
+man zshoptions |
+  sed -ne '/^DESCRIPTION/,$p' |
+  grep -E '^ {7}[A-Z_]+' |
+  awk '{print $1}' |
+  tr 'A-Z' 'a-z' |
+  sed -e 's/.*/& no&/' -e 's/ /\n/'

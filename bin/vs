@@ -1,0 +1,4 @@
+#!/bin/sh
+# Created: Tue Oct 16 13:02:57 MYT 2012
+# Show the last vim search term
+grep '^?.\\<' ~/.viminfo|sed -e 's/^..//' -e 's|\\[<>]||g'|head -1

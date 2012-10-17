@@ -1,3 +1,5 @@
+let mapleader = ','
+
 cnoremap <c-k> <up>
 inoremap <c-d> :w
 nnoremap <bs> !!sh<cr>
@@ -15,6 +17,8 @@ nnoremap  gT
 nnoremap <leader>] :<C-U>exec "tab tjump " . expand('<cword>')<cr>
 nnoremap <cr> :nohl<cr>
 nnoremap Q :q
+nnoremap <leader>t :TlistOpen<cr>
+nnoremap \\ :set invwrap<cr>
 
 " Copy/paste stuff to desktop clipboard <-> window's clipboard (vmware
 " clipboard sharing)

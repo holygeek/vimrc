@@ -3,6 +3,8 @@ set t_Co=256
 set t_AB=[48;5;%dm
 set t_AF=[38;5;%dm
 
+let g:clang_library_path='/usr/lib'
+
 syn on
 filetype on
 filetype plugin on
@@ -43,7 +45,7 @@ source ~/.vim/functions.vim
 source ~/.vim/map.vim
 
 function LoadIfExists(name)
-  let fullpath = expand('~/.vim/' . name . '.vim')
+  let fullpath = expand('~/.vim/' . a:name . '.vim')
   if filereadable(fullpath)
     exec 'source ' . fullpath
   endif
@@ -56,11 +58,8 @@ if v:version <= 604
   call LoadIfExists('home')
   call LoadIfExists('work')
 else
-  let scriptnames = [ 'addons', 'home', 'clang', 'completion', 'work' ]
+  let scriptnames = [ 'addons', 'clang', 'completion', 'home', 'work' ]
   for name in scriptnames
-    let fullpath = expand('~/.vim/' . name . '.vim')
-    if filereadable(fullpath)
-      exec 'source ' . fullpath
-    endif
+    call LoadIfExists(name)
   endfor
 endif

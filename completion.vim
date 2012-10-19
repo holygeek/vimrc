@@ -1,5 +1,5 @@
 " control + t - complete text from terminals
-inoremap <buffer> <c-t> <c-r>=TermsMatch()<cr>
+inoremap <c-t> <c-r>=TermsMatch()<cr>
 
 function! TermsMatch()
     let line = getline('.')
@@ -9,7 +9,7 @@ function! TermsMatch()
     endwhile
     let end = col('.')
     let base = line[ start : end ]
-    let cmd = 'termsmatch -e ' . $TERM_NAME . ' -- ^' . base
+    let cmd = 'termsmatch -- ^' . base . '.'
     let matches = system(cmd)
     "let matches = split(matches, '\n')
     call complete(start + 1, split(matches, '\n'))

@@ -1,8 +1,9 @@
 #!/bin/sh
 # Created: Fri Oct 12 10:03:54 MYT 2012
 file_pattern=$1
+shift
 case $file_pattern in
   \*) ;;
   *) file_pattern="*$file_pattern"
 esac
-vi -o `git ls-files -- "$file_pattern"`
+vi -o `git ls-files -- "$file_pattern"` $*

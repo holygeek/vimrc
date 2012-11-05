@@ -2,7 +2,6 @@ let mapleader = ','
 
 cnoremap <c-k> <up>
 inoremap <c-d> :w
-nnoremap <bs> !!sh<cr>
 nnoremap <c-d> :w<cr>
 nnoremap <c-]> g<c-]>
 nnoremap <c-h> <c-w>h

@@ -7,6 +7,8 @@ au BufReadPost *.{[ch],ps,vim} call FindAndSetLocalTags()
 au BufReadPost ~/.shell/opt.rc
 \ set completefunc=CompleteZshOptions |
 
+au BufReadPost blame.txt set ft=blame
+
 fun! Foo()
   return 0
 endfun

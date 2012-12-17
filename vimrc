@@ -19,10 +19,7 @@ set notitle
 set ruler
 set wildmenu
 	
-function! BufferCount()
-        return len(filter(range(1,bufnr('$')),'buflisted(v:val)'))
-endfun
-set statusline=%m%f%m\ %y\ %r\ %=%n/%{BufferCount()}\ %o\ \ %l/%Lc%c%V\ %P
+set statusline=%m%f%m\ %y\ %r\ %=\ %o\ \ %l,%c%V\ %L@%P
 set laststatus=2
 
 set backspace=indent,eol,start

@@ -1,0 +1,10 @@
+#!/bin/sh
+# Created: Wed Jan 30 11:35:03 MYT 2013
+
+# git ls-files that understands mgit
+if [ -n "$MGIT_MODE" ]; then
+  prefix=`basename $PWD`/
+  git ls-files $@|sed -e "s,^,$prefix,"
+else
+  git ls-files $@
+fi

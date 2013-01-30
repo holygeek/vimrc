@@ -6,4 +6,4 @@ case $file_pattern in
   \*) ;;
   *) file_pattern="*/$file_pattern*"
 esac
-vi -o `git ls-files -- "$file_pattern"` $*
+vi -o `mgit -q tracked -- "$file_pattern"` $*

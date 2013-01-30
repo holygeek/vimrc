@@ -1,0 +1,48 @@
+#!/bin/sh
+# Created: Tue Nov  6 10:47:19 MYT 2012
+
+. `dirname $0`/common.sh
+
+me=`basename $0`
+usage() {
+cat <<EOF
+NAME
+  $me - Run git \$@ for each git repositories under current directory
+
+SYNOPSIS
+  $me [-hq] <git args>
+
+OPTIONS
+  -q
+    Be quiet
+  -h
+    Show this help message
+EOF
+}
+
+quiet=
+while getopts hq opt
+do
+  case "$opt" in
+    q) quiet=t;;
+    h) usage ; exit;;
+    \?) echo Unknown option ; exit;;
+  esac
+done
+shift $(($OPTIND -1))
+
+git_dirs=`find -maxdepth 2 -type d -name .git`
+ngits=`echo $git_dirs|wc -w`
+if [ $ngits -gt 1 ]; then
+  export MGIT_MODE=true
+fi
+
+for gitdir in $git_dirs; do
+(
+  dir=`dirname $gitdir`
+  cd $dir
+  test -z "$quiet" && echo $lightblue$dir$reset
+  test -n "$1" && git $@
+  cd ..
+)
+done

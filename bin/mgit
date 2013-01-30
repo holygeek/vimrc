@@ -13,6 +13,10 @@ SYNOPSIS
   $me [-hq] <git args>
 
 OPTIONS
+  -c
+    pass -c ui.color=always to git
+  -p
+    Prepend dirname of git repo foreach line of output
   -q
     Be quiet
   -h
@@ -21,9 +25,13 @@ EOF
 }
 
 quiet=
-while getopts hq opt
+pager=
+color_always=
+while getopts chpq opt
 do
   case "$opt" in
+    c) color_always="-c color.ui=always";;
+    p) pager='|sed -e "s,^\([^m]\+m\),\1$dir/,"';;
     q) quiet=t;;
     h) usage ; exit;;
     \?) echo Unknown option ; exit;;
@@ -42,7 +50,7 @@ for gitdir in $git_dirs; do
   dir=`dirname $gitdir`
   cd $dir
   test -z "$quiet" && echo $lightblue$dir$reset
-  test -n "$1" && git $@
+  eval "test -n '$1' && git $color_always $@ $pager"
   cd ..
 )
 done

@@ -8,7 +8,9 @@ let g:clang_library_path='/usr/lib'
 syn on
 filetype on
 filetype plugin on
-colorscheme desert256
+if $TERM_NAME != 'bigterm'
+  colorscheme desert256
+endif
 
 set cinkeys-=0#
 set hlsearch

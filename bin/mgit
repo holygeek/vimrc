@@ -31,7 +31,7 @@ while getopts chpq opt
 do
   case "$opt" in
     c) color_always="-c color.ui=always";;
-    p) pager='|sed -e "s,^\([^m]\+m\),\1$dir/,"';;
+    p) pager='|sed -e "s=^\([^m]\+m\)\{0,1\}=\1$dir/="';;
     q) quiet=t;;
     h) usage ; exit;;
     \?) echo Unknown option ; exit;;

@@ -56,8 +56,9 @@ if v:version <= 604
   call LoadIfExists('completion')
   call LoadIfExists('home')
   call LoadIfExists('work')
+  call LoadIfExists('cscope')
 else
-  let scriptnames = [ 'addons', 'clang', 'completion', 'home', 'work' ]
+  let scriptnames = [ 'addons', 'clang', 'completion', 'home', 'work', 'cscope' ]
   for name in scriptnames
     call LoadIfExists(name)
   endfor

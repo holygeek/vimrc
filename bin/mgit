@@ -17,22 +17,22 @@ OPTIONS
     pass -c ui.color=always to git
   -p
     Prepend dirname of git repo foreach line of output
-  -q
-    Be quiet
+  -v
+    Be verbose - show directory being worked on
   -h
     Show this help message
 EOF
 }
 
-quiet=
+verbose=
 pager=
 color_always=
-while getopts chpq opt
+while getopts chpv opt
 do
   case "$opt" in
     c) color_always="-c color.ui=always";;
     p) pager='|sed -e "s=^\([^m]\+m\)\{0,1\}=\1$dir/="';;
-    q) quiet=t;;
+    v) verbose=t;;
     h) usage ; exit;;
     \?) echo Unknown option ; exit;;
   esac
@@ -49,7 +49,7 @@ for gitdir in $git_dirs; do
 (
   dir=`dirname $gitdir`
   cd $dir
-  test -z "$quiet" && echo $lightblue$dir$reset
+  test -n "$verbose" && echo $lightblue$dir$reset
   eval "test -n '$1' && git $color_always $@ $pager"
   cd ..
 )

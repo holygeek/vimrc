@@ -26,7 +26,8 @@ set laststatus=2
 
 set backspace=indent,eol,start
 set exrc
-set guifont=DejaVu\ Sans\ Mono\ 11
+set guifont=DejaVu\ Sans\ Mono\ 10
+set guicursor=a:block-blinkon0
 set guioptions=
 set linebreak
 set listchars=tab:\|-,trail:@

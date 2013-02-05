@@ -18,4 +18,5 @@ au BufReadPost ~/.shell/opt.rc
 \ let g:acp_behavior['*'][0]['completefunc'] = 'CompleteZshOptions' |
 \ let g:acp_behavior['*'][0]['meets'] = 'len' |
 \ let g:acp_behavior['*'][0]['onPopupClose'] = 'Foo' |
-\ set keywordprg=zshoptions
+\ set keywordprg=zshoptions |
+\ nunmap K

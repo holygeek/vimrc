@@ -41,7 +41,9 @@ shift $(($OPTIND -1))
 
 git_dirs=`find -maxdepth 2 -type d -name .git`
 ngits=`echo $git_dirs|wc -w`
-if [ $ngits -gt 1 ]; then
+if [ $ngits -le 1 ]; then
+  exec git $@;
+elif [ $ngits -gt 1 ]; then
   export MGIT_MODE=true
 fi
 

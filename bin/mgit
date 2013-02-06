@@ -7,7 +7,7 @@ me=`basename $0`
 usage() {
 cat <<EOF
 NAME
-  $me - Run git \$@ for each git repositories under current directory
+  $me - Run git commands for each git repositories under current directory
 
 SYNOPSIS
   $me [-hq] <git args>
@@ -25,13 +25,13 @@ EOF
 }
 
 verbose=
-pager=
+add_prefix=
 color_always=
 while getopts chpv opt
 do
   case "$opt" in
     c) color_always="-c color.ui=always";;
-    p) pager='|sed -e "s=^\([^m]\+m\)\{0,1\}=\1$dir/="';;
+    p) add_prefix=t;;
     v) verbose=t;;
     h) usage ; exit;;
     \?) echo Unknown option ; exit;;
@@ -42,7 +42,7 @@ shift $(($OPTIND -1))
 git_dirs=`find -maxdepth 2 -type d -name .git`
 ngits=`echo $git_dirs|wc -w`
 if [ $ngits -le 1 ]; then
-  exec git $@;
+  exec git "$@";
 elif [ $ngits -gt 1 ]; then
   export MGIT_MODE=true
 fi
@@ -52,7 +52,12 @@ for gitdir in $git_dirs; do
   dir=`dirname $gitdir`
   cd $dir
   test -n "$verbose" && echo $lightblue$dir$reset
-  eval "test -n '$1' && git $color_always $@ $pager"
+  test -z "$1" && continue
+  if [ -n "$add_prefix" ]; then
+    git $color_always "$@"|sed -e "s=^\([^m]\+m\)\{0,1\}=\1$dir/=";
+  else
+    git $color_always "$@"
+  fi
   cd ..
 )
 done

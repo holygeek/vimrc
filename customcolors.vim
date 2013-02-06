@@ -2,6 +2,7 @@
 hi Pmenu ctermfg=black ctermbg=darkgray
 hi PmenuSel ctermfg=black ctermbg=gray
 hi LineNr ctermfg=darkgray
+hi CursorLineNr ctermfg=brown
 hi comment ctermfg=110
 "hi comment ctermfg=darkgray
 "hi comment ctermfg=60

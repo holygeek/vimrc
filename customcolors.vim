@@ -25,3 +25,19 @@ hi MatchParen ctermbg=white ctermfg=black cterm=standout,underline
 if &diff
   so ~/.vim/diffcolor.vim
 endif
+
+let source_filetypes = [
+ \ 'c',
+ \ 'diff',
+ \ 'java',
+ \ 'javascript',
+ \ 'perl',
+ \ 'python',
+ \ 'ruby',
+ \ 'vim'
+ \ ]
+au BufReadPost * if &ft =~ '\v^('. join(source_filetypes, '|') . ')$'|
+ \ let &colorcolumn=join(range(81,300), ',') |
+ \ hi colorcolumn guibg=darkgray ctermbg=234 |
+ \ hi nontext ctermbg=234|
+ \ endif

@@ -20,3 +20,5 @@ au BufReadPost ~/.shell/opt.rc
 \ let g:acp_behavior['*'][0]['onPopupClose'] = 'Foo' |
 \ set keywordprg=zshoptions |
 \ nunmap K
+
+au BufReadPost ~/.shell/*.rc set ft=zsh

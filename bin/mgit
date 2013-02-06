@@ -9,6 +9,11 @@ cat <<EOF
 NAME
   $me - Run git commands for each git repositories under current directory
 
+PURPOSE
+  Run git command on multiple git repositories and format the
+  output as if they come from a single repository (using the -p
+  option) - works good only for ls-files.
+
 SYNOPSIS
   $me [-hq] <git args>
 
@@ -39,7 +44,7 @@ do
 done
 shift $(($OPTIND -1))
 
-git_dirs=`find -maxdepth 2 -type d -name .git`
+git_dirs=`find -maxdepth 2 -type d -name .git|sed -e 's,./,,'`
 ngits=`echo $git_dirs|wc -w`
 if [ $ngits -le 1 ]; then
   exec git "$@";

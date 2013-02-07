@@ -78,6 +78,6 @@ endfun
 
 function! SetColumnBG()
    let &colorcolumn=join(range(81,300), ',')
-   hi ColorColumn guibg=darkgray ctermbg=234
+   hi ColorColumn guibg=darkgray ctermbg=233
    "hi NonText ctermbg=234
 endfun

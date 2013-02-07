@@ -36,8 +36,4 @@ let source_filetypes = [
  \ 'ruby',
  \ 'vim'
  \ ]
-au BufReadPost * if &ft =~ '\v^('. join(source_filetypes, '|') . ')$'|
- \ let &colorcolumn=join(range(81,300), ',') |
- \ hi colorcolumn guibg=darkgray ctermbg=234 |
- \ hi nontext ctermbg=234|
- \ endif
+au BufReadPost * if &ft =~ '\v^('. join(source_filetypes, '|') . ')$'|call SetColumnBG()|endif

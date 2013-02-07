@@ -75,3 +75,9 @@ function! FindAndSetLocalTags()
     exec 'setlocal tags=' . tagfile
   endif
 endfun
+
+function! SetColumnBG()
+   let &colorcolumn=join(range(81,300), ',')
+   hi ColorColumn guibg=darkgray ctermbg=234
+   hi NonText ctermbg=234
+endfun

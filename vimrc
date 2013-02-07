@@ -39,9 +39,10 @@ set autoindent smartindent
 set shiftround
 set wildmode=full:list wildmenu
 
+source ~/.vim/functions.vim
 source ~/.vim/autocommands.vim
 source ~/.vim/customcolors.vim
-source ~/.vim/functions.vim
+
 source ~/.vim/map.vim
 
 function LoadIfExists(name)

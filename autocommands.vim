@@ -22,3 +22,8 @@ au BufReadPost ~/.shell/opt.rc
 \ nunmap K
 
 au BufReadPost ~/.shell/*.rc set ft=zsh
+
+let noeighties = [
+ \ 'text',
+ \ ]
+au BufReadPost * if &ft !~ '\v^('. join(noeighties, '|') . ')$'|call SetColumnBG()|endif

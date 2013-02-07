@@ -25,15 +25,3 @@ hi MatchParen ctermbg=white ctermfg=black cterm=standout,underline
 if &diff
   so ~/.vim/diffcolor.vim
 endif
-
-let source_filetypes = [
- \ 'c',
- \ 'diff',
- \ 'java',
- \ 'javascript',
- \ 'perl',
- \ 'python',
- \ 'ruby',
- \ 'vim'
- \ ]
-au BufReadPost * if &ft =~ '\v^('. join(source_filetypes, '|') . ')$'|call SetColumnBG()|endif

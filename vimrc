@@ -7,7 +7,7 @@ let g:clang_library_path='/usr/lib'
 
 syn on
 filetype on
-filetype plugin on
+filetype plugin indent on
 if $TERM_NAME != 'bigterm'
   colorscheme desert256
 endif

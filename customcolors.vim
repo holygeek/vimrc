@@ -17,7 +17,7 @@ hi comment ctermfg=110
 hi folded ctermfg=darkgray ctermbg=black
 "  guifg=gray guibg=black
 
-hi MatchParen ctermbg=white ctermfg=black cterm=standout,underline
+hi MatchParen cterm=underline ctermbg=none
 
 "syn match braces "[{}]"
 "hi braces ctermfg=darkgray

@@ -1,4 +1,5 @@
 #!/bin/sh
+# vim: ts=2 sts=2 sw=2 expandtab
 # Created: Tue Nov  6 10:47:19 MYT 2012
 
 . `dirname $0`/common.sh

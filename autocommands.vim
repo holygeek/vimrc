@@ -26,4 +26,4 @@ au BufReadPost ~/.shell/*.rc set ft=zsh
 let noeighties = [
  \ 'text',
  \ ]
-au BufReadPost * if &ft !~ '\v^('. join(noeighties, '|') . ')$'|call SetColumnBG()|endif
+au BufReadPost,VimResized * if &ft !~ '\v^('. join(noeighties, '|') . ')$'|call SetColumnBG()|endif

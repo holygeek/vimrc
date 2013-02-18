@@ -21,6 +21,8 @@ SYNOPSIS
 OPTIONS
   -c
     pass -c ui.color=always to git
+  -d <dir1,dir2,...>
+    Run git command in <dir1,dir2,...> only
   -p
     Prepend dirname of git repo foreach line of output
   -v
@@ -30,13 +32,15 @@ OPTIONS
 EOF
 }
 
+dirs=
 verbose=
 add_prefix=
 color_always=
-while getopts chpv opt
+while getopts cd:hpv opt
 do
   case "$opt" in
     c) color_always="-c color.ui=always";;
+    d) dirs=`echo $OPTARG|tr , ' '|sed -e 's,$,/.git,' -e 's, ,/.git ,g'`;;
     p) add_prefix=t;;
     v) verbose=t;;
     h) usage ; exit;;
@@ -45,12 +49,16 @@ do
 done
 shift $(($OPTIND -1))
 
-git_dirs=`find -maxdepth 2 -type d -name .git|sed -e 's,./,,'`
-ngits=`echo $git_dirs|wc -w`
-if [ $ngits -le 1 ]; then
-  exec git "$@";
-elif [ $ngits -gt 1 ]; then
-  export MGIT_MODE=true
+if [ -n "$dirs" ]; then
+  git_dirs=$dirs
+else
+  git_dirs=`find -maxdepth 2 -type d -name .git|sed -e 's,./,,'`
+  ngits=`echo $git_dirs|wc -w`
+  if [ $ngits -le 1 ]; then
+    exec git "$@";
+  elif [ $ngits -gt 1 ]; then
+    export MGIT_MODE=true
+  fi
 fi
 
 for gitdir in $git_dirs; do

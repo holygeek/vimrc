@@ -78,7 +78,7 @@ endfun
 
 function! SetColumnBG()
    let &colorcolumn=join(range(81,300), ',')
-   hi ColorColumn guibg=darkgray ctermbg=233
+   hi ColorColumn guibg=darkgray ctermbg=234
    " When this is on we want to disable linebreak as it will give false
    " positive as 'colorcolumn' counts the virtual column added after 'breakat'
    " chars

@@ -63,7 +63,6 @@ function! FindAndSetLocalTags()
   let tagfile = dir . '/tags'
   while ! filereadable(tagfile)
     if dir == ''
-      " echoerr "work.vim: Could not find tags file"
       let tagfile = ''
       break
     endif

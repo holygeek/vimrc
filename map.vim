@@ -21,6 +21,9 @@ nnoremap <cr> :nohl<cr>
 nnoremap Q :q
 nnoremap <leader>t :TlistOpen<cr>
 nnoremap \\ :set invwrap<cr>
+noremap <expr> n 'Nn'[v:searchforward]
+noremap <expr> N 'nN'[v:searchforward]
+
 
 " Copy/paste stuff to desktop clipboard <-> window's clipboard (vmware
 " clipboard sharing)

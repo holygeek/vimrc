@@ -1,4 +1,4 @@
-let mapleader = ','
+let mapleader = ' '
 
 cnoremap <c-k> <up>
 inoremap <c-d> :w

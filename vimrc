@@ -21,7 +21,7 @@ set notitle
 set ruler
 set wildmenu
 	
-set statusline=%m%f%m\ %y\ %r\ %o\ \ %l:%c%V\ %p%%%L
+set statusline=%#Error#%{&paste?'[PASTE]':''}%*%m%f%m\ %y\ %r\ %o\ \ %l:%c%V\ %p%%%L
 set laststatus=2
 
 set backspace=indent,eol,start

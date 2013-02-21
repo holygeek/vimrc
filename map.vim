@@ -12,6 +12,9 @@ nnoremap <c-w>] <c-w>g<c-]>
 nnoremap <f2> :bprev<cr>
 nnoremap <f3> :bnext<cr>
 nnoremap <leader>i :call PreviewWord()<cr>
+nnoremap <leader>n :set relativenumber!<cr>
+"nnoremap <leader>p :set paste! paste?
+nnoremap <leader>p :set paste<cr>i<c-o>"+p<esc>:set nopaste<cr>
 nnoremap  gT
 nnoremap <leader>] :<C-U>exec "tab tjump " . expand('<cword>')<cr>
 nnoremap <cr> :nohl<cr>

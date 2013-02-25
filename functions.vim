@@ -100,7 +100,7 @@ function! Version()
     normal }j
 
     " Make it behave like vim help so that the +feature tags works
-    set iskeyword=!-~,^*,^\|,^"
+    set iskeyword=!-~,^*,^\|,^" buftype=nofile
     syn match missingfeature "-[^ ]\+" contained
     syn region feature start="Features included" end="system vimrc"
           \ contains=missingfeature

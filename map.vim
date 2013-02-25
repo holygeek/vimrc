@@ -17,7 +17,7 @@ nnoremap <leader>n :set relativenumber!<cr>
 nnoremap <leader>p :set paste<cr>i<c-o>"+p<esc>:set nopaste<cr>
 nnoremap  gT
 nnoremap <leader>] :<C-U>exec "tab tjump " . expand('<cword>')<cr>
-nnoremap <cr> :nohl<cr>
+nnoremap <cr> :nohl<cr>:set list&<cr>
 nnoremap Q :q
 nnoremap <leader>t :TlistOpen<cr>
 nnoremap \\ :set invwrap<cr>

@@ -1,0 +1,35 @@
+#!/bin/sh
+
+usage() {
+    echo -n "Usage: getgitblame [-h] [-r <rev>]
+
+    -r <rev>  Blame at revision <rev>
+    -h        show this help message
+"
+}
+
+while getopts r:h opt
+do
+  case "$opt" in
+    r) revision="$OPTARG";;
+    h) usage ; exit;;
+    \?) echo Unknown option ; exit;;
+  esac
+done
+shift $(($OPTIND -1))
+
+file="$@"
+
+if [ -z "$file" ]; then
+  usage; exit 1;
+fi
+
+blamefile=/dev/shm/getgitblame.$$.txt
+rm -f $blamefile
+
+# locate cut line
+git blame $revision "$@" > $blamefile
+field_width=`head -1 $blamefile|cut -f 1 -d\)|wc -c`
+
+cut -b 1-$field_width < $blamefile;
+rm -f $blamefile

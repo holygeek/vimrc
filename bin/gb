@@ -1,0 +1,69 @@
+#!/bin/sh
+# gb - git blame on steroid.
+# Created: Fri Mar 27 11:57:03 MYT 2009
+. `dirname $0`/common.sh
+
+usage() {
+    echo "Usage: gb [-r rev] <file or number>
+    -r rev    Blame from given revision
+    -l N      Go to line number
+    -h        Show this help message"
+}
+
+while getopts dhr:l: opt
+do
+  case "$opt" in
+    d) debug=t;;
+    r) rev="-r $OPTARG --"; revision=$OPTARG;; #supply the argument given to APP
+    l) line="-c ${OPTARG}";;
+    h) usage ; exit;;
+    \?) echo Unknown option ; exit;;
+  esac
+done
+shift $(($OPTIND -1))
+
+if [ -z "$1" ]; then
+    usage
+    exit 1
+fi
+
+args=$(git list $@)
+args=`eval echo "$args"`
+file="$args"
+
+workdir=/dev/shm
+if [ ! -d $workdir ]; then
+    workdir=~/tmp
+fi
+if [ ! -d $workdir ]; then
+    mkdir $workdir || exit 1;
+fi
+
+blamefile=$workdir/blame.txt
+getgitblame $rev $file > $blamefile
+blame_width=`head -1 $blamefile|cut -f 1 -d\)|wc -c`
+debug blame_width $blame_width
+orig_filename=$file
+
+if [ -n "$rev" ]; then
+    ext=`echo $file|sed -e 's/.*\.//'`
+    git show $revision:$file > /tmp/$$.$ext
+    file=/tmp/$$.$ext
+fi
+
+# disable go to line number for now (it doesn't work yet)
+echo $blamefile $file
+line=
+  #-c 'set winwidth=${blame_width}' \
+exe "view \
+  -i /dev/null \
+  -c 'set buftype=nofile ft=blame' \
+  -c 'vertical resize ${blame_width}' \
+  -c 'windo setlocal cursorbind scrollbind nonu nowrap nornu'    \
+  -c 'source ~/.vim/ftplugin/blame.vim'      \
+  -c '2wincmd w'                    \
+  -O $blamefile $file               \
+  $line"
+
+  # -c 'nnoremap q :qa<cr>' \
+  # -c 'nnoremap Q :qa<cr>' \

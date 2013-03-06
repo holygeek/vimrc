@@ -133,6 +133,29 @@ function! GetHighlightAttr(name, attr)
   return substitute(hl_attrs, pattern, '\1', '')
 endfun
 
+" :echo AttributesToDict("one=foo two=bar")
+" {'one': 'foo', 'two': 'bar'}
+function! AttributesToDict(attributes)
+  let ret = {}
+  for attr in split(a:attributes)
+    let pair = split(attr, '=')
+    if len(pair) >= 2
+      let ret[pair[0]] = join(pair[1:], ' ')
+    endif
+  endfor
+  return ret
+endfun
+
+" Return a Dictionary containing the attributes of the the syntax item {name}
+" Example:
+"   :hi LineNr
+"   LineNr         xxx term=underline ctermfg=242 guifg=darkgray
+"   :echo GetHighlightAttrs('LineNr')
+"   {'ctermfg': '242', 'term': 'underline', 'guifg': 'darkgray'}
+function! GetHighlightAttrs(name)
+  redir => hl_attrs|exe "silent hi " . a:name|redir END
+  return AttributesToDict(substitute(hl_attrs, '.\{-}xxx ', '', ''))
+endfun
 
 " From :help DiffOrig
 command DiffOrig vert new | set bt=nofile | r ++edit # | 0d_

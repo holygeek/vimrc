@@ -114,6 +114,26 @@ function! Version()
 endfunction
 command Version call Version()
 
+" Get the highlight attribute {attr} for {name}
+"
+" Example:
+"
+"   :hi LineNr
+"   LineNr         xxx term=underline ctermfg=242 guifg=darkgray
+"   :echo GetHighlightAttr('LineNr', 'guifg')
+"   darkgray
+function! GetHighlightAttr(name, attr)
+  redir => hl_attrs|exe "silent hi " . a:name|redir END
+  let pattern = '.*' . a:attr . '=\([^ ]\+\).*'
+
+  if hl_attrs !~? pattern
+    return 'none'
+  endif
+
+  return substitute(hl_attrs, pattern, '\1', '')
+endfun
+
+
 " From :help DiffOrig
 command DiffOrig vert new | set bt=nofile | r ++edit # | 0d_
   \ | diffthis | wincmd p | diffthis

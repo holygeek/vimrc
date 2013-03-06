@@ -33,22 +33,34 @@ for ($gray = 0; $gray < 24; $gray++) {
 # first the system ones:
 print "System colors:\n";
 for ($color = 0; $color < 8; $color++) {
+    print "\x1b[0m", sprintf("%2d", $color);
     print "\x1b[48;5;${color}m  ";
 }
 print "\x1b[0m\n";
 for ($color = 8; $color < 16; $color++) {
+    print "\x1b[0m", sprintf("%2d", $color);
     print "\x1b[48;5;${color}m  ";
 }
 print "\x1b[0m\n\n";
 
 # now the color cube
 print "Color cube, 6x6x6:\n";
+
+# Show ruler at the top
+for (1..6) {
+    print "     ";
+    print sprintf "%2d", $_ for (1..5);
+    print " "
+}
+print "\n";
+
 for ($green = 0; $green < 6; $green++) {
     for ($red = 0; $red < 6; $red++) {
+	$color = 16 + ($red * 36) + ($green * 6);
+	print sprintf("%3d", $color);
 	for ($blue = 0; $blue < 6; $blue++) {
-	    $color = 16 + ($red * 36) + ($green * 6) + $blue;
 	    print "\x1b[48;5;${color}m  ";
-	    $i += 1;
+	    $color += 1;
 	}
 	print "\x1b[0m ";
     }
@@ -59,6 +71,11 @@ for ($green = 0; $green < 6; $green++) {
 # now the grayscale ramp
 print "Grayscale ramp:\n";
 for ($color = 232; $color < 256; $color++) {
+    print sprintf("\x1b[0m%3d", $color);
     print "\x1b[48;5;${color}m  ";
+    # Break at middle
+    if ($color == 232 + int((255 - 232) / 2)) {
+	print "\n";
+    }
 }
 print "\x1b[0m\n";

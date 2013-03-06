@@ -29,6 +29,8 @@ nnoremap \\ :set invwrap<cr>
 noremap <expr> n 'Nn'[v:searchforward]
 noremap <expr> N 'nN'[v:searchforward]
 
+cnoremap <c-y> <c-r>*
+vnoremap <leader>f :fold<cr>
 
 " Copy/paste stuff to desktop clipboard <-> window's clipboard (vmware
 " clipboard sharing)

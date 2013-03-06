@@ -1,6 +1,10 @@
 #!/usr/bin/perl
+use strict;
+use warnings;
 # Author: Todd Larason <jtl@molehill.org>
 # $XFree86: xc/programs/xterm/vttests/256colors2.pl,v 1.2 2002/03/26 01:46:43 dickey Exp $
+
+my ($red, $green, $blue, $gray, $color, $level);
 
 # use the resources for colors 0-15 - usually more-or-less a
 # reproduction of the standard ANSI colors, but possibly more

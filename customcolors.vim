@@ -1,7 +1,7 @@
 " Omni completion
-hi Pmenu ctermfg=black ctermbg=darkgray
-hi PmenuSel ctermfg=black ctermbg=gray
-hi LineNr ctermfg=darkgray
+hi Pmenu ctermfg=black ctermbg=darkgray guifg=darkgray
+hi PmenuSel ctermfg=black ctermbg=gray guifg=gray
+hi LineNr ctermfg=darkgray guifg=darkgray
 hi CursorLineNr ctermfg=brown
 hi comment ctermfg=110
 "hi comment ctermfg=darkgray

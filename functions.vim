@@ -67,11 +67,11 @@ function! FindAndSetLocalTags()
       let tagfile = ''
       break
     endif
-    let dir = substitute(dir, '/[^/]\+$', '', '')
+    let dir = substitute(dir, '[^/]\+$', '', '')
     let tagfile = dir . '/tags'
   endwhile
 
-  if strlen(tagfile) > 0
+  if strlen(tagfile) > 0 && filereadable(tagfile)
     exec 'setlocal tags=' . tagfile
   endif
 endfun

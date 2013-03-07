@@ -22,6 +22,4 @@ hi MatchParen cterm=underline ctermbg=none
 "syn match braces "[{}]"
 "hi braces ctermfg=darkgray
 
-if &diff
-  so ~/.vim/diffcolor.vim
-endif
+so ~/.vim/diffcolor.vim

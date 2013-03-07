@@ -9,7 +9,7 @@ au BufReadPost ~/.shell/opt.rc
 
 au BufReadPost blame.txt set ft=blame
 
-fun! Foo()
+fun! DoNothing()
   return 0
 endfun
 au BufReadPost ~/.shell/opt.rc
@@ -17,7 +17,7 @@ au BufReadPost ~/.shell/opt.rc
 \ let g:acp_behavior['*'][0]['command'] = '' |
 \ let g:acp_behavior['*'][0]['completefunc'] = 'CompleteZshOptions' |
 \ let g:acp_behavior['*'][0]['meets'] = 'len' |
-\ let g:acp_behavior['*'][0]['onPopupClose'] = 'Foo' |
+\ let g:acp_behavior['*'][0]['onPopupClose'] = 'DoNothing' |
 \ set keywordprg=zshoptions |
 \ nunmap K
 

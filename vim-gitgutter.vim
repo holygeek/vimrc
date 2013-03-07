@@ -11,8 +11,8 @@ let s:Diff = {
   \ }
 
 function! MyGutterToggle()
-  ToggleGitGutter
-  EnableGitGutterLineHighlights
+  GitGutterToggle
+  GitGutterLineHighlightsEnable
   if g:gitgutter_enabled
     " hi DiffAdd ctermbg=236
     " Maroon: 131

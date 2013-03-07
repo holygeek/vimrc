@@ -19,6 +19,8 @@ hi folded ctermfg=darkgray ctermbg=black
 
 hi MatchParen cterm=underline ctermbg=none
 
+hi SpellBad ctermfg=red ctermbg=none
+
 "syn match braces "[{}]"
 "hi braces ctermfg=darkgray
 

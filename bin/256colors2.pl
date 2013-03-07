@@ -75,13 +75,15 @@ for ($green = 0; $green < 6; $green++) {
 
 
 # now the grayscale ramp
+print "\n";
 print "Grayscale ramp:\n";
 for ($color = 232; $color < 256; $color++) {
+    print "\x1b[0m ";
     print sprintf("\x1b[0m%3d", $color);
-    print "\x1b[48;5;${color}m   ";
+    print "\x1b[48;5;${color}m  ";
     # Break at middle
     if ($color == 232 + int((255 - 232) / 2)) {
-	print "\x1b[0m ";
+        print "\x1b[0m";
 	print "\n";
     }
 }

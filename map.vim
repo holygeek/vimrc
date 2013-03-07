@@ -1,3 +1,5 @@
+command QQ qa!
+
 let mapleader = ' '
 
 nnoremap [Q :cfirst<cr>

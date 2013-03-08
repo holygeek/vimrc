@@ -15,11 +15,11 @@ endif
 set cinkeys-=0#
 set hlsearch
 set incsearch
+set nostartofline
 set showfulltag
 set smartcase
 set notitle
 set ruler
-set wildmenu
 	
 set statusline=%#Error#%{&paste?'[PASTE]':''}%*%m%f%m\ %y\ %r\ %o\ \ %l:%c%V\ %p%%%L
 set laststatus=2

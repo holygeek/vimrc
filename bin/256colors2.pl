@@ -54,8 +54,8 @@ print "Color cube, 6x6x6:\n";
 for (1..6) {
     printf " " if ($_ > 2);
     print "    ";
-    print sprintf "%2d", $_ for (1..5);
-    print " "
+    print sprintf "%2d ", $_ for (1..5);
+    print "  "
 }
 print "\n";
 
@@ -66,11 +66,12 @@ for ($green = 0; $green < 6; $green++) {
 	print sprintf("%${w}d", $color);
 	for ($blue = 0; $blue < 6; $blue++) {
 	    print "\x1b[48;5;${color}m  ";
+	    print "\x1b[0m ";
 	    $color += 1;
 	}
 	print "\x1b[0m ";
     }
-    print "\n";
+    print "\n\n";
 }
 
 

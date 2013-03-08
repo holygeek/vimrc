@@ -4,6 +4,11 @@ use warnings;
 # Author: Todd Larason <jtl@molehill.org>
 # $XFree86: xc/programs/xterm/vttests/256colors2.pl,v 1.2 2002/03/26 01:46:43 dickey Exp $
 
+use Getopt::Std;
+
+my %opts;
+getopts('s', \%opts);
+
 my ($red, $green, $blue, $gray, $color, $level);
 
 # use the resources for colors 0-15 - usually more-or-less a
@@ -51,14 +56,17 @@ print "\x1b[0m\n\n";
 print "Color cube, 6x6x6:\n";
 
 # Show ruler at the top
+my $spacer = $opts{s} ? "  " : " ";
+my $nfmt = "%2d" . ($opts{s} ? " " : "");
 for (1..6) {
     printf " " if ($_ > 2);
     print "    ";
-    print sprintf "%2d ", $_ for (1..5);
-    print "  "
+    print sprintf $nfmt, $_ for (1..5);
+    print $spacer;
 }
 print "\n";
 
+$spacer = "\x1b[0m" . ($opts{s} ? " " : "");
 for ($green = 0; $green < 6; $green++) {
     for ($red = 0; $red < 6; $red++) {
 	$color = 16 + ($red * 36) + ($green * 6);
@@ -66,12 +74,15 @@ for ($green = 0; $green < 6; $green++) {
 	print sprintf("%${w}d", $color);
 	for ($blue = 0; $blue < 6; $blue++) {
 	    print "\x1b[48;5;${color}m  ";
-	    print "\x1b[0m ";
+	    print $spacer;
 	    $color += 1;
 	}
 	print "\x1b[0m ";
     }
-    print "\n\n";
+    print "\n";
+    if ($opts{s}) {
+	print "\n";
+    }
 }
 
 

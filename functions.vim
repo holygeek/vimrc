@@ -59,15 +59,21 @@ function! PreviewWord()
   endif
 endfun
 
+" Recursively find tags file starting from the file's directory and going up
 function! FindAndSetLocalTags()
-  let dir = expand("%:p:h")
+  if filereadable(expand("%"))
+    let dir = expand("%:p:h")
+  else
+    let dir = getcwd()
+  endif
+
   let tagfile = dir . '/tags'
   while ! filereadable(tagfile)
     if dir == ''
       let tagfile = ''
       break
     endif
-    let dir = substitute(dir, '[^/]\+$', '', '')
+    let dir = substitute(dir, '/[^/]\+$', '', '')
     let tagfile = dir . '/tags'
   endwhile
 

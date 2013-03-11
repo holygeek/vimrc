@@ -12,13 +12,22 @@ syntax enable
 "     colorscheme desert256
 "   endif
 " endif
-if $XTERMS_BG == '#fdf6e3'       " Light
-  set background=dark
-elseif $XTERMS_BG == '#002b36'   " Dark
-  set background=light
-else
-  set background=light
+
+let solarized_dark = 'dark'
+let solarized_light = 'light'
+if len($STY)
+  " Bug with solarized?
+  let solarized_dark = 'light'
+  let solarized_light = 'dark'
 endif
+
+let background="light"
+if $XTERMS_BG == '#fdf6e3'       " Light
+  let background = solarized_light
+elseif $XTERMS_BG == '#002b36'   " Dark
+  let background = solarized_dark
+endif
+exe "set background=" . background
 " let g:solarized_termcolors=256
 colorscheme solarized
 

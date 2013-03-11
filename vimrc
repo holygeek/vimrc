@@ -1,16 +1,29 @@
 set nocp
-set t_Co=256
-set t_AB=[48;5;%dm
-set t_AF=[38;5;%dm
+set t_Co=16
+" set t_Co=256
+" set t_AB=[48;5;%dm
+" set t_AF=[38;5;%dm
 
 let g:clang_library_path='/usr/lib'
 
-syn on
+syntax enable
+" if $TERM_NAME != 'bigterm'
+"   if $XTERMS_BG == 'black'
+"     colorscheme desert256
+"   endif
+" endif
+if $XTERMS_BG == '#fdf6e3'       " Light
+  set background=dark
+elseif $XTERMS_BG == '#002b36'   " Dark
+  set background=light
+else
+  set background=light
+endif
+" let g:solarized_termcolors=256
+colorscheme solarized
+
 filetype on
 filetype plugin indent on
-if $TERM_NAME != 'bigterm'
-  colorscheme desert256
-endif
 
 set cinkeys-=0#
 set hlsearch

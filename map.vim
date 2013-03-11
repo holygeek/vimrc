@@ -29,8 +29,8 @@ nnoremap <cr> :nohl<cr>:set list&<cr>
 nnoremap Q :q
 nnoremap <leader>t :TlistOpen<cr>
 nnoremap \\ :set invwrap<cr>
-noremap <expr> n 'Nn'[v:searchforward]
-noremap <expr> N 'nN'[v:searchforward]
+noremap <expr> n 'Nn'[v:searchforward] . 'zv'
+noremap <expr> N 'nN'[v:searchforward] . 'zv'
 
 cnoremap <c-y> <c-r>*
 vnoremap <leader>f :fold<cr>

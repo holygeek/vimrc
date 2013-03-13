@@ -49,11 +49,14 @@ do
 done
 shift $(($OPTIND -1))
 
+ngits=0
 if [ -n "$dirs" ]; then
   git_dirs=$dirs
 else
-  git_dirs=`find . -maxdepth 2 -type d -name .git|sed -e 's,./,,'`
-  ngits=`echo $git_dirs|wc -w`
+  if [ -f .mgit ]; then
+    git_dirs=`find . -maxdepth 2 -type d -name .git|sed -e 's,./,,'`
+    ngits=`echo $git_dirs|wc -w`
+  fi
   if [ $ngits -le 1 ]; then
     exec git "$@";
   elif [ $ngits -gt 1 ]; then

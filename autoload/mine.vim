@@ -4,6 +4,7 @@ function mine#injectSkeleton(fname)
   if filereadable(expand(file))
     echo "file " . file
     exe ':0r ' . file
+    normal Gdd
     if search('CURSORHERE', 'cw') != 0
       normal cw
     endif

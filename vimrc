@@ -21,13 +21,13 @@ if len($STY)
   let solarized_light = 'dark'
 endif
 
-let background="light"
+let g:background="light"
 if $XTERMS_BG == '#fdf6e3'       " Light
-  let background = solarized_light
+  let g:background = solarized_light
 elseif $XTERMS_BG == '#002b36'   " Dark
-  let background = solarized_dark
+  let g:background = solarized_dark
 endif
-exe "set background=" . background
+exe "set background=" . g:background
 " let g:solarized_termcolors=256
 colorscheme solarized
 

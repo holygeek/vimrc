@@ -16,6 +16,7 @@ set cinkeys-=0#
 set hlsearch
 set incsearch
 set nostartofline
+set sessionoptions-=options
 set showfulltag
 set smartcase
 set notitle

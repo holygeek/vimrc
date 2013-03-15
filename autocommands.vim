@@ -28,4 +28,4 @@ let noeighties = [
  \ ]
 au BufReadPost,VimResized * if &ft !~ '\v^('. join(noeighties, '|') . ')$'|call SetColumnBG()|endif
 
-au BufNewFile *.c,*.pl,*.pm call mine#injectSkeleton(expand('<afile>'))
+au BufNewFile *.c,*.go,*.pl,*.pm call mine#injectSkeleton(expand('<afile>'))

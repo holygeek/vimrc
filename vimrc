@@ -5,6 +5,10 @@ set t_AF=[38;5;%dm
 
 let g:clang_library_path='/usr/lib'
 
+" Put pathogen-activated stuff into ~/.vim/bundle
+if filereadable(expand('~/.vim/autoload/pathogen.vim'))
+  call pathogen#infect()
+endif
 syn on
 filetype on
 filetype plugin indent on

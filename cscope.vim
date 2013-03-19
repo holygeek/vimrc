@@ -4,6 +4,8 @@ if has("cscope")
   set csto=0
   set cst
   set nocsverb
+  " See :help csqf
+  set cscopequickfix=s-,c-,d-,i-,t-,e-
   " add any database in current directory
   if filereadable("cscope.out")
     cs add cscope.out

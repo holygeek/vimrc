@@ -30,7 +30,9 @@ set statusline=%#Error#%{&paste?'[PASTE]':''}%*%m%f%m\ %y\ %r\ %o\ \ %l:%c%V\ %p
 set laststatus=2
 
 set backspace=indent,eol,start
-set exrc
+if getcwd() =~ '^' . $HOME
+  set exrc
+endif
 set guifont=DejaVu\ Sans\ Mono\ 10
 set guicursor=a:block-blinkon0
 set guioptions=

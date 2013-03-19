@@ -20,6 +20,7 @@ nnoremap <f3> :bnext<cr>
 nnoremap <leader>i :call PreviewWord()<cr>
 nnoremap <leader>n :set relativenumber!<cr>
 nnoremap <leader>s :set spell!<cr>
+nnoremap <leader>z :set fdm=marker fmr={,}<cr>
 nnoremap <leader><leader> zA
 "nnoremap <leader>p :set paste! paste?
 nnoremap <leader>p :set paste<cr>i<c-o>"+p<esc>:set nopaste<cr>

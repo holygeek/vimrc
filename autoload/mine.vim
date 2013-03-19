@@ -1,5 +1,5 @@
 function mine#injectSkeleton(fname)
-  let ext = substitute(a:fname, '.*\.', '', '')
+  let ext = expand('%:e')
   let file = '~/.vim/skel/' . ext . '.' . ext
   if filereadable(expand(file))
     echo "file " . file

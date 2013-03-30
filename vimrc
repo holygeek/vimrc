@@ -9,6 +9,9 @@ let g:clang_library_path='/usr/lib'
 if filereadable(expand('~/.vim/autoload/pathogen.vim'))
   call pathogen#infect()
 endif
+if isdirectory(expand('~/go/misc/vim'))
+  set rtp+=~/go/misc/vim
+endif
 syn on
 filetype on
 filetype plugin indent on

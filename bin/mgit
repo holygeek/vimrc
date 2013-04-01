@@ -64,17 +64,18 @@ else
   fi
 fi
 
+fname_start_pattern="^\([^m]\+m\)\{0,1\}"
 for gitdir in $git_dirs; do
 (
   dir=`dirname $gitdir`
-  cd $dir
+  # GIT_DIR has to be fullpath for git svn rebase to work
+  export GIT_DIR=$PWD/$gitdir GIT_WORK_TREE=$PWD/$dir
   test -n "$verbose" && echo $lightblue$dir$reset
   test -z "$1" && continue
   if [ -n "$add_prefix" ]; then
-    git $color_always "$@"|sed -e "s=^\([^m]\+m\)\{0,1\}=\1$dir/=";
+    git $color_always "$@"|sed -e "s=$fname_start_pattern=\1$dir/=";
   else
     git $color_always "$@"
   fi
-  cd ..
 )
 done

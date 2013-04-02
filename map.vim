@@ -7,6 +7,7 @@ nnoremap ]Q :clast<cr>
 nnoremap [q :<c-U>exe "cprevious " . v:count1<cr>
 nnoremap ]q :<c-U>exe "cnext "     . v:count1<cr>
 cnoremap <c-k> <up>
+cnoremap <c-j> <down>
 inoremap <c-d> :w
 nnoremap <c-d> :w<cr>
 nnoremap <c-]> g<c-]>

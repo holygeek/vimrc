@@ -33,7 +33,7 @@ set statusline=%#Error#%{&paste?'[PASTE]':''}%*%m%f%m\ %y\ %r\ %o\ \ %l:%c%V\ %p
 set laststatus=2
 
 set backspace=indent,eol,start
-if getcwd() =~ '^' . $HOME
+if getcwd() =~ '^' . resolve($HOME)
   set exrc
 endif
 set guifont=DejaVu\ Sans\ Mono\ 10

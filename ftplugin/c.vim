@@ -1,4 +1,4 @@
 nmap <f4> :call OpenOtherFile()<cr>
 au BufReadPost *.c call FindAndSetLocalTags()
-set cindent spell
+set cindent
 call LoadIfExists('cscope')

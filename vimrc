@@ -12,6 +12,9 @@ endif
 if isdirectory(expand('~/go/misc/vim'))
   set rtp+=~/go/misc/vim
 endif
+if filereadable(expand('~/gocode/bin/gocode'))
+  set rtp+=~/gocode/src/github.com/nsf/gocode/vim
+endif
 syn on
 filetype on
 filetype plugin indent on

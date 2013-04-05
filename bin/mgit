@@ -68,6 +68,7 @@ else
   fi
 fi
 
+odir=
 fname_start_pattern="^\([^m]\+m\)\{0,1\}"
 for gitdir in $git_dirs; do
 (
@@ -80,10 +81,17 @@ for gitdir in $git_dirs; do
   if [ "$1" = "stash" ]; then
     (cd $gitdir && git $color_always "$@")
   else
+    if [ "$cmd" != git ]; then
+      odir=`pwd`
+      cd $gitdir
+    fi
     if [ -n "$add_prefix" ]; then
       $cmd $color_always "$@"|sed -e "s=$fname_start_pattern=\1$dir/=";
     else
       $cmd $color_always "$@"
+    fi
+    if [ "$cmd" != git ]; then
+      cd $odir
     fi
   fi
 )

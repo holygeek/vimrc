@@ -83,7 +83,7 @@ for gitdir in $git_dirs; do
   else
     if [ "$cmd" != git ]; then
       odir=`pwd`
-      cd $gitdir
+      cd $GIT_WORK_TREE
     fi
     if [ -n "$add_prefix" ]; then
       $cmd $color_always "$@"|sed -e "s=$fname_start_pattern=\1$dir/=";

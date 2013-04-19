@@ -16,7 +16,7 @@ PURPOSE
   option) - works good only for ls-files.
 
 SYNOPSIS
-  $me [-hq] <git args>
+  $me [-cdehpqv] <git args>
 
 OPTIONS
   -c

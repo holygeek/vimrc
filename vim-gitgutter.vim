@@ -1,7 +1,7 @@
 " Source this file to customize vim-gitgutter plugin
 "
-au BufReadPost ~/.vim/**,~/wmgr/**,~/.shell/** call MyGutterToggle()
-nnoremap <leader>? :call MyGutterToggle()<cr>
+"au BufReadPost ~/.vim/**,~/wmgr/**,~/.shell/** call MyGutterToggle()
+"nnoremap <leader>? :call MyGutterToggle()<cr>
 
 " Get original highlighting for diff mode
 let s:Diff = {

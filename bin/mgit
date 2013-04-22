@@ -58,7 +58,7 @@ if [ -n "$dirs" ]; then
   git_dirs=$dirs
 else
   if [ -f .mgit ]; then
-    . .mgit
+    dirs=`cat .mgit`
     test -z "$dirs" && { echo "No dirs defined in .mgit"; exit 1; }
     git_dirs=$dirs
     #git_dirs=`find . -maxdepth 2 -type d -name .git|sed -e 's,./,,'`

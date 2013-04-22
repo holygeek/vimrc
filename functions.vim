@@ -166,3 +166,13 @@ endfun
 " From :help DiffOrig
 command DiffOrig vert new | set bt=nofile | r ++edit # | 0d_
   \ | diffthis | wincmd p | diffthis
+
+function ToggleLineNumberSettings()
+  if &relativenumber
+    set number
+  elseif &number
+    set nonu
+  else
+    set relativenumber
+  endif
+endfun

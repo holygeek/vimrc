@@ -19,7 +19,7 @@ nnoremap <c-w>] <c-w>g<c-]>
 nnoremap <f2> :bprev<cr>
 nnoremap <f3> :bnext<cr>
 nnoremap <leader>i :call PreviewWord()<cr>
-nnoremap <leader>n :set relativenumber!<cr>
+nnoremap <leader>n :call ToggleLineNumberSettings()<cr>
 nnoremap <leader>s :set spell!<cr>
 nnoremap <leader>z :set fdm=marker fmr={,}<cr>
 nnoremap <leader><leader> zA

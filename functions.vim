@@ -176,3 +176,12 @@ function ToggleLineNumberSettings()
     set relativenumber
   endif
 endfun
+
+function ToggleColorColumn()
+  if &cc == 0
+    let &cc = g:oldcc
+  else
+    let g:oldcc = &cc
+    let &cc = 0
+  endif
+endfun

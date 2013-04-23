@@ -81,7 +81,7 @@ for gitdir in $git_dirs; do
   # echo GIT_DIR=$GIT_DIR GIT_WORK_TREE=$GIT_WORK_TREE
   test -n "$verbose" && echo $lightblue$dir$reset
   test -z "$1" && continue
-  if [ "$1" = "stash" ]; then
+  if [ "$1" = "stash" -o "$1" = "pronto" ]; then
     (cd $gitdir && git $color_always "$@")
   else
     if [ "$cmd" != git ]; then

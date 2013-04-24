@@ -29,3 +29,5 @@ let noeighties = [
 au BufReadPost,VimResized * if len(&ft) && &ft !~ '\v^('. join(noeighties, '|') . ')$'|call SetColumnBG()|endif
 
 au BufNewFile * call mine#injectSkeleton(expand('<afile>'))
+
+au BufWritePost * if len(&filetype) == 0|filetype detect|end

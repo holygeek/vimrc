@@ -185,3 +185,14 @@ function ToggleColorColumn()
     let &cc = 0
   endif
 endfun
+
+function ShrinkWindowToFile()
+  let nLines = line('$')
+  let winHeight = winheight(0)
+  if winHeight <= nLines
+    return
+  endif
+
+  let extra = winHeight - nLines
+  exec 'resize -' . extra
+endfun

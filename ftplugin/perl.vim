@@ -6,6 +6,8 @@ if exists("b:did_insert_dumper_map")
 endif
 let b:did_insert_dumper_map = 1
 
+set commentstring=#%s
+set fo+=ro
 nnoremap <leader>d :call InsertDumper()<cr>
 
 function! InsertDumper()

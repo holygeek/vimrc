@@ -1,0 +1,17 @@
+#!/bin/sh
+# search - apt-cache search on steroid
+# Created: Thu Jul 31 09:37:56 MYT 2008
+
+out=/dev/shm/apt.cache.search.$$
+
+apt-cache search "$@" > $out
+
+if [ -s $out ]; then
+  vi -c 'so ~/.vim/apt.cache.search.vim' $out
+  rm -f $out
+  exit 0
+else
+  rm -f $out
+  exit 1;
+fi
+

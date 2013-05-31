@@ -1,4 +1,4 @@
-#package Foo
+package BARENAME;
 use strict;
 use warnings;
 

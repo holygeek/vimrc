@@ -18,6 +18,8 @@ nnoremap <c-l> <c-w>l
 nnoremap <c-w>] <c-w>g<c-]>
 nnoremap <f2> :bprev<cr>
 nnoremap <f3> :bnext<cr>
+nnoremap _ <c-w>-
+nnoremap + <c-w>+
 nnoremap <leader>- :call ShrinkWindowToFile()<cr>
 nnoremap <leader>c :call ToggleColorColumn()<cr>
 nnoremap <leader>i :call PreviewWord()<cr>

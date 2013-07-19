@@ -1,4 +1,4 @@
-package BARENAME;
+package PERLPACKAGE;
 use strict;
 use warnings;
 

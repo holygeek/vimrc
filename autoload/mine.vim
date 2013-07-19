@@ -7,7 +7,13 @@ function mine#injectSkeleton(fname)
 
     if search('BARENAME', 'cw') != 0
       let barename = substitute(a:fname, '\..*', '', '')
-      exec '%s/\<BARENAME\>/' . barename . '/g'
+      exec '%s,\<BARENAME\>,' . barename . ',g'
+    endif
+
+    if search('PERLPACKAGE', 'cw') != 0
+      let barename = substitute(a:fname, '\..*', '', '')
+      let barename = substitute(barename, '\/', '::', '')
+      exec '%s,\<PERLPACKAGE\>,' . barename . ',g'
     endif
 
     normal Gdd

@@ -7,9 +7,9 @@ fi
 
 case $1 in
 	[0-9][0-9])
-		git rebase -i "HEAD~$1" ;;
+		git rebase --autosquash -i "HEAD~$1" ;;
 	[0-9])
-		git rebase -i "HEAD~$1" ;;
+		git rebase --autosquash -i "HEAD~$1" ;;
 	*)
-		git rebase -i "$@" ;;
+		git rebase --autosquash -i "$@" ;;
 esac

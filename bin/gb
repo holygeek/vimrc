@@ -2,6 +2,7 @@
 # gb - git blame on steroid.
 # Created: Fri Mar 27 11:57:03 MYT 2009
 . `dirname $0`/common.sh
+set -e
 
 usage() {
     echo "Usage: gb [-r rev] <file or number>
@@ -27,7 +28,11 @@ if [ -z "$1" ]; then
     exit 1
 fi
 
-args=$(git list $@)
+args=$(git list $@) || {
+  echo "Need to run git-number first (missing .git/gitids.txt)"
+  echo "TODO do not rely on git number being run first"
+  exit 1
+}
 args=`eval echo "$args"`
 file="$args"
 

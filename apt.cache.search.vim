@@ -45,7 +45,7 @@ syn match Description '^Description: '
 syn match OneLineDescription '^Description: .*' contains=Description
 syn match DetailDescription '^ .*'
 syn match Package '^Package: .*'
-syn match PackageName '^[a-z][^ ]\+ '
+syn match PackageName '^[a-z0-9][^ ]\+ '
 syn match PackageSize '^Size: \d\+'
 syn match PackageInstalledSize '^Installed-Size: \d\+'
 

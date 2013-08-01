@@ -22,3 +22,5 @@ function! InsertDumper()
 	normal `ioprint STDERR Dumper $foo;$Bct;
 	set nolazyredraw
 endfun
+
+source ~/.vim/pairmap.vim

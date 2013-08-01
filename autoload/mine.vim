@@ -17,3 +17,18 @@ function mine#injectSkeleton(fname)
 
   endif
 endfun
+
+func! mine#insertBracket()
+	let funBracket = "{}O"
+	let hashBracket = "{}i"
+	let c = col('.')
+	if c == 1
+		return funBracket
+	endif
+
+	let charBefore = getline('.')[c-2]
+	if charBefore == ' '
+		return funBracket
+	endif
+	return hashBracket
+endfun

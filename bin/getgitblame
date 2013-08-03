@@ -36,7 +36,7 @@ rm -f $blamefile
 
 # locate cut line
 git blame $revision "$@" > $blamefile
-field_width=`head -1 $blamefile|cut -f 1 -d\)|wc -c`
+field_width=`head -1 $blamefile|cut -f 1 -d\)|wc -c|tr -d ' '`
 
 cut -b 1-$field_width < $blamefile;
 rm -f $blamefile

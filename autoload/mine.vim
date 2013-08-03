@@ -27,7 +27,7 @@ func! mine#insertBracket()
 	endif
 
 	let charBefore = getline('.')[c-2]
-	if charBefore == ' '
+	if charBefore == ' ' || charBefore == "\t"
 		return funBracket
 	endif
 	return hashBracket

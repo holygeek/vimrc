@@ -24,7 +24,14 @@ if [ -z "$file" ]; then
   usage; exit 1;
 fi
 
-blamefile=/dev/shm/getgitblame.$$.txt
+workdir=/dev/shm
+if [ ! -d $workdir ]; then
+    workdir=~/tmp
+fi
+if [ ! -d $workdir ]; then
+    mkdir $workdir || exit 1;
+fi
+blamefile=$workdir/getgitblame.$$.txt
 rm -f $blamefile
 
 # locate cut line

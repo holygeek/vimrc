@@ -47,7 +47,9 @@ set linebreak
 set listchars=tab:\|-,trail:@
 set mousefocus " GUI only:cursor focus follows mouse
 set pt=<f12>
-set rnu
+if exists('+rnu')
+  set nu rnu
+endif
 set secure
 set autoindent smartindent
 set shiftround

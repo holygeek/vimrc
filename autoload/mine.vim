@@ -32,3 +32,37 @@ func! mine#insertBracket()
 	endif
 	return hashBracket
 endfun
+
+func! mine#insertSemicolon()
+  let forSemicolon = ";"
+  let statementSecolon = "A;"
+
+  if mine#isForFor()
+    return forSemicolon
+  endif
+
+  return statementSecolon
+endfun
+
+func! mine#isForFor()
+	let c = col('.')
+	let line = getline('.')
+	let len = len(line)
+
+	let l:i = c - 1
+	while l:i > 0
+	  if len - l:i < 3
+	    let l:i = l:i - 1
+	    continue
+	  endif
+
+	  if line[l:i] == 'f' &&
+	    \ line[l:i+1] == 'o' &&
+	    \ line[l:i+2] == 'r' && (line[l:i+3] == ' ' || line[l:i+3] == '(')
+	      return 1
+	  endif
+	  let l:i = l:i - 1
+	endwhile
+
+	return 0
+endfun

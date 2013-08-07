@@ -72,3 +72,27 @@ func! mine#isForFor()
 
 	return 0
 endfun
+
+function mine#deletePair()
+  let boringDelete = ""
+  let pairDelete = "x"
+
+  let line = getline('.')
+  let c = col('.')
+  if len(line) < c
+    return boringDelete
+  endif
+
+  let left = line[c-2]
+  let right = line[c-1]
+  if left == "'" && right == "'" ||
+	\ left == "'" && right == "'" ||
+	\ left == '(' && right == ')' ||
+	\ left == '{' && right == '}' ||
+	\ left == '[' && right == ']' ||
+	\ left == '[' && right == ']'
+    return pairDelete
+  endif
+
+  return boringDelete
+endfun

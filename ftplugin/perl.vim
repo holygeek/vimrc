@@ -24,3 +24,5 @@ function! InsertDumper()
 endfun
 
 source ~/.vim/pairmap.vim
+source ~/.vim/nopod.vim
+set fdm=expr foldexpr=FoldPod(v:lnum)

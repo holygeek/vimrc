@@ -196,3 +196,17 @@ function ShrinkWindowToFile()
   let extra = winHeight - nLines
   exec 'resize -' . extra
 endfun
+
+function! FoldPod(lnum)
+  let synname = synIDattr(synID(a:lnum, 1, 1), 'name')
+  if len(synname) == 0
+    return '='
+  endif
+  if synname == 'podCommand' ||
+        \ synname == 'podFormat' ||
+        \ synname == 'podVerbatimLine' ||
+        \ synname == 'perlPOD'
+    return 1
+  endif
+  return 0
+endfun

@@ -205,6 +205,7 @@ function! FoldPod(lnum)
   if synname == 'podCommand' ||
         \ synname == 'podFormat' ||
         \ synname == 'podVerbatimLine' ||
+        \ synname == 'podSpecial' ||
         \ synname == 'perlPOD'
     return 1
   endif

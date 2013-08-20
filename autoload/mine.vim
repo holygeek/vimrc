@@ -32,7 +32,12 @@ func! mine#insertBracket()
 		return funBracket
 	endif
 
-	let charBefore = getline('.')[c-2]
+	let line = getline('.')
+	if &ft == "perl" && match(line, "^sub ") != -1
+		return "{}Omy () = @_;F)i$"
+	endif
+
+	let charBefore = line[c-2]
 	if charBefore == ' ' || charBefore == "\t"
 		return funBracket
 	endif

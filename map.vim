@@ -15,6 +15,7 @@ nnoremap <c-h> <c-w>h
 nnoremap <c-j> <c-w>j
 nnoremap <c-k> <c-w>k
 nnoremap <c-l> <c-w>l
+inoremap <expr> <c-l> InsertNextNumber()
 nnoremap <c-w>] <c-w>g<c-]>
 nnoremap <f2> :bprev<cr>
 nnoremap <f3> :bnext<cr>

@@ -211,3 +211,14 @@ function! FoldPod(lnum)
   endif
   return 0
 endfun
+
+function! InsertNextNumber()
+  let lnum = search('^\s*[0-9][^ ]\+', 'bnW')
+  if lnum == 0
+    return "\<c-l>"
+  endif
+
+  let number = substitute(getline(lnum), '^ *', '', '')
+  let number = substitute(number, ' .*', '', '')
+  return number . "\<esc>b\<c-a>A "
+endfun

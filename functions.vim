@@ -118,7 +118,7 @@ function! Version()
     nmap <buffer> i <c-]>
     let @/ = '-[^ ]\+'
 endfunction
-command Version call Version()
+command! Version call Version()
 
 " Get the highlight attribute {attr} for {name}
 "
@@ -164,10 +164,10 @@ function! GetHighlightAttrs(name)
 endfun
 
 " From :help DiffOrig
-command DiffOrig vert new | set bt=nofile | r ++edit # | 0d_
+command! DiffOrig vert new | set bt=nofile | r ++edit # | 0d_
   \ | diffthis | wincmd p | diffthis
 
-function ToggleLineNumberSettings()
+function! ToggleLineNumberSettings()
   if &relativenumber && &number
     " Show number only
     set norelativenumber number
@@ -179,7 +179,7 @@ function ToggleLineNumberSettings()
   endif
 endfun
 
-function ToggleColorColumn()
+function! ToggleColorColumn()
   if &cc == 0
     let &cc = g:oldcc
   else
@@ -188,7 +188,7 @@ function ToggleColorColumn()
   endif
 endfun
 
-function ShrinkWindowToFile()
+function! ShrinkWindowToFile()
   let nLines = line('$')
   let winHeight = winheight(0)
   if winHeight <= nLines

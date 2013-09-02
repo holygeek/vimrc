@@ -168,12 +168,14 @@ command DiffOrig vert new | set bt=nofile | r ++edit # | 0d_
   \ | diffthis | wincmd p | diffthis
 
 function ToggleLineNumberSettings()
-  if &relativenumber
-    set number
-  elseif &number
-    set nonu
+  if &relativenumber && &number
+    " Show number only
+    set norelativenumber number
+  elseif ! &relativenumber && &number
+    " No numbers at all
+    set norelativenumber nonumber
   else
-    set relativenumber
+    set number relativenumber
   endif
 endfun
 

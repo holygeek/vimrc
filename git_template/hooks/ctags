@@ -1,16 +1,19 @@
 #!/bin/sh
 # tpope's git_template/hooks/ctags, butchered beyond comprehension
 set -e
+ctags_opt="--tag-relative=yes"
 tags_file=.git/tags
 inflight_tags_file=.git/tags.under_construction.$$
 new_tags_file=.git/tags.new.$$
 newer_tags_file=.git/tags.newer.$$
-test -z "$DEBUG" &&
-trap "rm -f $inflight_tags_file $newer_tags_file $new_tags_file" EXIT
+if [ -z "$DEBUG" ]; then
+    trap "rm -f $inflight_tags_file $newer_tags_file $new_tags_file" EXIT
+fi
+
 if [ -z "$1" ]; then
     test -n "$DEBUG" && echo \
-    git ls-files'|'ctags --filter '>' $inflight_tags_file
-    git ls-files | ctags --filter  >  $inflight_tags_file
+    git ls-files'|'ctags $ctags_opt -L - -f$inflight_tags_file
+    git ls-files | ctags $ctags_opt -L - -f$inflight_tags_file
     test -n "$DEBUG" && echo \
     mv $inflight_tags_file $tags_file
     mv $inflight_tags_file $tags_file
@@ -23,21 +26,13 @@ whatchanged() {
 
 since=$1
 changed_files=$(whatchanged $since)
-pipe_separated_files=$(echo $changed_files |
-    sed -e 's/ /|/g')
+pipe_separated_files=$(echo $changed_files | sed -e 's/ /|/g')
 test -n "$DEBUG" && echo \
-grep -Ev '"	($pipe_separated_files)	"' $tags_file '>' $newer_tags_file
-grep -Ev  "	($pipe_separated_files)	"  $tags_file  >  $newer_tags_file
-rm -f $inflight_tags_file
-for file in $changed_files
-do
-    if [ -f $file ]; then
-	test -n "$DEBUG" && echo \
-	ls $file '|' ctags --filter '>>' $inflight_tags_file
-	ls $file  |  ctags --filter  >> $inflight_tags_file
-    fi
-done
-test -n "$DEBUG" &&
-echo cat $newer_tags_file $inflight_tags_file'|'sort -k1,2'>' $new_tags_file
-cat $newer_tags_file $inflight_tags_file | sort -k1,2  >  $new_tags_file
-mv $new_tags_file $tags_file
+grep -Ev '"	\.\./('$pipe_separated_files')	"' $tags_file '>' $inflight_tags_file
+grep -Ev  "	\.\./($pipe_separated_files)	"  $tags_file  >  $inflight_tags_file
+
+test -n "$DEBUG" && echo \
+ctags $ctags_opt --append -f$inflight_tags_file $changed_files
+ctags $ctags_opt --append -f$inflight_tags_file $changed_files
+
+cp $inflight_tags_file $tags_file

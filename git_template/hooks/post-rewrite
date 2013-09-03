@@ -1,0 +1,8 @@
+#!/bin/sh
+case "$1" in
+    rebase) 
+	while read old_head new_head junk; do
+	    .git/hooks/ctags $old_head..$new_head >/dev/null 2>&1 &
+	done
+	;;
+esac

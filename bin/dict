@@ -1,0 +1,13 @@
+#!/usr/bin/env perl
+# Created: Tue Sep  3 13:25:18 MYT 2013
+use strict;
+use warnings;
+use Regexp::Common;
+
+local $/ = undef;
+my $dict = `/usr/bin/dict $ARGV[0]`;
+$dict =~ s/($RE{balanced}{-parens=>'[]'})/\e[32m$1\e[0m/g;
+open my $less, '|less' or die $!;
+print $less $dict;
+close $less;
+

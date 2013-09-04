@@ -224,3 +224,21 @@ function! InsertNextNumber()
   let number = substitute(number, ' .*', '', '')
   return number . "\<esc>b\<c-a>A "
 endfun
+
+if has("reltime")
+  let g:lastQuit = reltime()
+endif
+function! Quit()
+  if has("reltime")
+    let diff = reltime(g:lastQuit, reltime())
+    let g:lastQuit = reltime()
+    let seconds = diff[0]
+    let ms = diff[1]
+    " How fast can you hit Q twice?
+    if seconds == 0 && ms < 200000
+      return ":q!\<cr>"
+    endif
+  endif
+
+  return ":q\<cr>"
+endfun

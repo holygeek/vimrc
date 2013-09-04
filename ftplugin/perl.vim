@@ -26,3 +26,6 @@ endfun
 source ~/.vim/pairmap.vim
 source ~/.vim/nopod.vim
 set fdm=expr foldexpr=FoldPod(v:lnum)
+
+nmap [[ :set nohlsearch<CR>?^sub <CR>:let @/ = ''\|set hlsearch<CR>
+nmap ]] :set nohlsearch<CR>/^sub <CR>:let @/ = ''\|set hlsearch<CR>

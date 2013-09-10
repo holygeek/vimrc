@@ -2,7 +2,9 @@
 old_head=$1
 new_head=$2
 changing_branches=$3
-if [ $changing_branches -eq 1 ]; then
+if [ "$old_head" = "0000000000000000000000000000000000000000" ]; then
+  .git/hooks/ctags
+elif [ $changing_branches -eq 1 ]; then
   .git/hooks/ctags $old_head..$new_head
 fi
 exit 0

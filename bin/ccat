@@ -1,0 +1,54 @@
+#!/bin/sh
+# Created: Fri Sep  6 09:31:19 MYT 2013
+
+me=`basename $0`
+usage() {
+cat <<EOF
+NAME
+  $me - colored cat using highlight
+
+SYNOPSIS
+  $me [-h]
+
+DESCRIPTION
+  Catenate to highlight
+
+OPTIONS
+  -N
+    Hide line numbers
+
+  -h
+    Show this help message
+EOF
+}
+
+show_line_numbers=--line-numbers
+while getopts hN opt
+do
+  case "$opt" in
+    N) show_line_numbers=;;
+    h) usage ; exit;;
+    \?) echo Unknown option ; exit;;
+  esac
+done
+shift $(($OPTIND -1))
+
+ncolors=12
+random=$(($(date +%S) % $ncolors + 1))
+style=xoria256
+case $random in
+	1)  style=acid ;;
+	2)  style=anotherdark ;;
+	3)  style=baycomb ;;
+	4)  style=bluegreen ;;
+	5)  style=clarity ;;
+	6)  style=dante ;;
+	7)  style=ekvoli ;;
+	8)  style=freya ;;
+	9)  style=rdark ;;
+	10) style=xoria256 ;;
+	11) style=zenburn ;;
+	12) style=zmrok ;;
+esac
+
+cat $@ | highlight $show_line_numbers -O xterm256 --style $style || cat $@

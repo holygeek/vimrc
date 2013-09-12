@@ -245,18 +245,18 @@ endfun
 
 command! TimeDiff :call TimeDiff()
 function! TimeDiff()
-	vnew
-	set nonu nornu
-	exec 'r!timediff ' . bufname(0)
-	set buftype=nofile
-	normal gg
-	"normal ggdd
-	wincmd l
-	normal magg
-	windo setlocal scrollbind cursorbind foldcolumn=0 nowrap nofoldenable
-	normal `a
-	wincmd h
-	999winc <
-	7winc >
-	wincmd l
+  vnew
+  set nonu nornu
+  exec 'r!timediff ' . bufname(0)
+  set buftype=nofile
+  normal gg
+  "normal ggdd
+  wincmd l
+  normal magg
+  windo setlocal scrollbind cursorbind foldcolumn=0 nowrap nofoldenable
+  normal `a
+  wincmd h
+  999winc <
+  7winc >
+  wincmd l
 endfun

@@ -1,0 +1,57 @@
+#!/usr/bin/env perl
+# Created: Thu Sep 12 13:27:21 MYT 2013
+use strict;
+use warnings;
+use Time::Piece;
+
+sub gettimepiece {
+  my ($datetime) = @_;
+  my $tm = Time::Piece->strptime($datetime, "%Y-%m-%d %H:%M:%S");
+  #print "gettimepiece $datetime -> $tm\n";
+  return $tm;
+}
+
+sub showDuration {
+  my ($str) = @_;
+  print sprintf("%8s", $str);
+}
+
+sub maybeShowDuration {
+  my ($seconds) = @_;
+
+  return if $seconds <= 0;
+
+  if ($seconds < 60) {
+    showDuration($seconds);
+    return;
+  }
+
+  my $minutes = int($seconds / 60);
+  $seconds = $seconds % 60;
+  showDuration("${minutes}m${seconds}s");
+}
+
+my $datetime_regex = qr/(\d\d\d\d-\d\d-\d\d \d\d:\d\d:\d\d)/;
+my $lasttime;
+while (<>) {
+  if (/$datetime_regex/) {
+    $lasttime = gettimepiece($1);
+    maybeShowDuration(0);
+    last;
+  }
+  print "\n";
+}
+
+if (! defined $lasttime) {
+  die "No time stamp found.\n";
+}
+
+while (<>) {
+  if (/$datetime_regex/) {
+    my $now = gettimepiece($1);
+    my $seconds = $now - $lasttime;
+    maybeShowDuration($seconds);
+    $lasttime = $now;
+  }
+  print "\n";
+}

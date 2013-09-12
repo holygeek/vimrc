@@ -6,9 +6,16 @@ use Time::Piece;
 
 sub gettimepiece {
   my ($datetime) = @_;
+  $datetime = normalize($datetime);
   my $tm = Time::Piece->strptime($datetime, "%Y-%m-%d %H:%M:%S");
   #print "gettimepiece $datetime -> $tm\n";
   return $tm;
+}
+
+sub normalize {
+  my ($datetime) = @_;
+  $datetime =~ s{/}{-}g;
+  return $datetime
 }
 
 sub showDuration {
@@ -31,7 +38,8 @@ sub maybeShowDuration {
   showDuration("${minutes}m${seconds}s");
 }
 
-my $datetime_regex = qr/(\d\d\d\d-\d\d-\d\d \d\d:\d\d:\d\d)/;
+my $date_sep = "-/";
+my $datetime_regex = qr{(\d\d\d\d[$date_sep]\d\d[$date_sep]\d\d \d\d:\d\d:\d\d)};
 my $lasttime;
 while (<>) {
   if (/$datetime_regex/) {

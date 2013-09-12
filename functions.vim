@@ -248,6 +248,7 @@ function! TimeDiff()
 	vnew
 	set nonu nornu
 	exec 'r!timediff ' . bufname(0)
+	set buftype=nofile
 	normal gg
 	"normal ggdd
 	wincmd l

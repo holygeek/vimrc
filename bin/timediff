@@ -3,12 +3,142 @@
 use strict;
 use warnings;
 use Time::Piece;
+use Getopt::Std;
+
+my $spacer = "        ";
+my %format = (
+       '%a' => qr{[A-z]+}, #     The abbreviated weekday name according to the current locale.
+
+       '%A' => qr{[A-Z]+}, #     The full weekday name according to the current locale.
+
+       '%b' => qr{[A-z]+}, #     The abbreviated month name according to the current locale.
+
+       '%B' => qr{[A-z]+}, #     The full month name according to the current locale.
+
+       #'%c' => qr{}, #     The  preferred  date  and  time  representation  for the current
+       #       locale.
+
+       '%C' => qr{\d\d}, #     The century number (year/100) as a 2-digit integer. (SU)
+
+       '%d' => qr{\d\d}, #     The day of the month as a decimal number (range 01 to 31).
+
+       '%D' => qr{\d+/\d+/\d+}, #     Equivalent to %m/%d/%y.  (Yecch — for Americans only.  Americans
+              #should  note  that in other countries %d/%m/%y is rather common.
+              #This means that in international context this format is  ambigu‐
+              #ous and should not be used.) (SU)
+
+       '%e' => qr{ *\d+}, #     Like %d, the day of the month as a decimal number, but a leading
+              #zero is replaced by a space. (SU)
+
+       #'%E' => qr{}, #     Modifier: use alternative format, see below. (SU)
+
+       '%F' => qr{\d\d\d\d-\d+-\d+}, #     Equivalent to %Y-%m-%d (the ISO 8601 date format). (C99)
+
+       '%G' => qr{\d+}, #     The ISO 8601 week-based year (see NOTES) with century as a deci‐
+              #mal number.  The 4-digit year corresponding to the ISO week num‐
+              #ber (see %V).  This has the same format and value as %Y,  except
+              #that  if  the  ISO  week  number belongs to the previous or next
+              #year, that year is used instead. (TZ)
+
+       '%g' => qr{\d+}, #     Like %G, but without century,  that  is,  with  a  2-digit  year
+              #(00-99). (TZ)
+
+       '%h' => qr{[A-z]+}, #     Equivalent to %b.  (SU)
+
+       '%H' => qr{\d\d}, #     The  hour as a decimal number using a 24-hour clock (range 00 to
+              #23).
+
+       '%I' => qr{\d\d}, #     The hour as a decimal number using a 12-hour clock (range 01  to
+              #12).
+
+       '%j' => qr{\d\d\d}, #     The day of the year as a decimal number (range 001 to 366).
+
+       '%k' => qr{[012]\d}, #     The  hour  (24-hour  clock) as a decimal number (range 0 to 23);
+              #single digits are preceded by a blank.  (See also %H.)  (TZ)
+
+       '%l' => qr{[ 1]\d}, #     The hour (12-hour clock) as a decimal number (range  1  to  12);
+              #single digits are preceded by a blank.  (See also %I.)  (TZ)
+
+       '%m' => qr{[ 1]\d}, #     The month as a decimal number (range 01 to 12).
+
+       '%M' => qr{\d\d}, #     The minute as a decimal number (range 00 to 59).
+
+       '%n' => qr{\n}, #     A newline character. (SU)
+
+       #'%O' => qr{}, #     Modifier: use alternative format, see below. (SU)
+
+       '%p' => qr{[AP]M}, #     Either  "AM"  or  "PM" according to the given time value, or the
+              #corresponding strings for the current locale.  Noon  is  treated
+              #as "PM" and midnight as "AM".
+
+       '%P' => qr{[ap]m}, #     Like %p but in lowercase: "am" or "pm" or a corresponding string
+              #for the current locale. (GNU)
+
+       '%r' => qr{\d\d:\d\d:\d\d [AP]M}, #     The time in a.m. or p.m. notation.  In the POSIX locale this  is
+              #equivalent to %I:%M:%S %p.  (SU)
+
+       '%R' => qr{\d\d:\d\d}, #     The time in 24-hour notation (%H:%M). (SU) For a version includ‐
+              #ing the seconds, see %T below.
+
+       '%s' => qr{\d+}, #     The number of seconds since the Epoch, 1970-01-01 00:00:00 +0000
+              #(UTC). (TZ)
+
+       '%S' => qr{\d\d}, #     The  second as a decimal number (range 00 to 60).  (The range is
+              #up to 60 to allow for occasional leap seconds.)
+
+       '%t' => qr{\t}, #     A tab character. (SU)
+
+       '%T' => qr{\d\d:\d\d:\d\d}, #     The time in 24-hour notation (%H:%M:%S). (SU)
+
+       '%u' => qr{[1-7]}, #     The day of the week as a decimal, range 1 to 7, Monday being  1.
+              #See also %w.  (SU)
+
+       '%U' => qr{\d\d}, #     The  week  number of the current year as a decimal number, range
+              #00 to 53, starting with the first Sunday as  the  first  day  of
+              #week 01.  See also %V and %W.
+
+       '%V' => qr{\d\d}, #     The  ISO 8601  week  number (see NOTES) of the current year as a
+              #decimal number, range 01 to 53, where week 1 is the  first  week
+              #that  has  at least 4 days in the new year.  See also %U and %W.
+              #(SU)
+
+       '%w' => qr{[0-6]}, #     The day of the week as a decimal, range 0 to 6, Sunday being  0.
+              #See also %u.
+
+       '%W' => qr{\d\d}, #     The  week  number of the current year as a decimal number, range
+              #00 to 53, starting with the first Monday as  the  first  day  of
+              #week 01.
+
+       #'%x' => qr{}, #     The preferred date representation for the current locale without
+       #       the time.
+
+       #'%X' => qr{}, #     The preferred time representation for the current locale without
+       #       the date.
+
+       '%y' => qr{\d\d}, #     The year as a decimal number without a century (range 00 to 99).
+
+       '%Y' => qr{\d\d\d\d}, #     The year as a decimal number including the century.
+
+       '%z' => qr{[+-]\d\d\d\d}, #     The  +hhmm  or  -hhmm  numeric  timezone  (that is, the hour and
+              #minute offset from UTC). (SU)
+
+       '%Z' => qr{([+-]\d\d\d\d|[A-z]+)}, #     The timezone or name or abbreviation.
+
+       #'%+' => qr{}, #     The date and time in date(1)  format.  (TZ)  (Not  supported  in
+       #       #glibc2.)
+
+       '%%' => qr{%}, #     A literal '%' character.
+);
 
 sub gettimepiece {
-  my ($datetime) = @_;
-  $datetime = normalize($datetime);
-  my $tm = Time::Piece->strptime($datetime, "%Y-%m-%d %H:%M:%S");
+  my ($datetime, $time_format) = @_;
+  #$datetime = normalize($datetime);
+  my $tm = Time::Piece->strptime($datetime, $time_format);
   #print "gettimepiece $datetime -> $tm\n";
+  if ($tm->year == 1970) {
+    my $now_year = (localtime)[5] + 1900;
+    $tm = $tm->add_years($now_year - 1970);
+  }
   return $tm;
 }
 
@@ -20,34 +150,54 @@ sub normalize {
 
 sub showDuration {
   my ($str) = @_;
-  print sprintf("%8s", $str);
+  return sprintf("%8s", $str);
 }
 
 sub maybeShowDuration {
   my ($seconds) = @_;
 
-  return if $seconds <= 0;
+  return $spacer if $seconds <= 0;
 
   if ($seconds < 60) {
-    showDuration($seconds);
-    return;
+    return showDuration($seconds);
   }
 
   my $minutes = int($seconds / 60);
   $seconds = $seconds % 60;
-  showDuration("${minutes}m${seconds}s");
+  return showDuration("${minutes}m${seconds}s");
 }
 
+sub build_regex {
+  my ($time_format) = @_;
+  my $regex = $time_format;
+  $regex =~ s/(%.)/$format{$1}/ge;
+  return "($regex)";
+}
+
+my %opt;
+getopt('f:', \%opt) or die "Invalid option";
+
 my $date_sep = "-/";
+my $time_format = "%Y-%m-%d %H:%M:%S";
 my $datetime_regex = qr{(\d\d\d\d[$date_sep]\d\d[$date_sep]\d\d \d\d:\d\d:\d\d)};
+if (defined $opt{f}) {
+  $time_format = $opt{f};
+  ($datetime_regex) = build_regex($time_format);
+}
+
+#print "regex: [$datetime_regex], time format: $time_format\n";
+
 my $lasttime;
+my $found = 0;
 while (<>) {
+  my $duration = $spacer;
   if (/$datetime_regex/) {
-    $lasttime = gettimepiece($1);
-    maybeShowDuration(0);
-    last;
+    $lasttime = gettimepiece($1, $time_format);
+    $duration = maybeShowDuration(0);
+    $found = 1;
   }
-  print "\n";
+  print "$duration $_";
+  last if $found;
 }
 
 if (! defined $lasttime) {
@@ -55,11 +205,12 @@ if (! defined $lasttime) {
 }
 
 while (<>) {
+  my $duration = $spacer;
   if (/$datetime_regex/) {
-    my $now = gettimepiece($1);
+    my $now = gettimepiece($1, $time_format);
     my $seconds = $now - $lasttime;
-    maybeShowDuration($seconds);
+    $duration = maybeShowDuration($seconds);
     $lasttime = $now;
   }
-  print "\n";
+  print "$duration $_";
 }

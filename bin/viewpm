@@ -1,0 +1,9 @@
+#!/bin/sh
+# Created: Wed Sep 25 13:34:16 MYT 2013
+me=`basename $0`
+if [ -z "$1" ]; then
+	echo "Usage: $me Some::Module"
+	exit 1
+fi
+perldoc -tTm $1|vi -c 'set ft=perl buftype=nofile' -
+

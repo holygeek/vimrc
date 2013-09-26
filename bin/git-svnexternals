@@ -1,0 +1,29 @@
+#!/usr/bin/env perl
+use strict;
+use warnings;
+use File::Basename;
+use Cwd;
+
+my ($svn_url) = `git log -1` =~ /git-svn-id: ([\S]+)@\d+ /;
+my ($root_dir) = `git rev-parse --git-dir` =~ m{([\S]+)/\.git};
+if (! defined $root_dir) {
+  $root_dir = Cwd::abs_path($ENV{PWD})
+}
+
+my ($subdir) = Cwd::abs_path($ENV{PWD}) =~ m{$root_dir/(.*)};
+$subdir = '.' if ! defined $subdir;
+
+my $svn_unhandled = "$root_dir/.git/svn/refs/remotes/git-svn/unhandled.log";
+open my $fh, '<', "$svn_unhandled" or die "$svn_unhandled: $!";
+my $content;
+while (<$fh>) {
+  next if ! m{dir_prop:\s+$subdir\s+svn:externals\s+(.*)};
+  $content = $1;
+}
+close $fh;
+if (defined $content) {
+  $content =~ s/%20/ /g;
+  $content =~ s/  */ /g;
+  $content =~ s/%0A/\n/g;
+  print $content if $content =~ /\S/;
+}

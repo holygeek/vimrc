@@ -34,7 +34,7 @@ done
 shift $(($OPTIND -1))
 
 ncolors=12
-random=$(($(date +%S) % $ncolors + 1))
+random=$(($(date +%-S) % $ncolors + 1))
 style=xoria256
 case $random in
 	1)  style=acid ;;

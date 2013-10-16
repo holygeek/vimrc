@@ -19,6 +19,8 @@ SYNOPSIS
   $me [-cdehpqv] <git args>
 
 OPTIONS
+  -C <dir>
+    cd to <dir> before doing anything else
   -c
     pass -c ui.color=always to git
   -d <dir1,dir2,...>
@@ -39,9 +41,11 @@ cmd=git
 verbose=
 add_prefix=
 color_always=
-while getopts cd:ehpv opt
+C_arg=
+while getopts C:cd:ehpv opt
 do
   case "$opt" in
+    C) cd $OPTARG;;
     c) color_always="-c color.ui=always";;
     d) dirs=`echo $OPTARG|tr , ' '|sed -e 's,$,/.git,' -e 's, ,/.git ,g'`;;
     e) cmd=$OPTARG;;

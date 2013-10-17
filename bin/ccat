@@ -17,17 +17,22 @@ OPTIONS
   -N
     Hide line numbers
 
+  -s <syntax>
+    Pass --syntax <syntax> argument to highlight
+
   -h
     Show this help message
 EOF
 }
 
+syntax_arg=
 show_line_numbers=--line-numbers
-while getopts hN opt
+while getopts hNs: opt
 do
   case "$opt" in
     N) show_line_numbers=;;
     h) usage ; exit;;
+    s) syntax_arg="--syntax $OPTARG";;
     \?) echo Unknown option ; exit;;
   esac
 done
@@ -51,4 +56,5 @@ case $random in
 	12) style=zmrok ;;
 esac
 
-cat $@ | highlight $show_line_numbers -O xterm256 --style $style || cat $@
+cat $@ | highlight $show_line_numbers $syntax_arg -O xterm256 --style $style ||
+  cat $@

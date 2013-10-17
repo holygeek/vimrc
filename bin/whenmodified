@@ -30,6 +30,11 @@ fi
 
 events=modify,attrib,close_write,moved_to,moved_from,move,move_self,create,delete,delete_self
 
+if ! which inotifywait >/dev/null; then
+    echo "inotifywait not available"
+    exit 1
+fi
+
 inotifycmd="inotifywait -e $events"
 cmd=$*
 while true; do

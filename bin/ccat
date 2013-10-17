@@ -56,5 +56,6 @@ case $random in
 	12) style=zmrok ;;
 esac
 
-cat $@ | highlight $show_line_numbers $syntax_arg -O xterm256 --style $style ||
-  cat $@
+{ cat $@ |
+  highlight $show_line_numbers $syntax_arg -O xterm256 --style $style ||
+  cat $@ ; } | less

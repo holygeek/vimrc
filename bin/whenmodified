@@ -1,0 +1,43 @@
+#!/bin/sh
+# whenmodified - Explanation goes here
+# Created: Fri Dec  4 10:19:56 MYT 2009
+
+usage() {
+	echo "whenmodified [-f(forever)] -c whattodo 'cmd to get files to monitor'"
+}
+
+whattodo=
+while getopts fhc: opt
+do
+	case "$opt" in
+    f) FOREVER=1;;
+    c) whattodo="$OPTARG";;
+    h) usage ; exit;;
+	\?) echo Unknown option ; exit;;
+	esac
+done
+shift $(($OPTIND -1))
+
+if [ -z "$whattodo" ]; then
+    usage
+    exit 1;
+fi
+
+if [ -z "$*" ]; then
+    usage
+    exit 1;
+fi
+
+events=modify,attrib,close_write,moved_to,moved_from,move,move_self,create,delete,delete_self
+
+inotifycmd="inotifywait -e $events"
+cmd=$*
+while true; do
+    $inotifycmd $(eval $cmd) && {
+        echo "$whattodo"
+        eval $whattodo
+    }
+    if [ ! $FOREVER ]; then
+	    break;
+    fi
+done

@@ -59,6 +59,24 @@ function! PreviewWord()
   endif
 endfun
 
+function! DirName(path)
+    return substitute(a:path, '/[^/]\+$', '', '')
+endfun
+
+function! TravelUpFindFile(startdir, filename)
+  let dir = a:startdir
+  let file = dir . '/' . a:filename
+  while ! filereadable(file)
+    if dir == ''
+      let file = ''
+      break
+    endif
+    let dir = DirName(dir)
+    let file = dir . '/' . a:filename
+  endwhile
+  return file
+endfun
+
 " Recursively find tags file starting from the file's directory and going up
 function! FindAndSetLocalTags()
   if filereadable(expand("%"))
@@ -67,19 +85,34 @@ function! FindAndSetLocalTags()
     let dir = getcwd()
   endif
 
-  let tagfile = dir . '/tags'
-  while ! filereadable(tagfile)
-    if dir == ''
-      let tagfile = ''
-      break
-    endif
-    let dir = substitute(dir, '/[^/]\+$', '', '')
-    let tagfile = dir . '/tags'
-  endwhile
+  let tagfile = TravelUpFindFile(dir, 'tags')
 
   if strlen(tagfile) > 0 && filereadable(tagfile)
     exec 'setlocal tags=' . tagfile
   endif
+endfun
+
+function! FindAndSetMgitTags()
+  if filereadable(expand("%"))
+    let dir = expand("%:p:h")
+  else
+    let dir = getcwd()
+  endif
+
+  let mgitfile = TravelUpFindFile(dir, '.mgit')
+  if strlen(mgitfile)==0|return|endif
+  if !filereadable(mgitfile)|return|endif
+
+  let mgitcontent = split(system("cat " . mgitfile), "\n")
+  let mgitdir = DirName(mgitfile)
+  for d in mgitcontent
+    let gitworkdir = mgitdir . '/' . d
+    if 0 == match(gitworkdir, "^" . dir)
+      continue
+    endif
+    let tagfile = gitworkdir . '/.git/tags'
+    exec 'set tags+=' . tagfile
+  endfor
 endfun
 
 function! SetColumnBG()

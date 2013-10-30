@@ -1,0 +1,12 @@
+#!/bin/sh
+gitdir=`git rev-parse --git-dir` || exit 1
+hookdir=$gitdir/hooks
+for i in ctags          \
+	 post-checkout  \
+	 post-commit    \
+	 post-merge     \
+	 post-rewrite
+do
+  ln -ins $HOME/.vim/git_template/hooks/$i $hookdir/$i
+done
+

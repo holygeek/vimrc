@@ -100,19 +100,24 @@ function! FindAndSetMgitTags()
   endif
 
   let mgitfile = TravelUpFindFile(dir, '.mgit')
-  if strlen(mgitfile)==0|return|endif
-  if !filereadable(mgitfile)|return|endif
+  if strlen(mgitfile)==0|return 0|endif
+  if !filereadable(mgitfile)|return 0|endif
 
   let mgitcontent = split(system("cat " . mgitfile), "\n")
   let mgitdir = DirName(mgitfile)
+  let tagWasSet = 0
   for d in mgitcontent
     let gitworkdir = mgitdir . '/' . d
     if 0 == match(gitworkdir, "^" . dir)
       continue
     endif
     let tagfile = gitworkdir . '/.git/tags'
-    exec 'set tags+=' . tagfile
+    if filereadable(tagfile)
+      exec 'set tags+=' . tagfile
+      let tagWasSet = 1
+  endif
   endfor
+  return tagWasSet
 endfun
 
 function! SetColumnBG()

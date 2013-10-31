@@ -98,6 +98,7 @@ function! FindAndSetMgitTags()
   else
     let dir = getcwd()
   endif
+  let cwdlen = strlen(dir)
 
   let mgitfile = TravelUpFindFile(dir, '.mgit')
   if strlen(mgitfile)==0|return 0|endif
@@ -108,7 +109,7 @@ function! FindAndSetMgitTags()
   let tagWasSet = 0
   for d in mgitcontent
     let gitworkdir = mgitdir . '/' . d
-    if 0 == match(gitworkdir, "^" . dir)
+    if cwdlen > strlen(gitworkdir) && 0 == match(gitworkdir, "^" . dir)
       continue
     endif
     let tagfile = gitworkdir . '/.git/tags'

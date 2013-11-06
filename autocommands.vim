@@ -8,6 +8,7 @@ au BufReadPost ~/.shell/opt.rc
 \ set completefunc=CompleteZshOptions |
 
 au BufReadPost blame.txt set ft=blame
+au BufReadPost *.gcov set ft=gcov
 
 fun! DoNothing()
   return 0

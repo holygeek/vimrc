@@ -77,12 +77,22 @@ function! TravelUpFindFile(startdir, filename)
   return file
 endfun
 
+function! IsManagedByGit(dir)
+  let cmd = "git -C " . shellescape(a:dir) . " rev-parse --git-dir"
+  let git_dir = system(cmd)
+  return strlen(git_dir) > 0
+endfun
+
 " Recursively find tags file starting from the file's directory and going up
 function! FindAndSetLocalTags()
   if filereadable(expand("%"))
     let dir = expand("%:p:h")
   else
     let dir = getcwd()
+  endif
+  if IsManagedByGit(dir)
+    " Delegate to fugitive
+    return
   endif
 
   let tagfile = TravelUpFindFile(dir, 'tags')

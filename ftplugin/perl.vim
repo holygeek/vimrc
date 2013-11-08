@@ -29,3 +29,6 @@ source ~/.vim/nopod.vim
 
 nmap [[ :set nohlsearch<CR>?^sub <CR>:let @/ = ''\|set hlsearch<CR>
 nmap ]] :set nohlsearch<CR>/^sub <CR>:let @/ = ''\|set hlsearch<CR>
+
+vnoremap # :normal 0i#<CR>
+vnoremap _ :normal 0x<CR>

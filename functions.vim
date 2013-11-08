@@ -275,12 +275,12 @@ function! InsertNextNumber()
 endfun
 
 if has("reltime")
-  let g:lastQuit = reltime()
+  let g:lastQuitAttempt = reltime()
 endif
 function! Quit()
   if has("reltime")
-    let diff = reltime(g:lastQuit, reltime())
-    let g:lastQuit = reltime()
+    let diff = reltime(g:lastQuitAttempt, reltime())
+    let g:lastQuitAttempt = reltime()
     let seconds = diff[0]
     let ms = diff[1]
     " How fast can you hit Q twice?

@@ -310,3 +310,66 @@ function! TimeDiff()
   7winc >
   wincmd l
 endfun
+
+let Closer = { '{':'}', '[': ']', '(':')', '<':'>' }
+function! InsertClosing()
+    "let col = col('.')
+    if ! search('[[({]', 'bs')
+        return
+    endif
+
+    normal "cy `'
+    let closer = g:Closer[@c]
+    exec 'normal a' . closer
+endfun
+
+function! ShiftCursorRight()
+  return "l%%a"
+endfun
+
+function! ShowFuncName(function_regex)
+  set lazyredraw
+  let current_column=col('.')
+  let current_line=line('.')
+  let found_at = search(a:function_regex, 'bW')
+  if found_at > 0
+    exec line(".") . 'p'
+    call cursor(current_line, current_column)
+  else
+    echo 'Not in any function'
+  endif
+
+  set nolazyredraw
+endfun
+
+function! FlipFold()
+ if !exists("s:FlipFold")
+   let s:Zfdm = &fdm
+   let s:Zfdl = &fdl
+   let s:Zfdc = &fdc
+   let s:Zfde = &fde
+   let s:FlipFold = 1
+   setlocal foldmethod=expr foldlevel=0 foldcolumn=0
+     \ foldexpr=(getline(v:lnum)=~@/)?0:(getline(v:lnum-1)=~@/)\\|\\|(getline(v:lnum+1)=~@/)?1:2
+"     \ foldexpr=getline(v:lnum)!~@/
+   exec "normal gg``"
+ else
+   if s:Zfdm == 'manual'
+     setl fdm=diff
+     redraw
+   endif
+   let &fdm = s:Zfdm
+   let &fdl = s:Zfdl
+   let &fdc = s:Zfdc
+   let &fde = s:Zfde
+   unlet s:FlipFold s:Zfdm s:Zfdl s:Zfdc s:Zfde
+ endif
+endfunction
+
+function! FindFileType()
+	if match(getline(1), 'package .*::.*') != -1
+	  set ft=perl
+	elseif match(getline(1), '^Index: ') != -1
+	  set ft=diff
+	endif
+endfunction

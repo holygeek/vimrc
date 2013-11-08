@@ -6,6 +6,8 @@ nnoremap [Q :cfirst<cr>
 nnoremap ]Q :clast<cr>
 nnoremap [q :<c-U>exe "cprevious " . v:count1<cr>
 nnoremap ]q :<c-U>exe "cnext "     . v:count1<cr>
+inoremap <c-@> <esc>:call InsertClosing()<cr>a
+cmap %/ %:p:h/
 cnoremap <c-k> <up>
 cnoremap <c-j> <down>
 inoremap <c-d> :w
@@ -58,3 +60,22 @@ nmap [1;3C g<C-]>
 " Alt-left
 nmap [1;3D <C-T>
 
+" \z mapping (vim list starred) - create / delete fold on search
+" pattern (diomidis' telescope):
+" nnoremap \z :setlocal foldexpr=(getline(v:lnum)=~@/)?0:(getline(v:lnum-1)=~@/)\\|\\|(getline(v:lnum+1)=~@/)?1:2 foldmethod=expr foldlevel=0 foldcolumn=0<CR>
+map <silent> <leader>Z :call FlipFold()<CR>
+
+" Heaven for jumping through tags:
+" Alt-right
+nmap [1;3C g<C-]>
+" Alt-left
+nmap [1;3D <C-T>
+" In gnome terminal these don't work:
+" nmap <M-Left> <C-T>
+" nmap <M-Right> g<C-]>
+
+" Heaven for jumping through errors:
+" <Shift+Alt+left>    next error
+" <Shift+Alt+right>   previous error
+nmap [1;4C :cnext<CR>
+nmap [1;4D :cprev<CR>

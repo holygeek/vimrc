@@ -11,4 +11,4 @@ inoremap <expr> <c-w> mine#deletePair()
 nnoremap <leader>; A;
 nnoremap <leader>, A;
 inoremap ,, /["')}\[\]]:nohla,
-inoremap  l%%a
+inoremap <expr>  ShiftCursorRight()

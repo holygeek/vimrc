@@ -48,7 +48,7 @@ set guifont=DejaVu\ Sans\ Mono\ 10
 set guicursor=a:block-blinkon0
 set guioptions=
 set linebreak
-set listchars=tab:\|-,trail:@
+set listchars=tab:>-,trail:@
 set mousefocus " GUI only:cursor focus follows mouse
 set pt=<f12>
 if exists('+rnu')

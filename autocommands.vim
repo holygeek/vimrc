@@ -33,3 +33,8 @@ au BufReadPost,VimResized *.[ch],*.go,*.pl,*.pm
 au BufNewFile * call mine#injectSkeleton(expand('<afile>'))
 
 au BufWritePost * if len(&filetype) == 0|filetype detect|end
+
+au BufEnter t.pl nmap <buffer> <F8> :w:!perl %
+
+au BufRead ~/sig/sig set syntax=signatures tw=70 fo+=n
+au BufWritePost ~/sig/sig execute "normal :!/usr/bin/strfile -r ~/sig/sig"

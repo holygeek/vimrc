@@ -1,5 +1,6 @@
 " Omni completion
-hi Search ctermbg=33
+"hi Search ctermbg=33
+hi Search ctermbg=brown ctermfg=white
 hi Pmenu ctermfg=black ctermbg=darkgray guifg=darkgray
 hi PmenuSel ctermfg=black ctermbg=gray guifg=gray
 hi LineNr ctermfg=darkgray guifg=darkgray

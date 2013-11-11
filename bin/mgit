@@ -82,10 +82,14 @@ for gitdir in $git_dirs; do
   dir=$gitdir
   # GIT_DIR has to be fullpath for git svn rebase to work
   case $dir in
+    /*) prefix= ;;
+    *) prefix=$PWD/ ;;
+  esac
+  case $dir in
     (*.git)
-        export GIT_DIR=$PWD/$gitdir GIT_WORK_TREE=$PWD/$dir ;;
+        export GIT_DIR=${prefix}$gitdir GIT_WORK_TREE=${prefix}$dir ;;
     (*)
-        export GIT_DIR=$PWD/$gitdir/.git GIT_WORK_TREE=$PWD/$dir ;;
+        export GIT_DIR=${prefix}$gitdir/.git GIT_WORK_TREE=${prefix}$dir ;;
   esac
   # echo GIT_DIR=$GIT_DIR GIT_WORK_TREE=$GIT_WORK_TREE
   test -n "$verbose" && echo $lightblue$dir$reset

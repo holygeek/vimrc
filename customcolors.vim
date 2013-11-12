@@ -29,3 +29,6 @@ hi SignColumn ctermbg=black guibg=none
 "hi braces ctermfg=darkgray
 
 so ~/.vim/diffcolor.vim
+
+hi StatusLine ctermfg=blue ctermbg=white
+hi StatusLineNC ctermfg=white ctermbg=black

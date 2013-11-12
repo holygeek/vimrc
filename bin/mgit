@@ -55,7 +55,7 @@ do
     \?) echo Unknown option ; exit;;
   esac
 done
-shift $(($OPTIND -1))
+shift `expr $OPTIND - 1`
 
 ngits=0
 if [ -n "$dirs" ]; then
@@ -71,7 +71,8 @@ else
   if [ $ngits -le 1 ]; then
     exec git "$@";
   elif [ $ngits -gt 1 ]; then
-    export MGIT_MODE=true
+    MGIT_MODE=true
+    export MGIT_MODE
   fi
 fi
 
@@ -86,10 +87,16 @@ for gitdir in $git_dirs; do
     *) prefix=$PWD/ ;;
   esac
   case $dir in
-    (*.git)
-        export GIT_DIR=${prefix}$gitdir GIT_WORK_TREE=${prefix}$dir ;;
-    (*)
-        export GIT_DIR=${prefix}$gitdir/.git GIT_WORK_TREE=${prefix}$dir ;;
+    *.git)
+        GIT_DIR=${prefix}$gitdir
+        GIT_WORK_TREE=${prefix}$dir
+        export GIT_DIR GIT_WORK_TREE
+        ;;
+    *)
+        GIT_DIR=${prefix}$gitdir/.git
+        GIT_WORK_TREE=${prefix}$dir
+        export GIT_DIR GIT_WORK_TREE
+        ;;
   esac
   # echo GIT_DIR=$GIT_DIR GIT_WORK_TREE=$GIT_WORK_TREE
   test -n "$verbose" && echo $lightblue$dir$reset

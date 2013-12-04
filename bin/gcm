@@ -1,0 +1,29 @@
+#!/bin/sh
+# gcm
+# Created: Sat Jan  1 14:54:35 MYT 2011
+
+me=`basename $0`
+usage() {
+    echo -n "Usage: $me [-f] [-h]
+
+    -f        Ignore whitespace errors
+    -h        Show this help message
+"
+}
+
+do_diff_check=t
+while getopts fh opt
+do
+  case "$opt" in
+    f) do_diff_check=;;
+    h) usage ; exit;;
+    \?) echo Unknown option ; exit;;
+  esac
+done
+shift $(($OPTIND -1))
+
+if [ -n "$do_diff_check" ]; then
+	git diff --cached --check && git commit -m "$*"
+else
+	git commit -m "$*"
+fi

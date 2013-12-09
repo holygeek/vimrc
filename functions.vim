@@ -279,21 +279,23 @@ endfun
 
 if has("reltime")
   let g:lastQuitAttempt = reltime()
-endif
-function! Quit()
-  if has("reltime")
-    let diff = reltime(g:lastQuitAttempt, reltime())
-    let g:lastQuitAttempt = reltime()
-    let seconds = diff[0]
-    let ms = diff[1]
-    " How fast can you hit Q twice?
-    if seconds == 0 && ms < 200000
-      return ":q!\<cr>"
+  function! Quit()
+    if has("reltime")
+      let diff = reltime(g:lastQuitAttempt, reltime())
+      let g:lastQuitAttempt = reltime()
+      let seconds = diff[0]
+      let ms = diff[1]
+      " How fast can you hit Q twice?
+      if seconds == 0 && ms < 200000
+        return ":q!\<cr>"
+      endif
     endif
-  endif
 
-  return ":q\<cr>"
-endfun
+    return ":q\<cr>"
+  endfun
+endif
+
+nnoremap <expr> Q Quit()
 
 let g:timediffopt = ''
 command! TimeDiff :call TimeDiff()

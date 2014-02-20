@@ -1,6 +1,7 @@
 #!/bin/sh
 gitdir=`git rev-parse --git-dir` || exit 1
 hookdir=$gitdir/hooks
+mkdir -p $hookdir
 for i in ctags          \
 	 post-checkout  \
 	 post-commit    \

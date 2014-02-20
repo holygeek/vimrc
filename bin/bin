@@ -1,0 +1,28 @@
+##!/bin/sh
+#echo fix it
+#exit
+set -o noclobber
+if [ -z "$1" ]; then
+	cd ~/bin; ls
+else
+	cd ~/bin
+	if [ -f "$1" ]; then
+		if [ ! -x "$1" ]; then
+		chmod +x "$1"
+		fi
+		echo "File $1 already exists, executable"
+		vim $1
+	elif [ -L "$1" ]; then
+		echo "File $1 is a symlink"
+		ls -l $1
+	else
+	# File not exist yet
+	  echo "#!/bin/sh\n# $1\n# Created: `date`" >| $1; chmod +x $1
+	  vim "+call cursor(3,1)" -c 'set ft=sh|normal ggdG:wu' $1
+	  if [ -s "$1" ]; then
+		echo "File $1 created, and chmod'd"
+	  else
+	    rm $1
+	  fi
+    fi
+fi

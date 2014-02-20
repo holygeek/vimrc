@@ -316,7 +316,7 @@ function! TimeDiff()
   wincmd l
 endfun
 
-let Closer = { '{':'}', '[': ']', '(':')', '<':'>' }
+let Closer = { '{' : '}', '[' : ']', '(' : ')', '<' : '>' }
 function! InsertClosing()
     "let col = col('.')
     if ! search('[[({]', 'bs')

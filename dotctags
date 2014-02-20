@@ -1,0 +1,6 @@
+--exclude=*/ckeditor/*
+--exclude=jquery.*
+--exclude=swfobject.js
+--exclude=*/yui/*
+--langmap=c++:+.fe.feh.fec
+--regex-c++=/^function[ \t]*([a-zA-Z0-9_]+)/\1/d,definition/

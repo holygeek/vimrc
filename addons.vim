@@ -1,4 +1,4 @@
-if isdirectory("$HOME/.vim/daddons/vim-addon-manager")
+if isdirectory(expand("$HOME/.vim/daddons/vim-addon-manager"))
     set runtimepath+=$HOME/.vim/daddons/vim-addon-manager
     call vam#ActivateAddons([
         \ 'sleuth',

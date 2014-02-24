@@ -131,8 +131,11 @@ function! FindAndSetMgitTags()
   return tagWasSet
 endfun
 
+let s:colorcolumn_begin = 121
+let s:colorcolumn_end = 300
+
 function! SetColumnBG()
-   let &colorcolumn=join(range(81,300), ',')
+   let &colorcolumn=join(range(s:colorcolumn_begin,s:colorcolumn_end), ',')
    hi ColorColumn guibg=darkgray ctermbg=234
    " When this is on we want to disable linebreak as it will give false
    " positive as 'colorcolumn' counts the virtual column added after 'breakat'

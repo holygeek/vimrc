@@ -2,5 +2,6 @@
 --exclude=jquery.*
 --exclude=swfobject.js
 --exclude=*/yui/*
---langmap=c++:+.fe.feh.fec
---regex-c++=/^function[ \t]*([a-zA-Z0-9_]+)/\1/d,definition/
+--langmap=java:+.fe.feh.fec
+--regex-java=/\<function[ \t]*([a-zA-Z0-9_]+)/\1/f,function/
+--regex-java=/\[[a-zA-Z0-9_]+[ \t]+([a-zA-Z0-9_]+)/\1/d,definition/

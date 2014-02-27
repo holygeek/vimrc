@@ -57,7 +57,7 @@ endif
 set secure
 set autoindent smartindent
 set shiftround
-set wildmode=longest:full wildmenu
+set wildmode=full:list wildmenu
 
 source ~/.vim/functions.vim
 source ~/.vim/autocommands.vim

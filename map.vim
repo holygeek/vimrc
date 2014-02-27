@@ -65,11 +65,6 @@ nmap [1;3D <C-T>
 " nnoremap \z :setlocal foldexpr=(getline(v:lnum)=~@/)?0:(getline(v:lnum-1)=~@/)\\|\\|(getline(v:lnum+1)=~@/)?1:2 foldmethod=expr foldlevel=0 foldcolumn=0<CR>
 map <silent> <leader>Z :call FlipFold()<CR>
 
-" Heaven for jumping through tags:
-" Alt-right
-nmap [1;3C g<C-]>
-" Alt-left
-nmap [1;3D <C-T>
 " In gnome terminal these don't work:
 " nmap <M-Left> <C-T>
 " nmap <M-Right> g<C-]>

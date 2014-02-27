@@ -17,12 +17,12 @@ endif
 let s:cpo_save = &cpo
 set cpo&vim
 
-syn match feriteVarPlain "$[A-z]\+[A-z0-9_]*" contained
+syn match feriteVarPlain "$\h\+\w*" contained
 syn cluster feriteInterpDQ	contains=feriteVarPlain,perlVarBlock
 
 syn keyword feriteCommentTodo      TODO FIXME XXX TBD contained
 syn match   feriteLineComment      "\/\/.*" contains=@Spell,feriteCommentTodo
-syn match   feriteEval             "$[A-z]\+[A-z0-9_]*" contained
+syn match   feriteEval             "$\h\+\w*" contained
 syn match   feriteEval             "${[^}]\+}" contained contains=feriteBraces
 syn match   feriteCommentSkip      "^[ \t]*\*\($\|[ \t]\+\)"
 syn region  feriteComment	       start="/\*"  end="\*/" contains=@Spell,feriteCommentTodo
@@ -31,7 +31,7 @@ syn region  feriteStringD	       start=+"+  skip=+\\\\\|\\"+  end=+"+	contains=@
 syn region  feriteStringS	       start=+'+  skip=+\\\\\|\\'+  end=+'\|$+	contains=feriteSpecial,@htmlPreproc
 
 syn match   feriteSpecialCharacter "'\\.'"
-syn match   feriteNumber	       "-\=\<\d\+L\=\>\|0[xX][0-9a-fA-F]\+\>"
+syn match   feriteNumber	       "-\=\<\d\+L\=\>\|0[xX]\x\+\>"
 syn region  feriteRegexpString     start=+/[^/*]+me=e-1 skip=+\\\\\|\\/+ end=+/[gim]\{0,2\}\s*$+ end=+/[gim]\{0,2\}\s*[;.,)\]}]+me=e-1 contains=@htmlPreproc oneline
 
 syn keyword feriteConditional	if else switch

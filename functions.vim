@@ -83,6 +83,19 @@ function! IsManagedByGit(dir)
   return strlen(git_dir) > 0
 endfun
 
+function! SetPathIfIsGitRepo()
+  if filereadable(expand("%"))
+    let dir = expand("%:p:h")
+  else
+    let dir = getcwd()
+  endif
+  if ! IsManagedByGit(dir)
+    return
+  endif
+  let git_top_level = split(system("git -C '" . dir . "' rev-parse --show-toplevel"))[0]
+  exec "set path+=" . git_top_level . "/**"
+endfun
+
 " Recursively find tags file starting from the file's directory and going up
 function! FindAndSetLocalTags()
   if filereadable(expand("%"))

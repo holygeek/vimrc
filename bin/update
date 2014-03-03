@@ -1,0 +1,4 @@
+#!/bin/sh
+# update
+# Created: Wed Dec 18 09:14:51 MYT 2013
+make --no-print-directory -C ~/src/install ${1:+'update'}$1

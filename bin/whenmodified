@@ -40,7 +40,7 @@ cmd=$*
 while true; do
     $inotifycmd $(eval $cmd) && {
         echo "$whattodo"
-        eval $whattodo
+        eval "sleep .2; $whattodo"
     }
     if [ ! $FOREVER ]; then
 	    break;

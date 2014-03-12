@@ -1,4 +1,4 @@
-command QQ qa!
+command! QQ qa!
 
 let mapleader = ' '
 

@@ -65,7 +65,7 @@ source ~/.vim/customcolors.vim
 
 source ~/.vim/map.vim
 
-function LoadIfExists(name)
+function! LoadIfExists(name)
   let fullpath = expand('~/.vim/' . a:name . '.vim')
   if filereadable(fullpath)
     exec 'source ' . fullpath

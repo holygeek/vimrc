@@ -30,5 +30,5 @@ hi SignColumn ctermbg=black guibg=none
 
 so ~/.vim/diffcolor.vim
 
-hi StatusLine ctermfg=blue ctermbg=white
-hi StatusLineNC ctermfg=white ctermbg=black
+hi StatusLine term=reverse ctermfg=blue ctermbg=black
+hi StatusLineNC ctermfg=darkgray ctermbg=black

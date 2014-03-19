@@ -89,6 +89,9 @@ function! SetPathIfIsGitRepo()
   else
     let dir = getcwd()
   endif
+  if match(dir, '/\.git') != -1
+    return
+  endif
   if ! IsManagedByGit(dir)
     return
   endif

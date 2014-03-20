@@ -40,7 +40,7 @@ syn keyword feriteRepeat	while for do
 syn keyword feriteBranch	break continue
 syn keyword feriteOperator	new instanceof isa
 syn keyword feriteType		array boolean number string void object
-syn keyword feriteStatement	return using
+syn keyword feriteStatement	constructor return using
 syn keyword feriteBoolean	true false
 syn keyword feriteNull		null undefined
 syn keyword feriteLabel		case default

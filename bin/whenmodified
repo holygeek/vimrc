@@ -35,9 +35,10 @@ if ! which inotifywait >/dev/null; then
     exit 1
 fi
 
-inotifycmd="inotifywait -e $events"
+inotifycmd="inotifywait -e $events -q -q"
 cmd=$*
 while true; do
+    echo "[PENDING] $whattodo [MODIFIED] $cmd"
     $inotifycmd $(eval $cmd) && {
         echo "$whattodo"
         eval "sleep .2; $whattodo"

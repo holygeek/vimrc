@@ -6,8 +6,27 @@ tags_file=.git/tags
 inflight_tags_file=.git/tags.under_construction.$$
 new_tags_file=.git/tags.new.$$
 newer_tags_file=.git/tags.newer.$$
+
 if [ -z "$DEBUG" ]; then
     trap "rm -f $inflight_tags_file $newer_tags_file $new_tags_file" EXIT
+fi
+
+cscope_xref_file=.git/cscope.out
+repo_has_c_file() {
+    git ls-files|awk 'BEGIN {nocfile=1} /\.c$/ { nocfile=0; exit 0; } END { exit nocfile; }'
+}
+generate_cscope_xref_file() {
+    cscope -b -f $cscope_xref_file `git ls-files -- '*.[ch]'`
+}
+
+if [ -f .git/nocfilehere ]; then
+    # note:
+    # Create .git/nocfiles to disable possible slow check to repo_has_c_file()
+    :
+elif [ -f $cscope_xref_file ]; then
+    generate_cscope_xref_file
+elif repo_has_c_file; then
+    generate_cscope_xref_file
 fi
 
 if [ -z "$1" ]; then

@@ -1,0 +1,6 @@
+#!/bin/sh
+# qcc
+# Created: Wed Mar 12 17:16:14 MYT 2014
+latest_go_file=`ls -rt *.go|tail -1`
+echo "go run $latest_go_file"
+go run $latest_go_file

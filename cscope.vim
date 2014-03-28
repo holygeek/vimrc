@@ -25,28 +25,28 @@ if s:cscope_xref_set
   " 7 or f: Find this file
   " 8 or i: Find files #including this file
 
-  nmap <leader>cs :cs find s <C-R>=expand("<cword>")<CR><CR>
-  nmap <leader>cg :cs find g <C-R>=expand("<cword>")<CR><CR>
-  nmap <leader>cc :cs find c <C-R>=expand("<cword>")<CR><CR>
-  nmap <leader>ct :cs find t <C-R>=expand("<cword>")<CR><CR>
-  nmap <leader>ce :cs find e <C-R>=expand("<cword>")<CR><CR>
-  nmap <leader>cf :cs find f <C-R>=expand("<cfile>")<CR><CR>
-  nmap <leader>ci :cs find i ^<C-R>=expand("<cfile>")<CR>$<CR>
-  nmap <leader>cd :cs find d <C-R>=expand("<cword>")<CR><CR>
+  nmap <buffer> <leader>cs :cs find s <C-R>=expand("<cword>")<CR><CR>
+  nmap <buffer> <leader>cg :cs find g <C-R>=expand("<cword>")<CR><CR>
+  nmap <buffer> <leader>cc :cs find c <C-R>=expand("<cword>")<CR><CR>
+  nmap <buffer> <leader>ct :cs find t <C-R>=expand("<cword>")<CR><CR>
+  nmap <buffer> <leader>ce :cs find e <C-R>=expand("<cword>")<CR><CR>
+  nmap <buffer> <leader>cf :cs find f <C-R>=expand("<cfile>")<CR><CR>
+  nmap <buffer> <leader>ci :cs find i ^<C-R>=expand("<cfile>")<CR>$<CR>
+  nmap <buffer> <leader>cd :cs find d <C-R>=expand("<cword>")<CR><CR>
 
 
   " Using 'CTRL-c CTRL-w' then a search type makes the vim window
   " split horizontally, with search result displayed in
   " the new window.
 
-  nmap <leader>cws :scs find s <C-R>=expand("<cword>")<CR><CR>
-  nmap <leader>cwg :scs find g <C-R>=expand("<cword>")<CR><CR>
-  nmap <leader>cwc :scs find c <C-R>=expand("<cword>")<CR><CR>
-  nmap <leader>cwt :scs find t <C-R>=expand("<cword>")<CR><CR>
-  nmap <leader>cwe :scs find e <C-R>=expand("<cword>")<CR><CR>
-  nmap <leader>cwf :scs find f <C-R>=expand("<cfile>")<CR><CR>
-  nmap <leader>cwi :scs find i ^<C-R>=expand("<cfile>")<CR>$<CR>
-  nmap <leader>cwd :scs find d <C-R>=expand("<cword>")<CR><CR>
+  nmap <buffer> <leader>cws :scs find s <C-R>=expand("<cword>")<CR><CR>
+  nmap <buffer> <leader>cwg :scs find g <C-R>=expand("<cword>")<CR><CR>
+  nmap <buffer> <leader>cwc :scs find c <C-R>=expand("<cword>")<CR><CR>
+  nmap <buffer> <leader>cwt :scs find t <C-R>=expand("<cword>")<CR><CR>
+  nmap <buffer> <leader>cwe :scs find e <C-R>=expand("<cword>")<CR><CR>
+  nmap <buffer> <leader>cwf :scs find f <C-R>=expand("<cfile>")<CR><CR>
+  nmap <buffer> <leader>cwi :scs find i ^<C-R>=expand("<cfile>")<CR>$<CR>
+  nmap <buffer> <leader>cwd :scs find d <C-R>=expand("<cword>")<CR><CR>
 
 endif
 

@@ -1,4 +1,20 @@
 " vim: ts=2 sts=2 sw=2 expandtab
+
+function! GetStdout(cmd)
+  let stdout = system(a:cmd)
+  let lines = split(stdout)
+  return lines
+endfun
+
+function! RunGitIn(dir, args)
+  let cmd = "git -C " . shellescape(a:dir) . " " . a:args
+  return GetStdout(cmd)
+endfun
+
+function! GitRevParseIn(dir, args)
+  return RunGitIn(a:dir, "rev-parse " . a:args)
+endfun
+
 function! OpenOtherFile()
   let file = expand('%')
   let other = ''
@@ -77,35 +93,47 @@ function! TravelUpFindFile(startdir, filename)
   return file
 endfun
 
+function! IsInGitRepo()
+  let dir = GetCurrentFileDirOrCurrentDir()
+  return IsManagedByGit(dir)
+endfun
+
+function! GetGitDir(dir)
+  let lines = GitRevParseIn(a:dir, '--git-dir')
+  return lines[0]
+endfun
+
 function! IsManagedByGit(dir)
-  let cmd = "git -C " . shellescape(a:dir) . " rev-parse --git-dir"
-  let git_dir = system(cmd)
-  return strlen(git_dir) > 0
+  call GitRevParseIn(a:dir, '--is-in-work-tree')
+  return v:shell_error == 0
 endfun
 
 function! SetPathIfIsGitRepo()
-  if filereadable(expand("%"))
-    let dir = expand("%:p:h")
-  else
-    let dir = getcwd()
-  endif
+  let dir = GetCurrentFileDirOrCurrentDir()
   if match(dir, '/\.git') != -1
     return
   endif
   if ! IsManagedByGit(dir)
     return
   endif
-  let git_top_level = split(system("git -C '" . dir . "' rev-parse --show-toplevel"))[0]
-  exec "set path+=" . git_top_level . "/**"
+  "echo "dir " . dir
+  let l:git_top_level = split(system("git -C '" . dir . "' rev-parse --show-toplevel"))[0]
+  "echo "git_top_level = " . l:git_top_level
+  exec "set path+=" . l:git_top_level . "/**"
 endfun
 
-" Recursively find tags file starting from the file's directory and going up
-function! FindAndSetLocalTags()
+function! GetCurrentFileDirOrCurrentDir()
   if filereadable(expand("%"))
     let dir = expand("%:p:h")
   else
     let dir = getcwd()
   endif
+  return dir
+endfun
+
+" Recursively find tags file starting from the file's directory and going up
+function! FindAndSetLocalTags()
+  let dir = GetCurrentFileDirOrCurrentDir()
   if IsManagedByGit(dir)
     " Delegate to fugitive
     return
@@ -397,3 +425,21 @@ function! FindFileType()
 	  set ft=diff
 	endif
 endfunction
+
+function! MaybeSetCscopeXrefFile()
+  if $CSCOPE_DB != ""
+    cs add $CSCOPE_DB
+    return
+  endif
+
+  let dir = GetCurrentFileDirOrCurrentDir()
+  let cscopeXrefFile = dir . "/cscope.out"
+  if IsManagedByGit(dir)
+    let git_dir = GetGitDir(dir)
+    let cscopeXrefFile = git_dir . "/cscope.out"
+  endif
+
+  if filereadable(cscopeXrefFile)
+    exec 'cs add ' . cscopeXrefFile
+  endif
+endfun

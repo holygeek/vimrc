@@ -1,1 +1,1 @@
-../../src/vim/runtime/macros/matchit.vim
+../../code/vim/runtime/macros/matchit.vim

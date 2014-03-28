@@ -1,4 +1,9 @@
+let s:cscope_xref_set = 0
 if has("cscope")
+  let s:cscope_xref_set =  MaybeSetCscopeXrefFile()
+endif
+
+if s:cscope_xref_set
   "set csprg=/usr/local/bin/cscope
   set csprg=/usr/bin/cscope
   set csto=0
@@ -6,7 +11,6 @@ if has("cscope")
   set nocsverb
   " See :help csqf
   set cscopequickfix=s-,c-,d-,i-,t-,e-
-  call MaybeSetCscopeXrefFile()
   set csverb
 
   " Modified from :help cscope:

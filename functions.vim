@@ -426,6 +426,7 @@ function! FindFileType()
 	endif
 endfunction
 
+let s:cscope_xref_added = {}
 function! MaybeSetCscopeXrefFile()
   if $CSCOPE_DB != ""
     cs add $CSCOPE_DB
@@ -439,7 +440,13 @@ function! MaybeSetCscopeXrefFile()
     let cscopeXrefFile = git_dir . "/cscope.out"
   endif
 
-  if filereadable(cscopeXrefFile)
-    exec 'cs add ' . cscopeXrefFile
+  if ! filereadable(cscopeXrefFile)
+    return 0
   endif
+
+  if empty(s:cscope_xref_added) || ! has_key(s:cscope_xref_added, cscopeXrefFile)
+    exec 'cs add ' . cscopeXrefFile
+    let s:cscope_xref_added[cscopeXrefFile] = 1
+  endif
+  return 1
 endfun

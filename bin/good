@@ -1,0 +1,4 @@
+#!/bin/sh
+# bad
+# Created: Mon Mar 31 12:49:17 SGT 2014
+/bin/echo -e "\e[32;1mGOOD\e[0m"

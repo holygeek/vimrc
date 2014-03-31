@@ -156,6 +156,32 @@ function! FindAndSetLocalTags()
   endif
 endfun
 
+function! FindAndSetMgitTagsFromDir(dir)
+  let dir = a:dir
+  let cwdlen = strlen(dir)
+
+  let mgitfile = TravelUpFindFile(dir, '.mgit')
+  if strlen(mgitfile)==0|return 0|endif
+  if !filereadable(mgitfile)|return 0|endif
+
+  let mgitcontent = split(system("cat " . mgitfile), "\n")
+  let mgitdir = DirName(mgitfile)
+  let tagWasSet = 0
+  for d in mgitcontent
+    let gitworkdir = mgitdir . '/' . d
+    if cwdlen > strlen(gitworkdir) && 0 == match(gitworkdir, "^" . dir)
+      continue
+    endif
+    let tagfile = gitworkdir . '/.git/tags'
+    if filereadable(tagfile)
+      exec 'set tags+=' . tagfile
+      let tagWasSet = 1
+  endif
+  endfor
+  return tagWasSet
+endfun
+
+
 function! FindAndSetMgitTags()
   if filereadable(expand("%"))
     let dir = expand("%:p:h")

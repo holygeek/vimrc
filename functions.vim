@@ -75,15 +75,25 @@ function! PreviewWord()
   endif
 endfun
 
+function! CleanPath(path)
+  let cleaned = substitute(a:path, '//*', '/', 'g')
+  return substitute(cleaned, '/$', '', '')
+endfun
+
 function! DirName(path)
-    return substitute(a:path, '/[^/]\+$', '', '')
+  let cleaned = CleanPath(a:path)
+  let cleaned = substitute(cleaned, '[^/]\+$', '', '')
+  if len(cleaned) == 0
+    return "."
+  endif
+  return cleaned
 endfun
 
 function! TravelUpFindFile(startdir, filename)
   let dir = a:startdir
   let file = dir . '/' . a:filename
   while ! filereadable(file)
-    if dir == ''
+    if dir == '.' || dir == '/'
       let file = ''
       break
     endif

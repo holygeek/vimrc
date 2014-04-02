@@ -60,6 +60,10 @@ nmap [1;3C g<C-]>
 " Alt-left
 nmap [1;3D <C-T>
 
+" Super+right/left traverse quickfix list
+nmap OC :cne<CR>
+nmap OD :cprev<CR>
+
 " \z mapping (vim list starred) - create / delete fold on search
 " pattern (diomidis' telescope):
 " nnoremap \z :setlocal foldexpr=(getline(v:lnum)=~@/)?0:(getline(v:lnum-1)=~@/)\\|\\|(getline(v:lnum+1)=~@/)?1:2 foldmethod=expr foldlevel=0 foldcolumn=0<CR>

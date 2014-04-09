@@ -1,5 +1,8 @@
 " Return cursor back to where it was if we reopen a recent file
 au BufReadPost * if line("'\"") > 0|if line("'\"") <= line("$")|exe("norm '\"")|else|exe "norm $"|endif|endif 
+
+au BufReadPost * if &ft != 'qf'|exec "nnoremap <buffer> <cr> :nohl<cr>:set list&<cr>"|endif
+
 au BufReadPost ~/.shell/* set ft=sh
 
 au BufReadPost *.{[ch],ps,vim} call FindAndSetLocalTags()

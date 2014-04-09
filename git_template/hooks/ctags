@@ -19,6 +19,13 @@ generate_cscope_xref_file() {
     cscope -b -f $cscope_xref_file `git ls-files -- '*.[ch]'`
 }
 
+run_tags_clean_if_exist() {
+    if [ -x ${tags_file}.clean ]; then
+	./${tags_file}.clean
+    fi
+}
+trap run_tags_clean_if_exist 0
+
 if [ -f .git/nocfilehere ]; then
     # note:
     # Create .git/nocfiles to disable possible slow check to repo_has_c_file()

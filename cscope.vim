@@ -35,7 +35,7 @@ if s:cscope_xref_set
   nmap <buffer> <leader>cd :cs find d <C-R>=expand("<cword>")<CR><CR>
 
 
-  " Using 'CTRL-c CTRL-w' then a search type makes the vim window
+  " Using '<leader>cw' then a search type makes the vim window
   " split horizontally, with search result displayed in
   " the new window.
 
@@ -48,5 +48,17 @@ if s:cscope_xref_set
   nmap <buffer> <leader>cwi :scs find i ^<C-R>=expand("<cfile>")<CR>$<CR>
   nmap <buffer> <leader>cwd :scs find d <C-R>=expand("<cword>")<CR><CR>
 
+  " Using '<leader>cv' then a search type makes the vim window
+  " split vertically, with search result displayed in
+  " the new window.
+
+  nmap <buffer> <leader>cvs :vert scs find s <C-R>=expand("<cword>")<CR><CR>
+  nmap <buffer> <leader>cvg :vert scs find g <C-R>=expand("<cword>")<CR><CR>
+  nmap <buffer> <leader>cvc :vert scs find c <C-R>=expand("<cword>")<CR><CR>
+  nmap <buffer> <leader>cvt :vert scs find t <C-R>=expand("<cword>")<CR><CR>
+  nmap <buffer> <leader>cve :vert scs find e <C-R>=expand("<cword>")<CR><CR>
+  nmap <buffer> <leader>cvf :vert scs find f <C-R>=expand("<cfile>")<CR><CR>
+  nmap <buffer> <leader>cvi :vert scs find i ^<C-R>=expand("<cfile>")<CR>$<CR>
+  nmap <buffer> <leader>cvd :vert scs find d <C-R>=expand("<cword>")<CR><CR>
 endif
 

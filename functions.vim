@@ -488,3 +488,19 @@ function! MaybeSetCscopeXrefFile()
   endif
   return 1
 endfun
+
+function! NextErrorOrBuffer()
+  if len(getqflist()) > 0
+    cnext
+  else
+    bnext
+  endif
+endfun
+
+function! PrevErrorOrBuffer()
+  if len(getqflist()) > 0
+    cprev
+  else
+    bprev
+  endif
+endfun

@@ -2,6 +2,7 @@
 # whenmodified - Explanation goes here
 # Created: Fri Dec  4 10:19:56 MYT 2009
 
+. ~/.shell/osd.rc
 usage() {
 	echo "whenmodified [-f(forever)] -c whattodo 'cmd to get files to monitor'"
 }
@@ -52,9 +53,11 @@ maybeClear
 headline
 while true; do
     $inotifycmd $(eval $modifiedfiles) && {
+	sleep .1
 	maybeClear
-        echo "$whattodo"
-        eval "sleep .2; $whattodo"
+	echo "$whattodo"
+	echo "$whattodo"|osd --font='DeJavu Sans Mono 16'
+	eval "$whattodo"
     }
     if [ ! $FOREVER ]; then
 	    break;

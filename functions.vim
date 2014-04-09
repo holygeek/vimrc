@@ -462,7 +462,7 @@ function! FindFileType()
 	endif
 endfunction
 
-let s:cscope_xref_added = {}
+let g:cscope_xref_added = {}
 function! MaybeSetCscopeXrefFile()
   if $CSCOPE_DB != ""
     cs add $CSCOPE_DB
@@ -482,9 +482,9 @@ function! MaybeSetCscopeXrefFile()
     return 0
   endif
 
-  if empty(s:cscope_xref_added) || ! has_key(s:cscope_xref_added, cscopeXrefFile)
+  if empty(g:cscope_xref_added) || ! has_key(g:cscope_xref_added, cscopeXrefFile)
     exec 'cs add ' . cscopeXrefFile . ' ' . pre_path
-    let s:cscope_xref_added[cscopeXrefFile] = 1
+    let g:cscope_xref_added[cscopeXrefFile] = 1
   endif
   return 1
 endfun

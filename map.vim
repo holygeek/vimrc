@@ -24,7 +24,7 @@ nnoremap <f3> :bnext<cr>
 nnoremap _ <c-w>-
 nnoremap + <c-w>+
 nnoremap <leader>- :call ShrinkWindowToFile()<cr>
-nnoremap <leader>c :call ToggleColorColumn()<cr>
+"nnoremap <leader>c :call ToggleColorColumn()<cr>
 nnoremap <leader>i :call PreviewWord()<cr>
 nnoremap <leader>n :call ToggleLineNumberSettings()<cr>
 nnoremap <leader>s :set spell!<cr>
@@ -61,8 +61,8 @@ nmap [1;3C g<C-]>
 nmap [1;3D <C-T>
 
 " Super+right/left traverse quickfix list
-nmap OC :cne<CR>
-nmap OD :cprev<CR>
+nnoremap <right> :call NextErrorOrBuffer()<CR>
+nnoremap <left> :call PrevErrorOrBuffer()<CR>
 
 " \z mapping (vim list starred) - create / delete fold on search
 " pattern (diomidis' telescope):
@@ -76,5 +76,5 @@ map <silent> <leader>Z :call FlipFold()<CR>
 " Heaven for jumping through errors:
 " <Shift+Alt+left>    next error
 " <Shift+Alt+right>   previous error
-nmap [1;4C :cnext<CR>
-nmap [1;4D :cprev<CR>
+"nmap [1;4C :cnext<CR>
+"nmap [1;4D :cprev<CR>

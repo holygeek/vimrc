@@ -471,8 +471,10 @@ function! MaybeSetCscopeXrefFile()
 
   let dir = GetCurrentFileDirOrCurrentDir()
   let cscopeXrefFile = dir . "/cscope.out"
+  let pre_path = ''
   if IsManagedByGit(dir)
     let git_dir = GetGitDir(dir)
+    let pre_path = fnamemodify(git_dir, ':h')
     let cscopeXrefFile = git_dir . "/cscope.out"
   endif
 
@@ -481,7 +483,7 @@ function! MaybeSetCscopeXrefFile()
   endif
 
   if empty(s:cscope_xref_added) || ! has_key(s:cscope_xref_added, cscopeXrefFile)
-    exec 'cs add ' . cscopeXrefFile
+    exec 'cs add ' . cscopeXrefFile . ' ' . pre_path
     let s:cscope_xref_added[cscopeXrefFile] = 1
   endif
   return 1

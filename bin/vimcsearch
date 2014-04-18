@@ -1,0 +1,7 @@
+#!/bin/sh
+# vimcsearch
+# Created: Fri Apr 18 10:48:35 SGT 2014
+qf=/tmp/vimsearch.quickfix.txt.$$
+trap EXIT rm -f $qf
+csearch -n $@ > $qf
+vi -q $qf

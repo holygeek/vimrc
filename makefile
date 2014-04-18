@@ -1,8 +1,9 @@
 .PHONY: git_template
 
 install:
-	ln -s `pwd`/bin/good ~/bin
-	ln -s `pwd`/bin/bad ~/bin
+	ln -sf `pwd`/bin/good ~/bin
+	ln -sf `pwd`/bin/bad ~/bin
+	ln -sf `pwd`/bin/vimcsearch ~/bin
 
 git_template:
 	git config --global init.templatedir '~/.vim/git_template'

@@ -15,6 +15,8 @@ if filereadable(expand('~/.vim/autoload/pathogen.vim'))
 endif
 if isdirectory(expand('~/go/misc/vim'))
   set rtp+=~/go/misc/vim
+  autocmd FileType go autocmd BufWritePre <buffer> Fmt
+  autocmd FileType go compiler go
 endif
 if filereadable(expand('~/gocode/bin/gocode'))
   set rtp+=~/gocode/src/github.com/nsf/gocode/vim

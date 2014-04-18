@@ -25,6 +25,8 @@ OPTIONS
     pass -c ui.color=always to git
   -d <dir1,dir2,...>
     Run git command in <dir1,dir2,...> only
+  -E
+    Exclusive - if both .mgit and .git exists, turn off .mgit
   -e <cmd>
     Run <cmd> instead of git
   -p
@@ -42,12 +44,14 @@ verbose=
 add_prefix=
 color_always=
 C_arg=
-while getopts C:cd:ehpv opt
+exclusive=
+while getopts C:cd:Eehpv opt
 do
   case "$opt" in
     C) cd $OPTARG;;
     c) color_always="-c color.ui=always";;
     d) dirs=`echo $OPTARG|tr , ' '|sed -e 's,$,/.git,' -e 's, ,/.git ,g'`;;
+    E) exclusive=t;;
     e) cmd=$OPTARG;;
     p) add_prefix=t;;
     v) verbose=t;;
@@ -62,11 +66,15 @@ if [ -n "$dirs" ]; then
   git_dirs=$dirs
 else
   if [ -f .mgit ]; then
+    if [ -d .git -a -n "$exclusive" ]; then
+      :
+    else
     dirs=`cat .mgit`
     test -z "$dirs" && { echo "No dirs defined in .mgit"; exit 1; }
     git_dirs=$dirs
     #git_dirs=`find . -maxdepth 2 -type d -name .git|sed -e 's,./,,'`
     ngits=`echo $git_dirs|wc -w`
+    fi
   fi
   if [ $ngits -le 1 ]; then
     exec git "$@";

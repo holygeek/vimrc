@@ -4,14 +4,16 @@
 
 . ~/.shell/osd.rc
 usage() {
-	echo "whenmodified [-f(forever)] -c whattodo 'cmd to get files to monitor'"
+	echo "whenmodified [-f(forever)] [-d <delay>] -c whattodo 'cmd to get files to monitor'"
 }
 
 clear=
+delay=.1
 whattodo=
-while getopts fhc:C opt
+while getopts fhc:Cd: opt
 do
 	case "$opt" in
+    d) delay=$OPTARG;;
     f) FOREVER=1;;
     C) clear=t ;;
     c) whattodo="$OPTARG";;
@@ -53,7 +55,7 @@ maybeClear
 headline
 while true; do
     $inotifycmd $(eval $modifiedfiles) && {
-	sleep .1
+	sleep $delay
 	maybeClear
 	echo "$whattodo"
 	echo "$whattodo"|osd --font='DeJavu Sans Mono 16'

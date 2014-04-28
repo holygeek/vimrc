@@ -28,7 +28,7 @@ syn match   feriteCommentSkip      "^[ \t]*\*\($\|[ \t]\+\)"
 syn region  feriteComment	       start="/\*"  end="\*/" contains=@Spell,feriteCommentTodo
 syn match   feriteSpecial	       "\\\d\d\d\|\\."
 syn region  feriteStringD	       start=+"+  skip=+\\\\\|\\"+  end=+"+	contains=@feriteInterpDQ,feriteSpecial,feriteEval,@htmlPreproc
-syn region  feriteStringS	       start=+'+  skip=+\\\\\|\\'+  end=+'\|$+	contains=feriteSpecial,@htmlPreproc
+syn region  feriteStringS	       start=+'+  skip=+\\\\\|\\'+  end=+'+	contains=feriteSpecial,@htmlPreproc
 
 syn match   feriteSpecialCharacter "'\\.'"
 syn match   feriteNumber	       "-\=\<\d\+L\=\>\|0[xX]\x\+\>"

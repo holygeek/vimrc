@@ -492,15 +492,19 @@ endfun
 function! NextErrorOrBuffer()
   if len(getqflist()) > 0
     cnext
-  else
+  elseif len(tabpagebuflist())[0] > 1
     bnext
+  else
+    normal l
   endif
 endfun
 
 function! PrevErrorOrBuffer()
   if len(getqflist()) > 0
     cprev
-  else
+  elseif len(tabpagebuflist())[0] > 1
     bprev
+  else
+    normal h
   endif
 endfun

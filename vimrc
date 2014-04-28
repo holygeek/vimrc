@@ -13,14 +13,16 @@ let g:clang_library_path='/usr/lib'
 if filereadable(expand('~/.vim/autoload/pathogen.vim'))
   call pathogen#infect()
 endif
-if isdirectory(expand('~/go/misc/vim'))
+if isdirectory(expand('~/.vim/vim-go'))
+  set rtp+=~/.vim/vim-go
+elseif isdirectory(expand('~/go/misc/vim'))
   set rtp+=~/go/misc/vim
   autocmd FileType go autocmd BufWritePre <buffer> Fmt
   autocmd FileType go compiler go
 endif
-if filereadable(expand('~/gocode/bin/gocode'))
-  set rtp+=~/gocode/src/github.com/nsf/gocode/vim
-endif
+"if filereadable(expand('~/gocode/bin/gocode'))
+"  set rtp+=~/gocode/src/github.com/nsf/gocode/vim
+"endif
 set fo+=n
 syn on
 filetype on

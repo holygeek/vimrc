@@ -2,5 +2,6 @@
 # qcc
 # Created: Wed Mar 12 17:16:14 MYT 2014
 latest_c_file=`ls -rt *.c|tail -1`
-echo "gcc $latest_c_file && ./a.out"
-gcc $latest_c_file && ./a.out
+CFLAGS='-Wall'
+echo "gcc $CFLAGS $latest_c_file && ./a.out"
+gcc $CFLAGS $latest_c_file && ./a.out

@@ -70,6 +70,7 @@ if version >= 508 || !exists("did_ferite_syn_inits")
   else
     command -nargs=+ HiLink hi def link <args>
   endif
+  hi feriteBraces ctermfg=darkgray
   HiLink feriteComment		Comment
   HiLink feriteLineComment	Comment
   HiLink feriteCommentTodo	Todo
@@ -87,7 +88,6 @@ if version >= 508 || !exists("did_ferite_syn_inits")
   HiLink feriteType		Type
   HiLink feriteStatement	Statement
   HiLink feriteFunction		Function
-  HiLink feriteBraces		Function
   HiLink feriteError		Error
   HiLink javaScrParenError	feriteError
   HiLink feriteNull		Keyword

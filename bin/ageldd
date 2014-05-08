@@ -1,0 +1,4 @@
+#!/bin/sh
+# ageldd
+# Created: Thu May  8 15:54:28 SGT 2014
+ldd `which $1`|awk '/=> \// {print "age -f "$3}'|sh|sed -e 's/:/:\n\t/'

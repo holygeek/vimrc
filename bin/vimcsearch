@@ -2,6 +2,6 @@
 # vimcsearch
 # Created: Fri Apr 18 10:48:35 SGT 2014
 qf=/tmp/vimsearch.quickfix.txt.$$
-trap EXIT rm -f $qf
+trap "rm -f $qf" EXIT
 csearch -n "$@" > $qf
 vi -q $qf

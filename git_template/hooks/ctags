@@ -8,7 +8,7 @@ new_tags_file=.git/tags.new.$$
 newer_tags_file=.git/tags.newer.$$
 
 if [ -z "$DEBUG" ]; then
-    trap "rm -f $inflight_tags_file $newer_tags_file $new_tags_file" EXIT
+    trap "rm -f $inflight_tags_file $newer_tags_file $new_tags_file" INT QUIT EXIT
 fi
 
 cscope_xref_file=.git/cscope.out

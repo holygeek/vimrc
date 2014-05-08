@@ -1,0 +1,16 @@
+--exclude=*/ckeditor/*
+--exclude=jquery.*
+--exclude=swfobject.js
+--exclude=*/yui/*
+--exclude=*.html
+
+--langmap=c:+.xs
+--langdef=ferite
+--langmap=ferite:+.fe.feh.fec.osm
+--regex-ferite=/\<function[ \t]*([a-zA-Z0-9_]+)/\1/f,function/
+--regex-ferite=/\<namespace[ \t]*(modifies[ \t]+)?([a-zA-Z0-9_]+)/\2/p,package/
+--regex-ferite=/\<class[ \t]*((modifies|extends)[ \t]+)?([a-zA-Z0-9_]+)/\3/c,class/
+--regex-ferite=/\[[a-zA-Z0-9_]+[ \t]+([a-zA-Z0-9_]+)/\1/d,definition/
+--regex-ferite=/query[ \t]+([a-zA-Z0-9_]+)/\1/f,function/
+
+--regex-c=/^FE_NATIVE_FUNCTION\(\s*([^ ]+)\s*\)[^;]*$/\1/f,function/

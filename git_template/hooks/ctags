@@ -74,4 +74,4 @@ test -n "$DEBUG" && echo \
 ctags $ctags_opt --append -f$inflight_tags_file $not_deleted
 ctags $ctags_opt --append -f$inflight_tags_file $not_deleted
 
-cp $inflight_tags_file $tags_file
+mv -f $inflight_tags_file $tags_file

@@ -19,6 +19,16 @@ generate_cscope_xref_file() {
     cscope -b -f $cscope_xref_file `git ls-files -- '*.[ch]'`
 }
 
+maybe_fixtag() {
+    which fixtag >/dev/null || return
+    tags_file=$1
+    old=${tags_file}.old
+    if [ -f ${tags_file}.need_fix ]; then
+	mv $tags_file $old
+	fixtag $old > $tags_file
+    fi
+}
+
 run_tags_clean_if_exist() {
     if [ -x ${tags_file}.clean ]; then
 	./${tags_file}.clean
@@ -43,6 +53,7 @@ if [ -z "$1" ]; then
     test -n "$DEBUG" && echo \
     mv $inflight_tags_file $tags_file
     mv $inflight_tags_file $tags_file
+    maybe_fixtag $tags_file
     exit 0
 fi
 
@@ -75,3 +86,4 @@ ctags $ctags_opt --append -f$inflight_tags_file $not_deleted
 ctags $ctags_opt --append -f$inflight_tags_file $not_deleted
 
 mv -f $inflight_tags_file $tags_file
+maybe_fixtag $tags_file

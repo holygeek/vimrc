@@ -65,7 +65,7 @@ while true; do
 	sleep $delay
 	maybeClear
 	echo "$whattodo"
-	echo "$whattodo"|osd --font='DeJavu Sans Mono 16' &
+	#echo "$whattodo"|osd --font='DeJavu Sans Mono 16' &
 	eval "$whattodo"
     }
     if [ ! $FOREVER ]; then

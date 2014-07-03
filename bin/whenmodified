@@ -4,7 +4,14 @@
 
 . ~/.shell/osd.rc
 usage() {
-	echo "whenmodified [-f(forever)] [-d <delay>] -c whattodo 'cmd to get files to monitor'"
+	echo "whenmodified [-f(forever)] [-d <delay>] -c <whattodo> 'cmd to get files to monitor'
+OPTIONS
+    -c <whattodo>
+	Run <whattodo> when files are modified
+    -d <delay>
+	Want <delay> seconds before executing <whattodo>
+    -f
+	Run forever"
 }
 
 clear=

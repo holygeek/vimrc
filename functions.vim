@@ -86,6 +86,9 @@ function! DirName(path)
   if len(cleaned) == 0
     return "."
   endif
+  if cleaned[-1:-1] == "/"
+    return cleaned[0:-2]
+  endif
   return cleaned
 endfun
 

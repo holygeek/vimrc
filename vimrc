@@ -41,7 +41,7 @@ set smartcase
 set notitle
 set ruler
 	
-set statusline=%#Error#%{&paste?'[PASTE]':''}%*%m%f%m\ %y\ %r\ %l:%c%V\ %p%%%L\ %<%{expand('%:p:~:h')}%=+%-{@+[0:10]}\ *%-{@*[0:10]}
+set statusline=%#Error#%{&paste?'[PASTE]':''}%m%*%f\ %y\ %r\ %l:%c%V\ %p%%%L\ %<%{expand('%:p:~:h')}%=+%-{@+[0:10]}\ *%-{@*[0:10]}
 set laststatus=2
 
 set backspace=indent,eol,start

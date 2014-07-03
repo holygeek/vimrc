@@ -4,6 +4,7 @@ set t_AB=[48;5;%dm
 set t_AF=[38;5;%dm
 
 if filereadable(".git/tags")
+  " tags set during VimEnter is too late for vim -t tag to see, hence:
   set tags=.git/tags
 endif
 

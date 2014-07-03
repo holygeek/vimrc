@@ -4,20 +4,23 @@
 
 . ~/.shell/osd.rc
 usage() {
-	echo "whenmodified [-f(forever)] [-d <delay>] -c <whattodo> 'cmd to get files to monitor'
+	echo "whenmodified [-f(forever)] [-d <delay>] [-t] -c <whattodo> 'cmd to get files to monitor'
 OPTIONS
     -c <whattodo>
 	Run <whattodo> when files are modified
     -d <delay>
 	Want <delay> seconds before executing <whattodo>
     -f
-	Run forever"
+	Run forever
+    -t
+	TDD mode - set root window background to red/green"
 }
 
 clear=
 delay=.1
 whattodo=
-while getopts fhc:Cd: opt
+tddmode=
+while getopts fhc:Cd:t opt
 do
 	case "$opt" in
     d) delay=$OPTARG;;
@@ -25,6 +28,7 @@ do
     C) clear=t ;;
     c) whattodo="$OPTARG";;
     h) usage ; exit;;
+    t) tddmode=t;;
 	\?) echo Unknown option ; exit;;
 	esac
 done
@@ -48,6 +52,21 @@ headline() {
     echo "[PENDING] $whattodo [MODIFIED] $modifiedfiles"
 }
 
+tdd_reset_result() {
+    xsetroot -solid darkgray
+}
+
+tdd_report_result() {
+    ret=$1
+    if [ $ret -eq 0 ]; then
+        # Test passed
+        xsetroot -solid darkgreen
+    else
+        # Test failed
+        xsetroot -solid red
+    fi
+}
+
 
 events=modify,attrib,close_write,moved_to,moved_from,move,move_self,create,delete,delete_self
 
@@ -66,7 +85,10 @@ while true; do
 	maybeClear
 	echo "$whattodo"
 	#echo "$whattodo"|osd --font='DeJavu Sans Mono 16' &
+	tdd_reset_result
 	eval "$whattodo"
+	ret=$?
+	test -n "$tddmode" && tdd_report_result $ret
     }
     if [ ! $FOREVER ]; then
 	    break;

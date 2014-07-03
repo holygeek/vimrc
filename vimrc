@@ -64,6 +64,7 @@ set secure
 set autoindent smartindent
 set shiftround
 set wildmode=full:list wildmenu
+set wildignore+=*.o,*.lo,*.so,*.gcda,*.gcno
 
 source ~/.vim/functions.vim
 source ~/.vim/autocommands.vim

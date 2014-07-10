@@ -1,0 +1,71 @@
+#!/bin/sh
+
+me=$(basename $0)
+
+rss_for() {
+    o=$(ps -o rss -p $1) || {
+	echo "$me: No process with pid $1" 1>&2
+	exit 1
+    }
+    echo $o|tail -1
+}
+
+usage() {
+	echo "Usage: $me [-l <limit> [-e <run>]] <pid>
+    -e <program>
+        Run <program> when <pid> rss reaches <limit>
+    -h
+        Show this help message
+    -i <seconds>
+        Wait <seconds> between updates. Default is 3.
+    -l <limit>
+        Stop after rss exceeds <limit>"
+}
+
+run=
+interval=3
+limit=
+while getopts e:hi:l: opt
+do
+	case "$opt" in
+		e) run="$OPTARG"
+			;;
+		h) usage ; exit
+			;;
+		i) interval="$OPTARG"
+			;;
+		l) limit="$OPTARG"
+			;;
+		\?) echo Unknown option ; exit
+			;;
+		esac
+done
+shift $(($OPTIND -1))
+
+pid=$1
+if [ -z "$pid" ]; then
+	usage
+	exit 1
+fi
+
+old_rss=`rss_for $pid` || exit 1
+echo $(date) $old_rss
+while true; do
+	sleep $interval
+	new_rss=$(rss_for $pid) || exit 1
+	if [ -z "$new_rss" ]; then
+		break
+	fi
+	if [ $new_rss -ne $old_rss ]; then
+		echo $(date) $new_rss
+		old_rss=$new_rss
+		if [ -n "$limit" ]; then
+			if [ $new_rss -gt $limit ]; then
+				echo "rss exceed $limit"
+				if [ -n "$run" ]; then
+					$run
+				fi
+			fi
+		fi
+	fi
+done

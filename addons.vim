@@ -4,6 +4,7 @@ if isdirectory(expand("$HOME/.vim/daddons/vim-addon-manager"))
     VAMActivate L9 AutoComplPop
     VAMActivate sleuth fugitive
     VAMActivate ManPageViewer@drchip
+    VAMActivate vim-bracketed-paste
 
     let g:manpageview_winopen = "hsplit="
 

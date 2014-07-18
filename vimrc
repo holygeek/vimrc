@@ -29,7 +29,9 @@ syn on
 filetype on
 filetype plugin indent on
 if $TERM_NAME != 'bigterm'
-  colorscheme desert256
+  if $BG != 'white'
+    colorscheme desert256
+  endif
 endif
 
 set cinkeys-=0#

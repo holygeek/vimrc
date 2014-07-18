@@ -81,3 +81,4 @@ map <silent> <leader>Z :call FlipFold()<CR>
 command Tab2 set ts=2 sts=2 sw=2
 command Tab4 set ts=4 sts=4 sw=4
 command Tab8 set ts=8 sts=8 sw=8
+command FoldBrace set foldmethod=marker foldmarker={,}

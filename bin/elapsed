@@ -1,0 +1,9 @@
+#!/bin/sh
+# elapsed
+# Created: Fri Jul 18 14:55:34 SGT 2014
+pids=$(pidof $1|tr ' ' ,)
+if [ -z "$pids" ]; then
+	echo No such process: "'$1'"
+	exit 1
+fi
+ps -o pid,ppid,etime,cmd -p $pids

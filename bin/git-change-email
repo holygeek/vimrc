@@ -1,0 +1,43 @@
+#!/bin/sh
+
+me=$(basename $0)
+usage() {
+    echo "Usage: $me <rev> <old_email> <new_email>
+
+Changes email from <old_email> to <new_email> for commits since <rev>"
+}
+
+while getopts h opt
+do
+  case "$opt" in
+    h) usage ; exit;;
+    \?) echo Unknown option ; exit;;
+  esac
+done
+shift $(($OPTIND -1))
+
+since=$1
+old_email=$2
+new_email=$3
+
+test -z "$since" && usage && exit 1
+test -z "$old_email" && usage && exit 1
+test -z "$new_email" && usage && exit 1
+
+case "$since" in
+  *..*) ;;
+  *) echo "You probably want some .. in <rev>: $since"; exit 1;;
+esac
+
+git filter-branch --env-filter '
+	if test "$GIT_AUTHOR_EMAIL" = "'"$old_email"'"
+	then
+		GIT_AUTHOR_EMAIL="'"$new_email"'"
+		export GIT_AUTHOR_EMAIL
+	fi
+	if test "$GIT_COMMITTER_EMAIL" = "'"$old_email"'"
+	then
+		GIT_COMMITTER_EMAIL="'"$new_email"'"
+		export GIT_COMMITTER_EMAIL
+	fi
+' -- "$since"

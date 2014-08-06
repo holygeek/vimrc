@@ -6,6 +6,9 @@ hi PmenuSel ctermfg=black ctermbg=gray guifg=gray
 hi LineNr ctermfg=darkgray guifg=darkgray
 hi CursorLineNr ctermfg=brown
 hi comment ctermfg=110
+if $BG == 'white'
+    source ~/.vim/lightcolors.vim
+endif
 "hi comment ctermfg=darkgray
 "hi comment ctermfg=60
 "hi comment ctermfg=116

@@ -1,2 +1,6 @@
 set conceallevel=1
-hi Conceal ctermbg=black
+if $BG == 'white'
+    hi Conceal ctermbg=white
+else
+    hi Conceal ctermbg=black
+endif

@@ -8,6 +8,8 @@ usage() {
 OPTIONS
     -c <whattodo>
 	Run <whattodo> when files are modified
+    -C
+	Clear screen after each wait
     -d <delay>
 	Want <delay> seconds before executing <whattodo>
     -f

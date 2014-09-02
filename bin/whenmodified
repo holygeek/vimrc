@@ -15,14 +15,17 @@ OPTIONS
     -f
 	Run forever
     -t
-	TDD mode - set root window background to red/green"
+	TDD mode - set root window background to red/green
+    -H
+	Show headline before each wait"
 }
 
 clear=
 delay=.1
 whattodo=
 tddmode=
-while getopts fhc:Cd:t opt
+want_headline=
+while getopts fhc:Cd:Ht opt
 do
 	case "$opt" in
     d) delay=$OPTARG;;
@@ -30,6 +33,7 @@ do
     C) clear=t ;;
     c) whattodo="$OPTARG";;
     h) usage ; exit;;
+    H) want_headline=t;;
     t) tddmode=t;;
 	\?) echo Unknown option ; exit;;
 	esac
@@ -51,7 +55,10 @@ maybeClear() {
 }
 
 headline() {
-    echo "[PENDING] $whattodo [MODIFIED] $modifiedfiles"
+    if [ -n "$want_headline" ]
+    then
+	echo "[PENDING] $whattodo [MODIFIED] $modifiedfiles"
+    fi
 }
 
 tdd_reset_result() {

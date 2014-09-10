@@ -34,6 +34,7 @@ if $TERM_NAME != 'bigterm'
   endif
 endif
 
+set breakindent
 set cinkeys-=0#
 set hlsearch
 set incsearch
@@ -62,6 +63,11 @@ set pt=<f12>
 if exists('+rnu')
   set nu rnu
 endif
+"let &showbreak = '» '
+"let &showbreak = '♫ '
+"let &showbreak = '⚑ '
+let &showbreak = '♐ '
+"let &showbreak = '⚓ '
 set secure
 set autoindent smartindent
 set shiftround

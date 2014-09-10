@@ -35,3 +35,4 @@ so ~/.vim/diffcolor.vim
 
 hi StatusLine term=reverse ctermfg=blue ctermbg=black
 hi StatusLineNC ctermfg=darkgray ctermbg=black
+hi NonText ctermfg=darkgray

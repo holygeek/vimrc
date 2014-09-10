@@ -66,6 +66,8 @@ fi
 
 mkdir "$dir" && cp "$corename" "$dir" &&
 tar chf - $sharedlibs $executable|tar -C $dir -xf - &&
-echo -e "gdb:\n\tgdb -ex 'set solib-absolute-prefix ./' -ex 'file .$executable' -ex 'core-file ./$corename' " > $dir/makefile &&
+echo -e "gdb:\n\tgdb -ex 'set solib-absolute-prefix ./'" \
+    "-ex 'file .$executable' -ex 'core-file ./$corename' " \
+    > $dir/makefile &&
 echo tar czf $dir.tar.gz $dir &&
 tar czf $dir.tar.gz $dir

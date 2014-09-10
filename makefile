@@ -5,6 +5,7 @@ install:
 	ln -sf `pwd`/bin/bad ~/bin
 	ln -sf `pwd`/bin/vimcsearch ~/bin
 	ln -sf `pwd`/bin/watchrss ~/bin
+	ln -sf `pwd`/bin/gdb-bundle ~/bin
 	for symname in vim view vimdiff viewdiff; do ln -sf `pwd`/bin/vi $$HOME/bin/$$symname; done
 
 git_template:

@@ -12,6 +12,18 @@ OPTIONS
 	Clear screen after each wait
     -d <delay>
 	Want <delay> seconds before executing <whattodo>
+    -e <events>
+	Comma-separeted inotify events to watch for. Defaults are:
+	    attrib
+	    close_write
+	    create
+	    delete
+	    delete_self
+	    modify
+	    move
+	    moved_from
+	    moved_to
+	    move_self
     -f
 	Run forever
     -t
@@ -25,10 +37,13 @@ delay=.1
 whattodo=
 tddmode=
 want_headline=
-while getopts fhc:Cd:Ht opt
+events=modify,attrib,close_write,moved_to,moved_from,move,move_self,create,delete,delete_self
+
+while getopts fhc:Cd:e:Ht opt
 do
 	case "$opt" in
     d) delay=$OPTARG;;
+    e) events=$OPTARG;;
     f) FOREVER=1;;
     C) clear=t ;;
     c) whattodo="$OPTARG";;
@@ -77,25 +92,29 @@ tdd_report_result() {
 }
 
 
-events=modify,attrib,close_write,moved_to,moved_from,move,move_self,create,delete,delete_self
-
 if ! which inotifywait >/dev/null; then
     echo "inotifywait not available"
     exit 1
 fi
 
-inotifycmd="inotifywait -e $events -q -q"
+inotifycmd="inotifywait -e $events -q"
 modifiedfiles=$*
 maybeClear
 headline
 while true; do
-    $inotifycmd $(eval $modifiedfiles) && {
+    events=$($inotifycmd $(eval $modifiedfiles))
+    ret=$?
+    file=$(echo "$events"|awk '{print $1}')
+
+    test $ret -eq 0 && {
 	sleep $delay
 	maybeClear
-	echo "$whattodo"
+	#echo "$whattodo"
+	file=$file sh -c 'echo "'"$whattodo"'"'
 	#echo "$whattodo"|osd --font='DeJavu Sans Mono 16' &
 	tdd_reset_result
-	eval "$whattodo"
+	#eval "$whattodo"
+	file=$file sh -c "$whattodo"
 	ret=$?
 	test -n "$tddmode" && tdd_report_result $ret
     }

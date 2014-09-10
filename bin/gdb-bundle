@@ -2,12 +2,16 @@
 me=$(basename $0)
 
 usage() {
-    echo "Usage: $me -p <pid>
-$me - Creates a tarball of the executable with pid <pid> with all its shared
-      libraries and the core.
+    echo "Usage:
+  $me -p <pid>
+  $me <executable> <core>
 
-Options:
-    -p <pid>  Process id to be bundled
+DESCRIPTION
+  $me - Creates a tarball containing the executable, it's core dump and
+        all the shared libraries that gdb said it loads.
+
+OPTIONS
+    -p <pid>  A running process id of a process to be bundled.
     -h        Show this help message"
 }
 
@@ -29,22 +33,38 @@ do
 	esac
 done
 shift $(($OPTIND -1))
+executable=$1
+corename=$2
 
-if [ -z "$pid" ]; then
-	echo "Invalid pid '$pid'"
+if [ -n "$pid" ]; then
+	test "$pid" -gt 0 || { echo "pid must be numeric"; exit 1; }
+	proc=/proc/$pid/exe
+	executable=`readlink -e $proc` ||
+	    { echo "Could not readlink $proc"; exit 1; }
+	corename=${basename}.$pid.core
+else
+    test -z "$executable" && usage && exit 1;
+    test -z "$corename" && usage && exit 1;
 fi
 
-test "$pid" -gt 0 || { echo "pid must be numeric"; exit 1; }
+basename=$(basename $executable)
+if [ -n "$pid" ]; then
+	sharedlibs=$(gdb -ex "attach $pid" -ex 'set height 0' \
+		-ex 'set confirm off' -ex "generate-core-file $corename" \
+		-ex 'info sharedlib' -ex quit|
+		sed -n '/Shared Object Library/,/^(/p'|grep -E '(Yes|No)'|
+		sed -e 's,[^/]\+,,') || exit 1
+	dir="gdb-${basename}.$pid.$(date +%F-%H%M%S)"
+else
+	sharedlibs=$(gdb -ex 'set height 0' -ex 'set confirm off' \
+		-ex "file $executable" -ex "core-file $corename" \
+		-ex 'info sharedlib' -ex quit|
+		sed -n '/Shared Object Library/,/^(/p'|grep -E '(Yes|No)'|
+		sed -e 's,[^/]\+,,') || exit 1
+	dir="gdb-${basename}.$(date +%F-%H%M%S)"
+fi
 
-proc=/proc/$pid/exe
-executable=`readlink -e $proc` || { echo "Could not readlink $proc"; exit 1; }
-basename=${executable##*/}
-corename=${basename}.$pid.core
-sharedlibs=$(gdb -ex "attach $pid" -ex 'set height 0' -ex 'set confirm off' -ex "generate-core-file $corename" -ex 'info sharedlib' -ex quit|
-	sed -n '/Shared Object Library/,/^(/p'|grep -E '(Yes|No)'|
-	sed -e 's,[^/]\+,,') &&
-dir="${basename}.$pid" &&
-mkdir "$dir" && mv "$corename" "$dir" &&
+mkdir "$dir" && cp "$corename" "$dir" &&
 tar chf - $sharedlibs $executable|tar -C $dir -xf - &&
 echo -e "gdb:\n\tgdb -ex 'set solib-absolute-prefix ./' -ex 'file .$executable' -ex 'core-file ./$corename' " > $dir/makefile &&
 echo tar czf $dir.tar.gz $dir &&

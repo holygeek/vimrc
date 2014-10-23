@@ -34,7 +34,11 @@ nnoremap <leader><leader> zA
 nnoremap <leader>p :set paste<cr>i<c-o>"+p<esc>:set nopaste<cr>
 nnoremap  gT
 nnoremap <leader>] :<C-U>exec "tab tjump " . expand('<cword>')<cr>
-nnoremap <expr> Q Quit()
+if has("reltime")
+    nnoremap <expr> Q Quit()
+else
+    nnoremap Q :q<cr>
+endif
 nnoremap <leader>t :TlistOpen<cr>
 nnoremap \\ :set invwrap<cr>
 noremap <expr> n 'Nn'[v:searchforward] . 'zv'

@@ -26,6 +26,7 @@ test -z "$since" && usage && exit 1
 test -z "$old_email" && usage && exit 1
 test -z "$new_email" && usage && exit 1
 
+# Comment this out to do whole branch
 case "$since" in
   *..*) ;;
   *) echo "You probably want some .. in <rev>: $since"; exit 1;;

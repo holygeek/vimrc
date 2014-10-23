@@ -1,7 +1,8 @@
-inoremap " ""i
-inoremap ' ''i
-inoremap [ []i
-inoremap ( ()i
+inoremap <buffer><expr> " mine#insertPair('"')
+inoremap <buffer><expr> ' mine#insertPair("'")
+inoremap <buffer><expr> [ mine#insertPair('[')
+inoremap <buffer><expr> ( mine#insertPair('(')
+
 inoremap <expr> { mine#insertBracket()
 ""inoremap ;; A;
 inoremap <expr> ; mine#insertSemicolon()

@@ -101,3 +101,21 @@ function mine#deletePair()
 
   return boringDelete
 endfun
+
+let s:pairFor = { '"': '"', "'": "'", '(': ')', '[': ']' }
+func! mine#insertPair(for)
+  let c = col('.')
+  let pair = a:for
+  if c == 1
+    return a:for . s:pairFor[ a:for ] . 'i'
+  endif
+
+  let synType = synIDattr(synIDtrans(synID(line("."), col("."), 1)), "name")
+  if synType == 'Comment'
+    return v:char
+  endif
+
+  " Uncomment for debugging
+  " return a:for . s:pairFor[ a:for ] . synType . 'i'
+  return a:for . s:pairFor[ a:for ] . 'i'
+endfun

@@ -366,15 +366,13 @@ endfun
 if has("reltime")
   let g:lastQuitAttempt = reltime()
   function! Quit()
-    if has("reltime")
-      let diff = reltime(g:lastQuitAttempt, reltime())
-      let g:lastQuitAttempt = reltime()
-      let seconds = diff[0]
-      let ms = diff[1]
-      " How fast can you hit Q twice?
-      if seconds == 0 && ms < 200000
-        return ":q!\<cr>"
-      endif
+    let diff = reltime(g:lastQuitAttempt, reltime())
+    let g:lastQuitAttempt = reltime()
+    let seconds = diff[0]
+    let ms = diff[1]
+    " How fast can you hit Q twice?
+    if seconds == 0 && ms < 200000
+      return ":q!\<cr>"
     endif
 
     return ":q\<cr>"

@@ -5,11 +5,23 @@ if [ -z "$1" ]; then
 	exit 1;
 fi
 
+pick_note=
+case $1 in
+	-A)
+		pick_note=--pick-note
+		shift
+		;;
+	-A*)
+		pick_note=--pick-note="${1#-A}"
+		shift
+		;;
+esac
+
 case $1 in
 	[0-9][0-9])
-		git rebase --autosquash -i "HEAD~$1" ;;
+		git rebase $pick_note --autosquash -i "HEAD~$1" ;;
 	[0-9])
-		git rebase --autosquash -i "HEAD~$1" ;;
+		git rebase $pick_note --autosquash -i "HEAD~$1" ;;
 	*)
-		git rebase --autosquash -i "$@" ;;
+		git rebase $pick_note --autosquash -i "$@" ;;
 esac

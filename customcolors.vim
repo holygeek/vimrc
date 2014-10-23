@@ -8,9 +8,6 @@ hi PmenuSel ctermfg=black ctermbg=gray guifg=gray
 hi LineNr ctermfg=darkgray guifg=darkgray
 hi CursorLineNr ctermfg=brown
 hi comment ctermfg=110
-if $BG == 'white'
-    source ~/.vim/lightcolors.vim
-endif
 "hi comment ctermfg=darkgray
 "hi comment ctermfg=60
 "hi comment ctermfg=116
@@ -38,3 +35,7 @@ so ~/.vim/diffcolor.vim
 hi StatusLine term=reverse ctermfg=blue ctermbg=black
 hi StatusLineNC ctermfg=darkgray ctermbg=black
 hi NonText ctermfg=darkgray
+
+if $BG == 'white'
+    source ~/.vim/lightcolors.vim
+endif

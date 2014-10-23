@@ -7,9 +7,11 @@ usage() {
 Changes email from <old_email> to <new_email> for commits since <rev>"
 }
 
-while getopts h opt
+dry_run=
+while getopts hn opt
 do
   case "$opt" in
+    n) dry_run=echo;;
     h) usage ; exit;;
     \?) echo Unknown option ; exit;;
   esac
@@ -29,7 +31,7 @@ case "$since" in
   *) echo "You probably want some .. in <rev>: $since"; exit 1;;
 esac
 
-git filter-branch --env-filter '
+$dry_run git filter-branch --env-filter '
 	if test "$GIT_AUTHOR_EMAIL" = "'"$old_email"'"
 	then
 		GIT_AUTHOR_EMAIL="'"$new_email"'"

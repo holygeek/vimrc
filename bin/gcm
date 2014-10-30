@@ -23,10 +23,12 @@ done
 shift $(($OPTIND -1))
 
 if [ -n "$do_diff_check" ]; then
-	git diff --cached --check &&
+	git diff --cached --check || exit 1
+fi
+
+if [ -n "$1" ]; then
 	msg=$(git number -c echo $*) &&
 	git commit -m "$msg"
 else
-	msg=$(git number -c echo $*) &&
-	git number commit -m "$msg"
+	git commit
 fi

@@ -112,7 +112,7 @@ func! mine#insertPair(for)
 
   let synType = synIDattr(synIDtrans(synID(line("."), col("."), 1)), "name")
   if synType == 'Comment'
-    return v:char
+    return a:for
   endif
 
   " Uncomment for debugging

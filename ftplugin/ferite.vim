@@ -8,3 +8,4 @@ set suffixesadd+=.fec
 set suffixesadd+=.feh
 
 inoremap cpn Console.println();<esc>F)i
+inoremap cpe Console.printlnErr();<esc>F)i

@@ -10,6 +10,10 @@ au BufReadPost *.{[ch],ps,vim} call FindAndSetLocalTags()
 au BufReadPost ~/.shell/opt.rc
 \ set completefunc=CompleteZshOptions |
 
+au BufReadPost /usr/share/doc/rpm/*
+\ syn match hide "\\\(end\)\?\(section \?\|verbatim\)" conceal |
+\ set conceallevel=2
+
 au BufReadPost blame.txt set ft=blame
 au BufReadPost *.gcov set ft=gcov
 

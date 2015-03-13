@@ -14,12 +14,20 @@ sub run_vi_normally {
   system("$realvi", @ARGV);
 }
 
+sub open_with_line_number {
+  my ($arg) = @_;
+  $arg =~ s/:/ +/;
+  $arg =~ s/:.*//;
+  my $cmd = "$realvi $arg";
+  print "$cmd\n";
+  system($cmd);
+}
+
 if (@ARGV == 1) {
-  if ($ARGV[0] =~ /:\d+:?/) {
-    my $arg = $ARGV[0];
-    $arg =~ s/:/ +/;
-    $arg =~ s/:.*//;
-    system("$realvi $arg");
+  if ($ARGV[0] =~ /\d\d:\d\d:\d\d/) {
+    run_vi_normally();
+  } elsif ($ARGV[0] =~ /:\d+:?/) {
+    open_with_line_number($ARGV[0]);
   } else {
     run_vi_normally();
   }

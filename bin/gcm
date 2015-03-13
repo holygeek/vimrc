@@ -11,10 +11,12 @@ usage() {
 "
 }
 
+further_edit=
 do_diff_check=t
-while getopts fh opt
+while getopts efh opt
 do
   case "$opt" in
+    e) further_edit=--edit;;
     f) do_diff_check=;;
     h) usage ; exit;;
     \?) echo Unknown option ; exit;;
@@ -27,8 +29,8 @@ if [ -n "$do_diff_check" ]; then
 fi
 
 if [ -n "$1" ]; then
-	msg=$(git number -c echo $*) &&
-	git commit -m "$msg"
+	msg=$(git number -c echo "$*") &&
+	git commit $further_edit -m "$msg"
 else
 	git commit
 fi

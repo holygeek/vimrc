@@ -14,3 +14,5 @@ inoremap fpn fmt.Println()<esc>i
 
 inoremap IFE if err != nil {log.Fatal(err)}
 inoremap TF func TestFoo(t *testing.T) {}kkfFcw
+
+setlocal omnifunc=go#complete#Complete

@@ -9,3 +9,8 @@ source ~/.vim/pairmap.vim
 
 nmap <buffer> [[ :set nohlsearch<CR>?func <CR>:let @/ = ''\|set hlsearch<CR>
 nmap <buffer> ]] :set nohlsearch<CR>/func <CR>:let @/ = ''\|set hlsearch<CR>
+
+inoremap fpn fmt.Println()<esc>i
+
+inoremap IFE if err != nil {log.Fatal(err)}
+inoremap TF func TestFoo(t *testing.T) {}kkfFcw

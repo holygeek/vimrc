@@ -4,3 +4,5 @@ hi DiffChange ctermfg=white
 hi DiffText ctermfg=white ctermbg=brown
 hi DiffAdd ctermbg=gray
 hi visual ctermfg=white
+hi folded ctermfg=white
+hi folded ctermbg=gray

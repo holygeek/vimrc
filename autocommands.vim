@@ -34,7 +34,7 @@ au BufReadPost ~/.shell/*.rc set ft=zsh
 let noeighties = [
  \ 'text',
  \ ]
-au BufReadPost,VimResized *.[ch],*.go,*.pl,*.pm
+au BufReadPost,VimResized *.pl,*.pm
       \ if len(&ft) && &ft !~ '\v^('. join(noeighties, '|') . ')$'|call SetColumnBG()|endif
 
 au BufNewFile * call mine#injectSkeleton(expand('<afile>'))

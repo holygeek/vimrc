@@ -15,6 +15,7 @@ if filereadable(expand('~/.vim/autoload/pathogen.vim'))
   call pathogen#infect()
 endif
 if isdirectory(expand('~/.vim/vim-go'))
+  let g:go_fmt_command = "goimports"
   set rtp+=~/.vim/vim-go
 elseif isdirectory(expand('~/go/misc/vim'))
   set rtp+=~/go/misc/vim

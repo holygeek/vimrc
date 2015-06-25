@@ -29,10 +29,18 @@ set fo+=n
 syn on
 filetype on
 filetype plugin indent on
+let g:bgfile = "/dev/shm/term/" . $SHORT_TERM_NAME . "/bg"
+if filereadable(g:bgfile)
+  let g:BG=system("cat " . g:bgfile)
+else
+  let g:BG="black"
+endif
 if $TERM_NAME != 'bigterm'
-  if $BG != 'white'
+  if g:BG == 'black'
     colorscheme desert256
   endif
+else
+  let g:BG = 'white'
 endif
 
 set breakindent

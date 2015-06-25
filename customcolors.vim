@@ -36,6 +36,6 @@ hi StatusLine term=reverse ctermfg=blue ctermbg=black
 hi StatusLineNC ctermfg=darkgray ctermbg=black
 hi NonText ctermfg=darkgray
 
-if $BG == 'white'
+if g:BG == 'white'
     source ~/.vim/lightcolors.vim
 endif

@@ -4,4 +4,7 @@
 qf=/tmp/vimsearch.quickfix.txt.$$
 trap "rm -f $qf" EXIT
 csearch -n "$@" > $qf
-vi -q $qf
+if [ ! -s $qf ]; then
+	exit 1
+fi
+view -q $qf

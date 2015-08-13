@@ -412,7 +412,18 @@ function! InsertClosing()
     exec 'normal a' . closer
 endfun
 
+function! CurrentChar()
+  return matchstr(getline('.'), '\%' . col('.') . 'c.')
+endfun
+
+" ShiftCursorRight: Move cursor after " or after )
 function! ShiftCursorRight()
+  if CurrentChar() == '"'
+    " Move cursor after "
+    return "la"
+  endif
+  " Assume that we're inside parenthesis, move cursor to after the closing
+  " parenthesis
   return "l%%a"
 endfun
 

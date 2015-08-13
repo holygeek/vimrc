@@ -8,3 +8,4 @@ hi visual ctermfg=white
 hi folded ctermfg=white
 hi folded ctermbg=gray
 hi normal ctermbg=white ctermfg=black
+hi statuscolorNC ctermbg=white ctermfg=black

@@ -1,6 +1,19 @@
-function mine#injectSkeleton(fname)
+function mine#isGoTestFile(gofile)
+  return match(a:gofile, '_test') != -1
+endfun
+
+function mine#getSkeletonFile()
   let ext = expand('%:e')
-  let file = '~/.vim/skel/' . ext . '.' . ext
+  let base = ext
+  if ext == 'go' && mine#isGoTestFile(expand('%:t'))
+    let base = base . '_test'
+  endif
+  let file = '~/.vim/skel/' . base . '.' . ext
+  return file
+endfun
+
+function mine#injectSkeleton(fname)
+  let file = mine#getSkeletonFile()
   if filereadable(expand(file))
     echo "file " . file
     exe ':0r ' . file

@@ -55,7 +55,10 @@ set notitle
 set ruler
 	
 hi ModifiedFileStatus ctermbg=darkgreen ctermfg=black
-set statusline=%#Error#%{&paste?'[PASTE]':''}%#ModifiedFileStatus#%m%*%f\ %y\ %r\ %l:%c%V\ %p%%%L\ %<%{expand('%:p:~:h')}%=+%-{@+[0:10]}\ *%-{@*[0:10]}
+
+set statusline=%#Error#%{&paste?'[PASTE]':''}%#ModifiedFileStatus#%m%*%f\ %y\ %r\ %l:%c%V\ %p%%%L\ %<%{expand('%:p:~:h')}\ %o
+"%=+%-{@+[0:10]}\ *%-{@*[0:10]}
+
 set laststatus=2
 
 set backspace=indent,eol,start

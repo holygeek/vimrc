@@ -1,12 +1,16 @@
-function mine#isGoTestFile(gofile)
-  return match(a:gofile, '_test') != -1
+function mine#isGoTestFile()
+  return match(expand('%:t'), '_test.go$') != -1
 endfun
 
 function mine#getSkeletonFile()
   let ext = expand('%:e')
   let base = ext
-  if ext == 'go' && mine#isGoTestFile(expand('%:t'))
-    let base = base . '_test'
+  if ext == 'go'
+    if mine#isGoTestFile()
+      let base = base . '_test'
+    elseif ! mine#isGoMainFile()
+      let base = base . '_package'
+    endif
   endif
   let file = '~/.vim/skel/' . base . '.' . ext
   return file
@@ -14,26 +18,31 @@ endfun
 
 function mine#injectSkeleton(fname)
   let file = mine#getSkeletonFile()
-  if filereadable(expand(file))
-    echo "file " . file
-    exe ':0r ' . file
+  if ! filereadable(expand(file))
+    return
+  endif
 
-    if search('BARENAME', 'cw') != 0
-      let barename = substitute(a:fname, '\..*', '', '')
-      exec '%s,\<BARENAME\>,' . barename . ',g'
-    endif
+  echo "file " . file
+  exe ':0r ' . file
 
-    if search('PERLPACKAGE', 'cw') != 0
-      let barename = substitute(a:fname, '\..*', '', '')
-      let barename = substitute(barename, '\/', '::', '')
-      exec '%s,\<PERLPACKAGE\>,' . barename . ',g'
-    endif
+  if search('BARENAME', 'cw') != 0
+    let barename = substitute(a:fname, '\..*', '', '')
+    exec '%s,\<BARENAME\>,' . barename . ',g'
+  endif
 
-    normal Gdd
-    if search('CURSORHERE', 'cw') != 0
-      normal cw
-    endif
+  if search('PERLPACKAGE', 'cw') != 0
+    let barename = substitute(a:fname, '\..*', '', '')
+    let barename = substitute(barename, '\/', '::', '')
+    exec '%s,\<PERLPACKAGE\>,' . barename . ',g'
+  endif
 
+  if match(a:fname, '.go$') != -1
+    call mine#setupGo()
+  endif
+
+  normal Gdd
+  if search('CURSORHERE', 'cw') != 0
+    normal cw
   endif
 endfun
 
@@ -131,4 +140,42 @@ func! mine#insertPair(for)
   " Uncomment for debugging
   " return a:for . s:pairFor[ a:for ] . synType . 'i'
   return a:for . s:pairFor[ a:for ] . 'i'
+endfun
+
+function mine#hasToken(token)
+  return search(a:token, 'cw') != 0
+endfun
+
+function mine#setGoPackage()
+  if mine#isGoMainFile()
+    let pkg = 'main'
+  else
+    let pkg = expand('%:p:h:t')
+  endif
+  exec '%s,\<GOPACKAGE\>,' . pkg . ',g'
+endfun
+
+function mine#isGoMainFile()
+  return search('^func main(', 'cnw') != 0 ||
+	\ match(expand('%:p'), '_test.go$') == -1 &&
+	\ (
+	\ match(expand('%:p'), '\/main.go') != -1 ||
+	\ match(expand('%:p'), 'src\/[^/]\+$') != -1 ||
+	\ match(expand('%:p'), '/cmd/') != -1 ||
+	\ match(expand('%:p'), '\/a.go') != -1
+	\ )
+endfun
+
+function mine#setupGo()
+  if mine#hasToken('\<GOPACKAGE\>')
+    call mine#setGoPackage()
+  endif
+endfu
+
+function mine#setTmuxWindowName()
+  let fname = expand("%:t")
+  if len(fname) == 0
+    let fname = "vim@" . substitute(getcwd(), $HOME, '\~', '')
+  endif
+  call system("tmux rename-window '" . fname . "'")
 endfun

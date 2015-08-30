@@ -1,8 +1,8 @@
-package main
+package GOPACKAGE
 
 import (
 	"testing"
 )
 
-func TestCURSORHERE() {
+func TestCURSORHERE(t *testing.T) {
 }

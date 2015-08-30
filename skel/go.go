@@ -1,8 +1,4 @@
-package main
-
-import (
-	"fmt"
-)
+package GOPACKAGE
 
 func main() {
 	CURSORHERE

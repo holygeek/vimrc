@@ -3,7 +3,16 @@
 # Created: Fri Apr 18 10:48:35 SGT 2014
 qf=/tmp/vimsearch.quickfix.txt.$$
 trap "rm -f $qf" EXIT
-csearch -n "$@" > $qf
+me=$(basename $0)
+
+cmd=csearch
+case "$me" in
+	*qcsearch)
+		cmd=qcsearch
+		;;
+esac
+$cmd -n "$@" > $qf
+
 if [ ! -s $qf ]; then
 	exit 1
 fi

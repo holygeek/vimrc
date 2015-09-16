@@ -8,6 +8,7 @@ if isdirectory(expand("$HOME/.vim/daddons/vim-addon-manager"))
     VAMActivate surround
     VAMActivate MPage
     VAMActivate dbext
+    VAMActivate SQLUtilities
 
     let g:manpageview_winopen = "hsplit="
 

@@ -8,7 +8,7 @@ if isdirectory(expand("$HOME/.vim/daddons/vim-addon-manager"))
     VAMActivate surround
     VAMActivate MPage
     VAMActivate dbext
-    VAMActivate SQLUtilities
+    "VAMActivate SQLUtilities " Requires Dr. Chip's Align.vim, but Align.vim messes up insert mode
 
     let g:manpageview_winopen = "hsplit="
 

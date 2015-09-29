@@ -1,0 +1,36 @@
+#!/bin/sh
+
+me=$(basename $0)
+
+usage() {
+    echo "Usage: $me [-f <filename>] <SHORT_SHA1>
+    -f  <filename>
+    -h        Show this help message"
+}
+
+want_file=
+while getopts f:h opt
+do
+  case "$opt" in
+    f) want_file="$OPTARG";;
+    h) usage ; exit;;
+    \?) echo Unknown option ; exit;;
+  esac
+done
+shift $(($OPTIND -1))
+
+SHORT_SHA1=$1
+COMMENT_CHAR=#
+
+tmpfile=/dev/shm/files.txt
+{
+	git diff-tree --stat --summary $SHORT_SHA1 || exit 1
+}|tail -n +1|grep -v file\ changed > $tmpfile
+
+if [ -n "$want_file" ]; then
+	if grep -q -E "$want_file" $tmpfile; then
+		sed "s/^/   $COMMENT_CHAR /" <$tmpfile
+	fi
+else
+	sed "s/^/   $COMMENT_CHAR /" <$tmpfile
+fi

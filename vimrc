@@ -26,6 +26,7 @@ endif
 "  set rtp+=~/gocode/src/github.com/nsf/gocode/vim
 "endif
 set fo+=n
+let g:is_posix = 1
 syn on
 filetype on
 filetype plugin indent on

@@ -56,8 +56,9 @@ set notitle
 set ruler
 	
 hi ModifiedFileStatus ctermbg=darkgreen ctermfg=black
+hi RO ctermfg=white ctermbg=red
 
-set statusline=%#Error#%{&paste?'[PASTE]':''}%#ModifiedFileStatus#%m%*%f\ %y\ %r\ %l:%c%V\ %p%%%L\ %<%{expand('%:p:~:h')}\ %o
+set statusline=%#Error#%{&paste?'[PASTE]':''}%#ModifiedFileStatus#%m%*%f\ %y\ %#RO#%r%*\ %l:%c%V\ %p%%%L\ %<%{expand('%:p:~:h')}\ %o
 "%=+%-{@+[0:10]}\ *%-{@*[0:10]}
 
 set laststatus=2

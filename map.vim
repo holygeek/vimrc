@@ -25,13 +25,22 @@ nnoremap _ <c-w>-
 nnoremap + <c-w>+
 nnoremap <leader>- :call ShrinkWindowToFile()<cr>
 "nnoremap <leader>c :call ToggleColorColumn()<cr>
+nnoremap <leader>D :windo diffthis<cr>
+nnoremap <leader>G :call GithubURL(expand('<cWORD>'))<cr>
 nnoremap <leader>i :call PreviewWord()<cr>
+nnoremap <leader>l :cnext<cr>
+nnoremap <leader>h :cprev<cr>
+" replace %xx-encoded characters with their actual character
+nnoremap <leader>N :%s/%\([0-9A-F][0-9A-F]\)/\=nr2char(str2nr(submatch(1), 16))/g<cr>
 nnoremap <leader>n :call ToggleLineNumberSettings()<cr>
+" prettify sql:
+vnoremap <Leader>rp :s/\<update\>\\|\<select\>\\|\<from\>\\|\<where\>\\|\<left join\>\\|\<inner join\>\\|\<group by\>\\|\<order by\>\\|\<\(and\\|or\\|case\\|then\\|else\\|end\)\>/\r\U&\r\t/gie<cr><esc>
 nnoremap <leader>s :set spell!<cr>
 nnoremap <leader>z :set fdm=marker fmr={,}<cr>
 nnoremap <leader><leader> zA
 "nnoremap <leader>p :set paste! paste?
 nnoremap <leader>p :set paste<cr>i<c-o>"+p<esc>:set nopaste<cr>
+nnoremap <leader>R :call ViewRace('')<cr>
 nnoremap  gT
 nnoremap <leader>] :<C-U>exec "tab tjump " . expand('<cword>')<cr>
 if has("reltime")

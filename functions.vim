@@ -520,3 +520,34 @@ function! PrevErrorOrBuffer()
     normal h
   endif
 endfun
+
+function! GithubURL(sha1)
+  if b:git_dir == ""
+    echo "No b:git_dir?"
+    return
+  endif
+  " Needs fugitive for b:git_dir
+"echo 'system(' . "cd " . b:git_dir . "; gh -o " . a:sha1 . ')'
+  call system(    "cd " . b:git_dir . "; gh -o " . a:sha1)
+endfun
+
+let g:race_setupdone = 0
+function! ViewRace(prefix)
+  if !g:race_setupdone
+    sign define race text=>> texthl=Search
+    let g:race_setupdone = 1
+  end
+
+	normal gg
+	call search('^\s\+/' . a:prefix)
+	normal F
+  let w:race_view = 'top'
+	exe ":sign place 2 line=" . line('.') . " name=race file=" . expand("%:p")
+  normal j}
+	call search('^\s\+/' . a:prefix)
+	normal F
+  let w:race_view = 'bottom'
+	exe ":sign place 2 line=" . line('.') . " name=race file=" . expand("%:p")
+	normal k
+
+endfun

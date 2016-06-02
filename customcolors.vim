@@ -25,7 +25,7 @@ hi MatchParen cterm=underline ctermbg=none
 
 hi SpellBad ctermfg=red ctermbg=none
 
-hi SignColumn ctermbg=black guibg=none
+hi SignColumn ctermbg=black guibg=NONE
 
 "syn match braces "[{}]"
 "hi braces ctermfg=darkgray

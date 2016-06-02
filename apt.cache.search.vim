@@ -20,7 +20,7 @@ function! InstallPackage(packageName)
     return
   endif
 
-  exec ":!echo aptitude install " . a:packageName . "; sudo aptitude install " . a:packageName
+  exec ":!echo apt-get install -y " . a:packageName . "; sudo apt-get install -y " . a:packageName
 endfunction
 
 function! IsPackageLine(line)

@@ -30,6 +30,9 @@ fi
 
 if [ -n "$1" ]; then
 	msg=$(git number -c echo "$*") &&
+	if [ -e .gcmprefix ]; then
+		msg="$(cat .gcmprefix) $msg"
+	fi &&
 	git commit $further_edit -m "$msg"
 else
 	git commit

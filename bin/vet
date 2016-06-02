@@ -1,0 +1,4 @@
+#!/bin/sh
+# vet
+# Created: Wed Jun  1 11:50:33 MYT 2016
+go vet $* 2>errors.err && rm -f errors.err || vi -q

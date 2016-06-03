@@ -1,0 +1,24 @@
+#!/bin/sh
+# vet2blame
+# Created: Wed Jun  1 08:16:07 MYT 2016
+set -e
+while read line; do
+	case "$line" in
+		\#*)
+			continue
+		;;
+	esac
+	file_line=${line%% *}
+	file=${file_line%%:*}
+	lnum=${file_line#*:}
+	lnum=${lnum%:}
+	echo "$line"
+	(
+	set -e
+
+	name=$(basename $file)
+	echo git blame -L $lnum,$lnum $name
+	git blame -L $lnum,$lnum $name
+	echo
+	)
+done

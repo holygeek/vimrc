@@ -7,6 +7,7 @@ install:
 	ln -sf `pwd`/bin/watchrss ~/bin
 	ln -sf `pwd`/bin/gdb-bundle ~/bin
 	ln -sf `pwd`/bin/git-picknote ~/bin
+	ln -sf `pwd`/bin/vet2blame ~/bin
 	ln -sf `pwd`/bin/vet ~/bin
 	ln -sf `pwd`/bin/non-reentrant.sh
 	for symname in vim view vimdiff viewdiff; do ln -sf `pwd`/bin/vi $$HOME/bin/$$symname; done

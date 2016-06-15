@@ -1,0 +1,121 @@
+#!/bin/sh
+# git-find-merge-base
+# Created: Wed May 25 07:19:13 MYT 2016
+
+me=$(basename $0)
+tagprefix=MERGE_BASE
+
+usage() {
+	printf "SYNOPSIS
+	$me <branch1> <branch2> ...
+
+DESCRIPTION
+	$me - tag merge-base candidates with ${tagprefix}_\$N
+
+OPTIONS
+    -d
+	Delete all ${tagprefix}_\$N tags
+
+    -h
+	Show this help message
+
+    -n
+	Dry run - show the commands to be run
+
+    -p <prefix>
+	Use the given prefix instead of 'MERGE_BASE' for the tags
+
+    -k
+	Run 'git log --graph --oneline' after tagging the merge bases
+
+    -x
+	Run 'gitk' after tagging the merge bases
+"
+}
+
+delete=
+dryrun=
+show_mode=list
+while getopts dhknp:x opt
+do
+	case "$opt" in
+		# $OPTARG with o:
+		d)
+			delete=true
+			;;
+		h)
+			usage
+			exit
+			;;
+		k)
+			show_mode=graph
+			;;
+		n)
+			dryrun=echo
+			;;
+		p)
+			tagprefix=$OPTARG
+			;;
+		x)
+			show_mode=gitk
+			;;
+		\?)
+			echo "$me: Unknown option '$opt'"
+			exit 1
+			;;
+	esac
+done
+shift $(($OPTIND -1))
+
+if [ -z "$delete" -a -z "$1" -a -z "$2" ]; then
+	usage
+	exit 1
+fi
+
+if [ -n "$delete" ]; then
+	tags=$(git tag -l "${tagprefix}_*")
+	if [ -z "$tags" ]; then
+		echo "No ${tagprefix}_* tags found"
+		exit 0
+	fi
+	$dryrun git tag -d $tags
+	exit $?
+fi
+
+sha1s=$(git merge-base --all --octopus $*)
+ncandidate=$(echo "$sha1s"|wc -l)
+case "$ncandidate" in
+	0)
+		echo "No merge-base candidate"
+		exit 1
+		;;
+	1)
+		echo "Only one merge-base candidate: $sha1s"
+		exit 0
+		;;
+esac
+
+old_tags=$(git tag -l "${tagprefix}_*")
+if [ -n "$old_tags" ]; then
+    $dryrun git tag -d $old_tags >/dev/null
+fi
+
+c=1
+for sha1 in $sha1s; do
+	$dryrun git tag ${tagprefix}_$c $sha1
+	c=$((c + 1))
+done
+
+case "$show_mode" in
+    list)
+	for i in `seq 1 $ncandidate`; do
+	    $dryrun git log -1 --oneline MERGE_BASE_$i --decorate --date=relative --format="%C(auto) %ad %h%d %s (%an)"
+	done
+	;;
+    graph)
+	$dryrun git log --graph --decorate --oneline "$@"
+	;;
+    gitk)
+	$dryrun gitk $*
+	;;
+esac

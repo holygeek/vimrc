@@ -9,7 +9,8 @@ install:
 	ln -sf `pwd`/bin/git-picknote ~/bin
 	ln -sf `pwd`/bin/vet2blame ~/bin
 	ln -sf `pwd`/bin/vet ~/bin
-	ln -sf `pwd`/bin/non-reentrant.sh
+	ln -sf `pwd`/bin/non-reentrant.sh ~/bin
+	ln -sf `pwd`/bin/git-find-merge-base ~/bin
 	for symname in vim view vimdiff viewdiff; do ln -sf `pwd`/bin/vi $$HOME/bin/$$symname; done
 
 git_template:

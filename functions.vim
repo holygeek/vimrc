@@ -551,3 +551,24 @@ function! ViewRace(prefix)
 	normal k
 
 endfun
+
+function! Diff(border)
+  echo "border is " . a:border
+  call search('^'.a:border, 'w')
+  normal dG
+  vert botright new
+  normal PddGdd
+  windo diffthis
+endfun
+
+function! CommitInfo(sha1)
+  if len(a:sha1) == 0
+    let sha1 = expand('<cword>')
+    exec 'normal! diw'
+  else
+    let sha1 = a:sha1
+  endif
+
+  let msg = system("git show --no-patch --abbrev=10 --pretty='format:%h (%s)' " . sha1)
+  exec "normal! a" . msg
+endfun

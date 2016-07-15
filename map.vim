@@ -25,6 +25,7 @@ nnoremap _ <c-w>-
 nnoremap + <c-w>+
 nnoremap <leader>- :call ShrinkWindowToFile()<cr>
 "nnoremap <leader>c :call ToggleColorColumn()<cr>
+nnoremap <leader>C :CommitInfo<cr>
 nnoremap <leader>D :windo diffthis<cr>
 nnoremap <leader>G :call GithubURL(expand('<cWORD>'))<cr>
 nnoremap <leader>i :call PreviewWord()<cr>
@@ -91,6 +92,9 @@ map <silent> <leader>Z :call FlipFold()<CR>
 "nmap [1;4C :cnext<CR>
 "nmap [1;4D :cprev<CR>
 
+command -nargs=? CommitInfo call CommitInfo(<q-args>)
+command -nargs=1 DIFF call Diff(<q-args>)
+command Only tab split
 command Tab1 set ts=1 sts=1 sw=1
 command Tab2 set ts=2 sts=2 sw=2
 command Tab4 set ts=4 sts=4 sw=4

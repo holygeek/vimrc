@@ -23,6 +23,9 @@ sub open_with_line_number {
   system($cmd);
 }
 
+if ($ENV{GOROOT}) {
+  $ENV{PATH} = "$ENV{GOROOT}/bin:$ENV{PATH}";
+}
 if (@ARGV == 1) {
   if ($ARGV[0] =~ /\d\d:\d\d:\d\d/) {
     run_vi_normally();

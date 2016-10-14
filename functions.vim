@@ -504,6 +504,8 @@ endfun
 function! NextErrorOrBuffer()
   if len(getqflist()) > 0
     cnext
+  elseif len(getloclist(0)) > 0
+    lnext
   elseif len(tabpagebuflist())[0] > 1
     bnext
   else
@@ -514,6 +516,8 @@ endfun
 function! PrevErrorOrBuffer()
   if len(getqflist()) > 0
     cprev
+  elseif len(getloclist(0)) > 0
+    lprev
   elseif len(tabpagebuflist())[0] > 1
     bprev
   else

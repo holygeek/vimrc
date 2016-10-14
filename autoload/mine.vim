@@ -137,8 +137,21 @@ func! mine#insertPair(for)
     return a:for
   endif
 
+  let line = getline('.')
+  if c < len(line)
+    let nextChar = line[c]
+    if nextChar >= 'a' && nextChar <= 'z' || nextChar >= 'A' && nextChar <= 'Z'
+      return a:for
+    endif
+  endif
+
+  if a:for == "'" && line[c-2] == 'n'
+    " can't, don't, etc
+    return "'"
+  endif
+
   " Uncomment for debugging
-  " return a:for . s:pairFor[ a:for ] . synType . 'i'
+  "return a:for . s:pairFor[ a:for ] . synType . 'i'
   return a:for . s:pairFor[ a:for ] . 'i'
 endfun
 

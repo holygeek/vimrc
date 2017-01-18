@@ -4,21 +4,28 @@
 
 me=`basename $0`
 usage() {
-    echo -n "Usage: $me [-f] [-h]
+    echo -n "Usage: $me [-f] [-h] [-p <sha1>]
 
     -f        Ignore whitespace errors
     -h        Show this help message
+    -e        Edit commit message
+    -p        Use \"port\" commit message template
+    -P        Ignore .gcmprefix
 "
 }
 
 further_edit=
 do_diff_check=t
-while getopts efh opt
+port=
+usegcmprefix=t
+while getopts efhp:P opt
 do
   case "$opt" in
     e) further_edit=--edit;;
     f) do_diff_check=;;
     h) usage ; exit;;
+    p) port=$OPTARG;;
+    P) usegcmprefix=;;
     \?) echo Unknown option ; exit;;
   esac
 done
@@ -30,9 +37,19 @@ fi
 
 if [ -n "$1" ]; then
 	msg=$(git number -c echo "$*") &&
-	if [ -e .gcmprefix ]; then
-		msg="$(head -1 .gcmprefix|awk '{print $1}') $msg"
+	if [ -n "$usegcmprefix" -a -e .gcmprefix ]; then
+		prefix=$(head -1 .gcmprefix|grep -v '^#'|awk '{print $1}')
+		if [ -n "$prefix" ]; then
+			msg="$prefix $msg"
+		fi
 	fi &&
+	git commit $further_edit -m "$msg"
+elif [ -n "$port" ]; then
+	echo TODO port "$port"
+	msg="(port) $(git show --format=%s --no-patch $port)
+
+$(echo Port of commit $(git show --no-patch --abbrev=10 --pretty='format:%h (%s)' $port) from release-4.1|fmt -72)
+"
 	git commit $further_edit -m "$msg"
 else
 	git commit

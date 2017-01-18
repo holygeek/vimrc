@@ -542,7 +542,6 @@ function! ViewRace(prefix)
     let g:race_setupdone = 1
   end
 
-	normal gg
 	call search('^\s\+/' . a:prefix)
 	normal F
   let w:race_view = 'top'

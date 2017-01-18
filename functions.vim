@@ -132,7 +132,7 @@ function! SetPathIfIsGitRepo()
   "echo "dir " . dir
   let l:git_top_level = split(system("git -C '" . dir . "' rev-parse --show-toplevel"))[0]
   "echo "git_top_level = " . l:git_top_level
-  exec "set path+=" . l:git_top_level . "/**"
+  exec "set path=" . l:git_top_level . "/**"
 endfun
 
 function! GetCurrentFileDirOrCurrentDir()

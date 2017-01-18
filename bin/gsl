@@ -1,0 +1,4 @@
+#!/bin/sh
+# gsl
+# Created: Fri Dec  2 06:50:49 MYT 2016
+git shortlog --no-merges --format='(%cr) %h %s' $*

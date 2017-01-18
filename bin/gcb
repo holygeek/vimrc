@@ -1,0 +1,59 @@
+#!/bin/sh
+# gdu
+# Created: Wed Dec 21 07:26:55 MYT 2016
+
+me=$(basename $0)
+
+usage() {
+	printf "SYNOPSIS
+	$me [-h]
+
+DESCRIPTION
+	git check branch - show latest log for each given branch
+
+OPTIONS
+    -h
+	Show this help message
+"
+}
+
+while getopts h opt
+do
+	case "$opt" in
+		# $OPTARG with o:
+		h)
+			usage
+			exit
+			;;
+		\?)
+			echo "$me: Unknown option '$opt'"
+			exit 1
+			;;
+	esac
+done
+shift $(($OPTIND - 1))
+
+if [ -z "$branch_prefix" ]; then
+	echo >&2 "\$branch_prefix is not set"
+	exit 1
+fi
+
+if [ -z "$1" ]; then
+    exec git log -1 --format=oneline
+fi
+cmd=
+branch=
+for i in $*; do
+	case $i in
+		[0-9])
+			branch="${branch_prefix}$i"
+			;;
+		d)
+			branch="develop"
+			;;
+		*)
+			branch="$i"
+			;;
+	esac
+	git log -1 --format=oneline $branch
+done

@@ -1,0 +1,76 @@
+#!/bin/sh
+# gh
+# Created: Wed Sep 16 13:50:08 MYT 2015
+
+me=$(basename $0)
+
+usage() {
+	echo "SYNOPSIS
+	$me [-h] [-o] <sha1>
+
+DESCRIPTION
+	Show or open the github commit link for <sha1>
+
+OPTIONS
+    -c
+	Copy the url to clipboards
+    -h
+	Show this help message
+    -o
+	Open the link in a browser"
+
+}
+
+open_in_browser=
+copy=
+while getopts cfho opt
+do
+	case "$opt" in
+		# $OPTARG with o:
+		c)
+			copy=t
+			;;
+		h)
+			usage
+			exit
+			;;
+		o)
+			open_in_browser=t
+			;;
+		\?)
+			echo "$me: Unknown option '$opt'"
+			exit 1
+			;;
+	esac
+done
+shift $(($OPTIND -1))
+
+case "$1" in
+    *:*)
+	file_line=$1
+	item=blob/$(git symbolic-ref --short HEAD)
+	commit=$(echo $file_line|sed 's/:/#L/')
+	;;
+    *)
+	item=commit
+	commit=${1:-$(git rev-parse HEAD)}
+	;;
+esac
+commit_url=$(git config remote.origin.url|
+sed \
+	-e 's,git@github.com\(-[^:]\+\)\?:,https://github.com/,' \
+	-e 's,\(\.git\)\?$,/'$item'/,')
+	#-e 's,git@github.com\(-[^:]\+\)\?:,http://github.com/,' \
+
+url="$commit_url$commit"
+
+if [ -n "$copy" ]; then
+    printf "$url" | xclip
+    # printf "$url" | xclip -selection secondary not used anymore
+    #printf "$url" | xclip -selection clipboard
+fi
+if [ -n "$open_in_browser" ]; then
+	${BROWSER:-google-chrome} "$url"
+else
+	echo "$url"
+fi

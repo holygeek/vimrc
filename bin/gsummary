@@ -1,0 +1,14 @@
+#!/bin/sh
+echo "Summary of helper scripts"
+cat <<EOF
+fmb	Find merge base
+gcb	Show latest log of given branches
+gcd	git check-diff
+gdu	Show diff of local branches with their upstream
+gh	Show or open the github commit/file link for <sha1> or file:line
+gm	Merge current feature branch into the given branches
+gpu	Push given branches to origin
+grh	git reset --hard @{u}
+gsl	Shortlog with relative date
+up	Merge local branches with their upstreams
+EOF

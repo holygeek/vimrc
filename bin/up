@@ -1,0 +1,23 @@
+#!/bin/sh
+# up
+# Created: Tue May  3 11:35:32 MYT 2016
+branch=${1?need branch}
+default_major=4
+for b in $*; do
+	case "$b" in
+		[0-9])
+			b=release-${default_major}.$b
+			;;
+		[0-9]*)
+			b=release-$b
+			;;
+		d)
+			b=develop
+			;;
+	esac
+	if [ "$(git rev-parse --abbrev-ref HEAD)" = "$b" ]; then
+		git merge --ff-only @{u}
+	else
+		git fetch . origin/$b:$b
+	fi
+done

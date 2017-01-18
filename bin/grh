@@ -1,0 +1,62 @@
+#!/bin/sh
+# gdu
+# Created: Fri Jan  6 09:47:58 MYT 2017
+
+me=$(basename $0)
+
+usage() {
+	printf "SYNOPSIS
+	$me [-h]
+
+DESCRIPTION
+	git reset --hard with @{u}
+
+OPTIONS
+    -h
+	Show this help message
+"
+}
+
+while getopts h opt
+do
+	case "$opt" in
+		# $OPTARG with o:
+		h)
+			usage
+			exit
+			;;
+		\?)
+			echo "$me: Unknown option '$opt'"
+			exit 1
+			;;
+	esac
+done
+shift $(($OPTIND - 1))
+
+if [ -z "$1" ]; then
+	usage
+	exit 1
+fi
+
+if [ -z "$branch_prefix" ]; then
+	echo >&2 "\$branch_prefix is not set"
+	exit 1
+fi
+
+cmd=
+branch=
+for i in $*; do
+	case $i in
+		[0-9])
+			branch="${branch_prefix}$i"
+			;;
+		d)
+			branch="develop"
+			;;
+		*)
+			branch="$i"
+			;;
+	esac
+	cmd="git checkout $branch && git reset --hard @{u}"
+	eval "$cmd"
+done

@@ -1,0 +1,26 @@
+#!/bin/sh
+# gpu
+# Created: Tue Nov 29 15:12:24 MYT 2016
+
+if [ -z "$branch_prefix" ]; then
+	echo >&2 "\$branch_prefix is not set"
+	exit 1
+fi
+
+args=
+for i in $*; do
+	case $i in
+		[0-9])
+			args="$args ${branch_prefix}$i"
+			;;
+		d)
+			args="$args develop"
+			;;
+		*)
+			args="$args $i"
+			;;
+	esac
+done
+
+echo git push origin $args
+git push origin $args

@@ -1,0 +1,5 @@
+#!/bin/sh
+# gcd
+# Created: Fri Dec  9 18:41:09 MYT 2016
+
+git number -c git-check-diff $*

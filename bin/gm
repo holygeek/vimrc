@@ -1,0 +1,32 @@
+#!/bin/sh
+# gm
+# Created: Thu Dec 15 14:24:07 MYT 2016
+
+if [ -z "$branch_prefix" ]; then
+	echo >&2 "\$branch_prefix is not set"
+	exit 1
+fi
+
+cmd=
+branch=
+for i in $*; do
+	case $i in
+		[0-9])
+			branch="${branch_prefix}$i"
+			;;
+		d)
+			branch="develop"
+			;;
+		*)
+			branch="$i"
+			;;
+	esac
+	if [ -z "$cmd" ]; then
+		cmd="git checkout $branch && git merge --no-edit -"
+	else
+		cmd="$cmd && git checkout $branch && git merge --no-edit -"
+	fi
+	cmd="$cmd && git checkout -"
+done
+echo "$cmd"
+eval "$cmd"

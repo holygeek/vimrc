@@ -93,6 +93,7 @@ map <silent> <leader>Z :call FlipFold()<CR>
 "nmap [1;4D :cprev<CR>
 
 command -nargs=? CommitInfo call CommitInfo(<q-args>)
+command -nargs=* Help tabnew +help|only
 command -nargs=1 DIFF call Diff(<q-args>)
 command Only tab split
 command Tab1 set ts=1 sts=1 sw=1

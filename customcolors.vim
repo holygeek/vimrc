@@ -39,3 +39,6 @@ hi NonText ctermfg=darkgray
 if g:BG == 'white'
     source ~/.vim/lightcolors.vim
 endif
+
+hi TabLineFill cterm=none
+hi TabLine ctermbg=none

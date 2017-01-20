@@ -1,39 +1,39 @@
-#!/usr/bin/env perl
-use strict;
-use warnings;
-use File::Basename;
-# vi
-# Created: Tue Mar 25 11:15:04 SGT 2014
-my $bin = basename($0);
-if ($bin eq 'vi') {
-  $bin = 'vim';
-}
-my $realvi = '/usr/local/bin/' . $bin;
-sub run_vi_normally {
-  undef $ENV{LD_LIBRARY_PATH};
-  system("$realvi", @ARGV);
+#!/bin/sh
+# vim
+# Created: Fri Jan 20 07:31:51 MYT 2017
+bin=$(basename $0)
+if [ "$bin" = 'vi' ]; then
+	bin=vim
+fi
+
+realvi="/usr/local/bin/$bin"
+
+run_vi_normally() {
+	LD_LIBRARY_PATH= $realvi $*
 }
 
-sub open_with_line_number {
-  my ($arg) = @_;
-  $arg =~ s/:/ +/;
-  $arg =~ s/:.*//;
-  my $cmd = "$realvi $arg";
-  print "$cmd\n";
-  system($cmd);
+open_with_line_number() {
+	arg=${1?need arg}
+	arg=$(echo $arg|sed -e 's/:/ +/' -e 's/:.*//')
+	cmd="$realvi $arg"
+	echo "$cmd"
+	eval "$cmd"
 }
 
-if ($ENV{GOROOT}) {
-  $ENV{PATH} = "$ENV{GOROOT}/bin:$ENV{PATH}";
-}
-if (@ARGV == 1) {
-  if ($ARGV[0] =~ /\d\d:\d\d:\d\d/) {
-    run_vi_normally();
-  } elsif ($ARGV[0] =~ /:\d+:?/) {
-    open_with_line_number($ARGV[0]);
-  } else {
-    run_vi_normally();
-  }
-} else {
-  run_vi_normally();
-}
+test -n "$GOROOT" && PATH=$GOROOT/bin:$PATH
+
+if [ $# -eq 1 ]; then
+	case "$1" in
+		*[0-9][0-9]:[0-9][0-9]:[0-9][0-9]*)
+			run_vi_normally $*
+			;;
+		*:[0-9]*)
+			open_with_line_number $1
+			;;
+		*)
+			run_vi_normally $*
+			;;
+	esac
+else
+	run_vi_normally $*
+fi

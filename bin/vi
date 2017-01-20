@@ -25,9 +25,10 @@ test -n "$GOROOT" && PATH=$GOROOT/bin:$PATH
 if [ $# -eq 1 ]; then
 	case "$1" in
 		*[0-9][0-9]:[0-9][0-9]:[0-9][0-9]*)
-			run_vi_normally $*
+			#run_vi_normally $*
+			open_with_line_number $1
 			;;
-		*:[0-9]*)
+		*:[0-9]|*:[0-9]*)
 			open_with_line_number $1
 			;;
 		*)

@@ -96,6 +96,7 @@ command -nargs=? CommitInfo call CommitInfo(<q-args>)
 command -nargs=* Help tabnew +help|only
 command -nargs=1 DIFF call Diff(<q-args>)
 command Only tab split
+command -nargs=? Tab tab new <args>
 command Tab1 set ts=1 sts=1 sw=1
 command Tab2 set ts=2 sts=2 sw=2
 command Tab4 set ts=4 sts=4 sw=4

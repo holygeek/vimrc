@@ -9,7 +9,7 @@ fi
 realvi="/usr/local/bin/$bin"
 
 run_vi_normally() {
-	LD_LIBRARY_PATH= $realvi $*
+	LD_LIBRARY_PATH= $realvi "$@"
 }
 
 open_with_line_number() {
@@ -32,9 +32,9 @@ if [ $# -eq 1 ]; then
 			open_with_line_number $1
 			;;
 		*)
-			run_vi_normally $*
+			run_vi_normally "$@"
 			;;
 	esac
 else
-	run_vi_normally $*
+	run_vi_normally "$@"
 fi

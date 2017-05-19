@@ -9,6 +9,7 @@ usage() {
     -f        Ignore whitespace errors
     -h        Show this help message
     -e        Edit commit message
+    -n	      Pass --no-verify to git commit
     -p        Use \"port\" commit message template
     -P        Ignore .gcmprefix
 "
@@ -17,13 +18,15 @@ usage() {
 further_edit=
 do_diff_check=t
 port=
+no_verify=
 usegcmprefix=t
-while getopts efhp:P opt
+while getopts efhnp:P opt
 do
   case "$opt" in
     e) further_edit=--edit;;
     f) do_diff_check=;;
     h) usage ; exit;;
+    n) no_verify=--no-verify;;
     p) port=$OPTARG;;
     P) usegcmprefix=;;
     \?) echo Unknown option ; exit;;
@@ -43,14 +46,14 @@ if [ -n "$1" ]; then
 			msg="$prefix $msg"
 		fi
 	fi &&
-	git commit $further_edit -m "$msg"
+	git commit $no_verify $further_edit -m "$msg"
 elif [ -n "$port" ]; then
 	echo TODO port "$port"
 	msg="(port) $(git show --format=%s --no-patch $port)
 
 $(echo Port of commit $(git show --no-patch --abbrev=10 --pretty='format:%h (%s)' $port) from release-4.1|fmt -72)
 "
-	git commit $further_edit -m "$msg"
+	git commit $no_verify $further_edit -m "$msg"
 else
-	git commit
+	git commit $no_verify
 fi

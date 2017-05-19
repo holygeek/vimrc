@@ -2,8 +2,25 @@
 # gm
 # Created: Thu Dec 15 14:24:07 MYT 2016
 
+if [ -z "$1" ]; then
+	echo >&2 "need branch to merge with"
+	exit 1
+fi
+
+if [ "$1" = "-" ]; then
+	exec git merge -
+fi
+
 if [ -z "$branch_prefix" ]; then
 	echo >&2 "\$branch_prefix is not set"
+	exit 1
+fi
+
+#no_reflog="-c core.logAllRefUpdates=false"
+no_reflog=
+curr_branch=$(git symbolic-ref --short HEAD)
+if [ -z "$curr_branch" ]; then
+	echo >&2 "can't get current branch name"
 	exit 1
 fi
 
@@ -22,11 +39,11 @@ for i in $*; do
 			;;
 	esac
 	if [ -z "$cmd" ]; then
-		cmd="git checkout $branch && git merge --no-edit -"
+		cmd="git $no_reflog checkout $branch && git merge --no-edit -"
 	else
-		cmd="$cmd && git checkout $branch && git merge --no-edit -"
+		cmd="$cmd && git $no_reflog checkout $branch && git merge --no-edit -"
 	fi
-	cmd="$cmd && git checkout -"
+	cmd="$cmd && git $no_reflog checkout $curr_branch"
 done
 echo "$cmd"
 eval "$cmd"

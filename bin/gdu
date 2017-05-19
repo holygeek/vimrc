@@ -16,11 +16,14 @@ OPTIONS
 	Show this help message
     -i
 	Show patch id
+    -s
+	Pass --stat to git diff
 "
 }
 
 show_patch_id=
-while getopts hi opt
+stat=
+while getopts his opt
 do
 	case "$opt" in
 		# $OPTARG with o:
@@ -30,6 +33,9 @@ do
 			;;
 		i)
 			show_patch_id=t
+			;;
+		s)
+			stat=--stat
 			;;
 		\?)
 			echo "$me: Unknown option '$opt'"
@@ -44,7 +50,7 @@ if [ -z "$1" ]; then
 		git diff @{u}|git patch-id
 		exit $?
 	else
-		exec git diff @{u}..
+		exec git diff $stat @{u}..
 	fi
 fi
 
@@ -70,7 +76,7 @@ for i in $*; do
 	if [ -n "$show_patch_id" ]; then
 		git diff origin/$branch $branch | git patch-id
 	else
-		echo git diff origin/$branch $branch
-		git diff origin/$branch $branch
+		echo git diff $stat origin/$branch $branch
+		git diff $stat origin/$branch $branch
 	fi
 done

@@ -18,7 +18,7 @@ else
 	else
 	# File not exist yet
 	  echo "#!/bin/sh\n# $1\n# Created: `date`" >| $1; chmod +x $1
-	  vim "+call cursor(3,1)" -c 'set ft=sh|normal ggdG:wu' $1
+	  vim  -c 'set ft=sh|normal ggdG:wu' "+call cursor(3,1)" $1
 	  if [ -s "$1" ]; then
 		echo "File $1 created, and chmod'd"
 	  else

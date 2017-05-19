@@ -46,3 +46,7 @@ au BufEnter t.pl nmap <buffer> <F8> :w:!perl %
 au BufRead ~/sig/sig set syntax=signatures tw=70 fo+=n
 au BufWritePost ~/sig/sig execute "normal :!/usr/bin/strfile -r ~/sig/sig"
 autocmd WinEnter,BufEnter * call mine#setTmuxWindowName()
+"autocmd WinEnter,BufEnter,CursorHold * call mine#setTmuxWindowName()
+
+au BufRead *.go set sw=8 sts=8 ts=8
+au BufWritePost *.go set sw=8 sts=8 ts=8

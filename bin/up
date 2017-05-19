@@ -2,6 +2,13 @@
 # up
 # Created: Tue May  3 11:35:32 MYT 2016
 branch=${1?need branch}
+case "$branch" in
+	[0-9]-[0-9])
+		branch=`seq $(echo $branch| tr '-' ' ')`
+		set -- $branch
+		;;
+esac
+
 default_major=4
 for b in $*; do
 	case "$b" in

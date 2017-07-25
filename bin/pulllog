@@ -1,0 +1,79 @@
+#!/bin/sh
+# pulllog
+# Created: Thu Jun  1 06:57:02 MYT 2017
+
+me=$(basename $0)
+
+usage() {
+	printf "SYNOPSIS
+	$me [-h]
+
+DESCRIPTION
+	TODO description here
+
+OPTIONS
+    -d
+	Show diff
+    -h
+	Show this help message
+    -l
+	Show log
+    -p
+	Show patch with -l
+"
+}
+
+diff=
+log=
+patch=
+while getopts dhlp opt
+do
+	case "$opt" in
+		d)
+			diff=yes
+			;;
+		h)
+			usage
+			exit
+			;;
+		l)
+			log=yes
+			;;
+		p)
+			patch=-p
+			;;
+		\?)
+			echo "$me: Unknown option '$opt'"
+			exit 1
+			;;
+	esac
+done
+shift $(($OPTIND - 1))
+
+nminutes=${1:-5}
+c3_orig_head=$(find .git -maxdepth 1 -name ORIG_HEAD -mmin -$nminutes)
+if [ -n "$c3_orig_head" ]; then
+	d=$(basename $PWD) || { echo 'no pwd?'; exit 1; }
+	printf "\033[0;32m$d\033[0m\n"
+	if [ -n "$diff" ]; then
+		git diff ORIG_HEAD..
+	elif [ -n "$log" ]; then
+		git log $patch --no-merges ORIG_HEAD..
+	else
+		git shortlog --no-merges --format='(%cr) %h %s' ORIG_HEAD..
+	fi
+fi
+
+find $(git rev-parse --git-dir)/modules -maxdepth 3 -name ORIG_HEAD -mmin -$nminutes|
+while read line; do
+	dir=${line##*.git/modules/}
+	dir=${dir%%/*}
+	printf "\033[0;32m$dir\033[0m\n"
+	if [ -n "$diff" ]; then
+		git -C $dir diff ORIG_HEAD..
+	elif [ -n "$log" ]; then
+		git -C $dir log $patch --no-merges ORIG_HEAD..
+	else
+		git -C $dir shortlog --no-merges --format='(%cr) %h %s' ORIG_HEAD..
+	fi
+done

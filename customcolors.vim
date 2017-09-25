@@ -5,8 +5,12 @@
 hi Search ctermbg=110 ctermfg=black
 hi Pmenu ctermfg=black ctermbg=darkgray guifg=darkgray
 hi PmenuSel ctermfg=black ctermbg=gray guifg=gray
-hi LineNr ctermfg=darkgray guifg=darkgray
-hi CursorLineNr ctermfg=brown
+"hi LineNr ctermfg=darkgray guifg=darkgray
+"hi LineNr ctermfg=248 ctermbg=18
+"hi LineNr ctermbg=233 ctermfg=darkgray
+hi LineNr ctermbg=0 ctermfg=darkgray
+"hi CursorLineNr ctermbg=brown ctermfg=black
+hi CursorLineNr ctermbg=235 ctermfg=brown
 hi comment ctermfg=110
 "hi comment ctermfg=darkgray
 "hi comment ctermfg=60

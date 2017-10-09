@@ -16,6 +16,8 @@ if [ -z "$branch_prefix" ]; then
 	exit 1
 fi
 
+. $(dirname $0)/git-branch.rc
+
 #no_reflog="-c core.logAllRefUpdates=false"
 no_reflog=
 curr_branch=$(git symbolic-ref --short HEAD)
@@ -27,17 +29,7 @@ fi
 cmd=
 branch=
 for i in $*; do
-	case $i in
-		[0-9])
-			branch="${branch_prefix}$i"
-			;;
-		d)
-			branch="develop"
-			;;
-		*)
-			branch="$i"
-			;;
-	esac
+	branch=`branch_for $i`
 	if [ -z "$cmd" ]; then
 		cmd="git $no_reflog checkout $branch && git merge --no-edit -"
 	else

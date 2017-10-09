@@ -43,20 +43,19 @@ if [ -z "$branch_prefix" ]; then
 	exit 1
 fi
 
+curr_branch=$(git symbolic-ref --short HEAD)
+if [ -z "$curr_branch" ]; then
+	echo >&2 "can't get current branch name"
+	exit 1
+fi
+
+. $(dirname $0)/git-branch.rc
+
 cmd=
 branch=
 for i in $*; do
-	case $i in
-		[0-9])
-			branch="${branch_prefix}$i"
-			;;
-		d)
-			branch="develop"
-			;;
-		*)
-			branch="$i"
-			;;
-	esac
-	cmd="git checkout $branch && git reset --hard @{u}"
+	branch=`branch_for $i`
+	cmd="git checkout $branch && git $no_reflog reset --hard @{u}"
 	eval "$cmd"
 done
+git checkout $curr_branch

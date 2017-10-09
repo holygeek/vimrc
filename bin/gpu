@@ -7,19 +7,11 @@ if [ -z "$branch_prefix" ]; then
 	exit 1
 fi
 
+. $(dirname $0)/git-branch.rc
+
 args=
 for i in $*; do
-	case $i in
-		[0-9])
-			args="$args ${branch_prefix}$i"
-			;;
-		d)
-			args="$args develop"
-			;;
-		*)
-			args="$args $i"
-			;;
-	esac
+	args="$args `branch_for $i`"
 done
 
 echo git push origin $args

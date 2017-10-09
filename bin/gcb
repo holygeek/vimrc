@@ -38,22 +38,14 @@ if [ -z "$branch_prefix" ]; then
 	exit 1
 fi
 
+. $(dirname $0)/git-branch.rc
+
 if [ -z "$1" ]; then
     exec git log -1 --format=oneline
 fi
 cmd=
 branch=
 for i in $*; do
-	case $i in
-		[0-9])
-			branch="${branch_prefix}$i"
-			;;
-		d)
-			branch="develop"
-			;;
-		*)
-			branch="$i"
-			;;
-	esac
+	branch=`branch_for $i`
 	git log -1 --format=oneline $branch
 done

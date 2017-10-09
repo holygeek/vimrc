@@ -1,0 +1,23 @@
+#!/bin/sh
+
+if [ -z "$branch_prefix" ]; then
+	printf >&2 "warning \$branch_prefix is not set\n"
+fi
+
+branch_for() {
+	i=${1?need branch id}
+	case $i in
+		[0-9])
+			printf "${branch_prefix}$i\n"
+			;;
+		[0-9].[0-9])
+			printf "release-$i\n"
+			;;
+		d)
+			printf "develop\n"
+			;;
+		*)
+			printf "$i\n"
+			;;
+	esac
+}

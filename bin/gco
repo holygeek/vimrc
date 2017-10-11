@@ -45,8 +45,5 @@ fi
 
 . $(dirname $0)/git-branch.rc
 
-branch=
-case "$1" in
-	branch=`branch_for $i`
-esac
+branch=`branch_for $1`
 git checkout $branch

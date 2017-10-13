@@ -49,6 +49,17 @@ case "$1" in
     *:*)
 	file_line=$1
 	item=blob/$(git symbolic-ref --short HEAD)
+	root=$(git rev-parse --show-toplevel)
+	wd=$(pwd)
+	if [ "$wd" != "$root" ]; then
+	    path=${wd#$root/}
+	    file=${file_line%%:*}
+	    file=$path/$file
+	    line=${file_line#*:}
+	    file_line=$file:$line
+	fi
+	#echo "file $file_line"
+	#exit 1
 	commit=$(echo $file_line|sed 's/:/#L/')
 	;;
     *)

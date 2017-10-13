@@ -1,0 +1,49 @@
+#!/bin/sh
+# fmb
+# Created: Thu Dec  8 08:34:04 MYT 2016
+
+if [ $# -eq 1 ]; then
+	case "$1" in
+		[0-9]-[0-9])
+			set -- `seq $(echo "$1" | tr '-' ' ')`
+			;;
+		-d)
+			exec git find-merge-base -d
+	esac
+fi
+
+if [ $# -lt 2 ]; then
+	echo "Usage: find-merge-base-wrapper <branch1> <branch2> ..."
+	exit 1
+fi
+
+if [ -z "$branch_prefix" ]; then
+	echo >&2 "\$branch_prefix is not set"
+	exit 1
+fi
+
+. $(dirname $0)/git-branch.rc
+
+branches=
+default_major=4
+for b in $*; do
+	branches="$branches `branch_for $b`"
+	#case "$b" in
+	#	[0-9])
+	#		branches="$branches ${branch_prefix}.$b"
+	#		;;
+	#	[0-9]*.[0-9]*)
+	#		branches="$branches release-$b"
+	#		;;
+	#	d)
+	#		branches="$branches develop"
+	#		;;
+	#	*)
+	#		branches="$branches $b"
+	#		;;
+	#esac
+done
+
+cmd="git find-merge-base ${branches# }"
+echo $cmd
+$cmd

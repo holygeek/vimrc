@@ -1,0 +1,8 @@
+#!/bin/sh
+# vimgrep
+# Created: Thu Apr 24 13:31:26 SGT 2014
+
+qf_grep=/dev/shm/qf_vimgrep.txt
+trap "rm -f $qf_grep" EXIT
+grep -H -n $@ > $qf_grep
+vi -q $qf_grep

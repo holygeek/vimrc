@@ -55,7 +55,7 @@ cmd=
 branch=
 for i in $*; do
 	branch=`branch_for $i`
-	cmd="git checkout $branch && git $no_reflog reset --hard @{u}"
+	cmd="git checkout $branch && git reset --hard @{u}"
 	eval "$cmd"
 done
 git checkout $curr_branch

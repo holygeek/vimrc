@@ -17,6 +17,11 @@ OPTIONS
 "
 }
 
+if [ "$1" = "-" ]; then
+    exec git checkout -
+fi
+
+
 while getopts h opt
 do
 	case "$opt" in

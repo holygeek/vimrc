@@ -1,0 +1,8 @@
+#!/bin/sh
+set -e
+if [ -z "$1" ]; then
+	echo "usage: rss <command>"
+	exit 1
+fi
+
+ps -o rss -C "$1"|sed 1d|paste -sd+|bc

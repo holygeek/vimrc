@@ -502,6 +502,11 @@ function! MaybeSetCscopeXrefFile()
 endfun
 
 function! NextErrorOrBuffer()
+  if &diff
+    normal ]c
+    return
+  endif
+
   if len(getqflist()) > 0
     cnext
   elseif len(getloclist(0)) > 0
@@ -514,6 +519,11 @@ function! NextErrorOrBuffer()
 endfun
 
 function! PrevErrorOrBuffer()
+  if &diff
+    normal [c
+    return
+  endif
+
   if len(getqflist()) > 0
     cprev
   elseif len(getloclist(0)) > 0

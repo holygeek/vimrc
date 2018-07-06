@@ -42,6 +42,7 @@ nnoremap <leader><leader> zA
 "nnoremap <leader>p :set paste! paste?
 nnoremap <leader>p :set paste<cr>i<c-o>"+p<esc>:set nopaste<cr>
 nnoremap <leader>R :call ViewRace('')<cr>
+nnoremap <leader>y :let @* = StripWordBoundaryRegex(@/)<cr>
 nnoremap  gT
 nnoremap <leader>] :<C-U>exec "tab tjump " . expand('<cword>')<cr>
 if has("reltime")
@@ -97,8 +98,10 @@ command -nargs=* Help tabnew +help|only
 command -nargs=1 DIFF call Diff(<q-args>)
 command Only tab split
 command -nargs=? Tab tab new <args>
+command -nargs=* T term <args>
 command Tab1 set ts=1 sts=1 sw=1
 command Tab2 set ts=2 sts=2 sw=2
 command Tab4 set ts=4 sts=4 sw=4
 command Tab8 set ts=8 sts=8 sw=8
 command FoldBrace set foldmethod=marker foldmarker={,}
+command -nargs=1 GE call GitNumberEdit(<args>)

@@ -575,3 +575,21 @@ function! CommitInfo(sha1)
   let msg = system("git show --no-patch --abbrev=10 --pretty='format:%h (%s)' " . sha1)
   exec "normal! a" . msg
 endfun
+
+function! StripWordBoundaryRegex(text)
+  let text = substitute(a:text, '^\\<', '', '')
+  let text = substitute(text, '\\>$', '', '')
+  return text
+endfun
+
+function! GitNumberEdit(n)
+  exec 'e ' .  GetStdout('git number list ' . a:n)[0]
+endfun
+
+function! GitBranch()
+  let out = GetStdout("git symbolic-ref -q HEAD")
+  if len(out) == 0
+    return  ""
+  end
+  return out[0]
+endfun

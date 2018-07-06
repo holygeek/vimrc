@@ -16,4 +16,4 @@ $cmd -n "$@" > $qf
 if [ ! -s $qf ]; then
 	exit 1
 fi
-view -q $qf
+vi -q $qf

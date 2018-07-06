@@ -30,6 +30,7 @@ au BufReadPost ~/.shell/opt.rc
 \ nunmap K
 
 au BufReadPost ~/.shell/*.rc set ft=zsh
+au BufReadPost ~/mail.txt set ft=mail
 
 let noeighties = [
  \ 'text',

@@ -186,6 +186,17 @@ function mine#setupGo()
 endfu
 
 function mine#setTmuxWindowName()
+  if $SSH_CONNECTION != ""
+    return
+  endif
+  let curr_title = system("tmux display-message -p '#W'")
+  if v:shell_error
+    return
+  end
+  if len(curr_title) > 0 && curr_title[0] == '*'
+    return
+  end
+
   let fname = expand("%:t")
   if len(fname) == 0
     let fname = "vim@" . substitute(getcwd(), $HOME, '\~', '')

@@ -1,6 +1,9 @@
 "set ts=8 sts=8 sw=8
 set noexpandtab
 
+" Prefer foo.go over foo
+set suffixes+=,,
+
 set makeprg=echo\ '=========='\ go\ run\ %\ '==========';go\ run\ %
 nnoremap R :make<cr>
 source ~/.vim/pairmap.vim

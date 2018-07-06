@@ -1,2 +1,2 @@
 #!/bin/sh
-$GIT_DIR/hooks/ctags ORIG_HEAD..
+$(git rev-parse --git-dir)/hooks/ctags ORIG_HEAD..

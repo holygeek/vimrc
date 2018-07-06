@@ -16,6 +16,7 @@ install:
 	for symname in vim view vimdiff viewdiff; do ln -sf `pwd`/bin/vi $$HOME/bin/$$symname; done
 	for f in `bin/gsummary|tail -n +2|awk '{print $$1}'`; do ln -sf `pwd`/bin/$$f ~/bin; done
 	ln -sf `pwd`/bin/git-branch.rc ~/bin
+	ln -sf `pwd`/bin/vd ~/bin
 
 git_template:
 	git config --global init.templatedir '~/.vim/git_template'

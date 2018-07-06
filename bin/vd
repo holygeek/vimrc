@@ -1,0 +1,14 @@
+#!/bin/sh
+# vd
+# Created: Tue Mar 28 07:25:34 MYT 2017
+set -e
+
+ref=${1?need ref}
+case $1 in
+	*..*) range=$ref;;
+	*) range=${ref}^..${ref} ;;
+esac
+
+shift
+echo git difftool $range $*
+git difftool $range $*

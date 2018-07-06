@@ -69,7 +69,7 @@ case "$1" in
 esac
 commit_url=$(git config remote.origin.url|
 sed \
-	-e 's,git@github.com\(-[^:]\+\)\?:,https://github.com/,' \
+	-e 's,git@github.com\(_[^:]\+\)\?:,https://github.com/,' \
 	-e 's,\(\.git\)\?$,/'$item'/,')
 	#-e 's,git@github.com\(-[^:]\+\)\?:,http://github.com/,' \
 

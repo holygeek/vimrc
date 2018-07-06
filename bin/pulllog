@@ -51,7 +51,7 @@ done
 shift $(($OPTIND - 1))
 
 nminutes=${1:-5}
-c3_orig_head=$(find .git -maxdepth 1 -name ORIG_HEAD -mmin -$nminutes)
+c3_orig_head=$(find $(git rev-parse --git-dir) -maxdepth 1 -name ORIG_HEAD -mmin -$nminutes)
 if [ -n "$c3_orig_head" ]; then
 	d=$(basename $PWD) || { echo 'no pwd?'; exit 1; }
 	printf "\033[0;32m$d\033[0m\n"

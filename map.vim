@@ -6,6 +6,9 @@ nnoremap [Q :cfirst<cr>
 nnoremap ]Q :clast<cr>
 nnoremap [q :<c-U>exe "cprevious " . v:count1<cr>
 nnoremap ]q :<c-U>exe "cnext "     . v:count1<cr>
+" Need ale, clone it into ~/.vim/pack/nice/start/ale
+nmap <silent> <C-up> <Plug>(ale_previous)
+nmap <silent> <C-down> <Plug>(ale_next)
 inoremap <c-@> <esc>:call InsertClosing()<cr>a
 cmap %/ %:p:h/
 cnoremap <c-k> <up>
@@ -35,7 +38,8 @@ nnoremap <leader>h :cprev<cr>
 nnoremap <leader>N :%s/%\([0-9A-F][0-9A-F]\)/\=nr2char(str2nr(submatch(1), 16))/g<cr>
 nnoremap <leader>n :call ToggleLineNumberSettings()<cr>
 " prettify sql:
-vnoremap <Leader>rp :s/\<update\>\\|\<select\>\\|\<from\>\\|\<where\>\\|\<left join\>\\|\<inner join\>\\|\<group by\>\\|\<order by\>\\|\<\(and\\|or\\|case\\|then\\|else\\|end\)\>/\r\U&\r\t/gie<cr><esc>
+"vnoremap <Leader>rp :s/\<update\>\\|\<select\>\\|\<from\>\\|\<where\>\\|\<left join\>\\|\<inner join\>\\|\<group by\>\\|\<order by\>\\|\<\(and\\|or\\|case\\|then\\|else\\|end\)\>/\r\U&\r\t/gie<cr><esc>
+vnoremap <Leader>rp :!sqlformat --reindent --keywords upper --identifiers lower -<cr>
 nnoremap <leader>s :set spell!<cr>
 nnoremap <leader>z :set fdm=marker fmr={,}<cr>
 nnoremap <leader><leader> zA

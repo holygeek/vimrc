@@ -17,11 +17,14 @@ nmap <buffer> [[ 0:call search('func ', 'bsW')<cr>w
 nmap <buffer> ]] :call search('func ', 'sW')<cr>w
 "nmap <buffer> <c-]> :GoDef<cr>
 
+"inoremap fpn fmt.Println()<esc>i
+"inoremap LPF log.Printf("")<esc>2F"a
 
-inoremap IFE if err != nil {:call GoInsertLoggerFunction()$a(": %v\n", err)}kf":call InsertCurrentFunctionName()<cr>
+"inoremap IFE if err != nil {:call GoInsertLoggerFunction()$a(": %v\n", err)}kf":call InsertCurrentFunctionName()<cr>
+inoremap IFE if err != nil {:call GoInsertLoggerFunction()$a("%v", err)}kf"
 inoremap TF func TestFoo(t *testing.T) {}kkfFcw
 
-nnoremap <buffer> <leader>f :call InsertCurrentFunctionName()<cr>
+"nnoremap <buffer> <leader>f :call InsertCurrentFunctionName()<cr>
 
 setlocal omnifunc=go#complete#Complete
 
@@ -33,7 +36,7 @@ function! GoInsertLoggerFunction()
 	else
 		let fname = 'log.Printf'
 	endif
-	exe "normal a" . fname
+	exe "normal a		" . fname
 endfun
 
 function! GetGoFuncName(line)

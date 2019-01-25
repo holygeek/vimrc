@@ -116,3 +116,6 @@ else
     call LoadIfExists(name)
   endfor
 endif
+
+" go guru output
+set errorformat+=%f:%l.%c-%[%^:]%#:\ %m,%f:%l:%c:\ %m

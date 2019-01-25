@@ -1,17 +1,18 @@
+set termguicolors
 " Omni completion
 "hi Search ctermbg=33
 "hi Search ctermbg=brown ctermfg=white
 "hi Search ctermbg=17 ctermfg=white
 hi Search ctermbg=110 ctermfg=black
-hi Pmenu ctermfg=black ctermbg=darkgray guifg=darkgray
+hi Pmenu ctermfg=black ctermbg=darkgray guifg=dimgray
 hi PmenuSel ctermfg=black ctermbg=gray guifg=gray
-"hi LineNr ctermfg=darkgray guifg=darkgray
+"hi LineNr ctermfg=darkgray guifg=dimgray
 "hi LineNr ctermfg=248 ctermbg=18
 "hi LineNr ctermbg=233 ctermfg=darkgray
-hi LineNr ctermbg=0 ctermfg=darkgray
+hi LineNr ctermbg=0 ctermfg=darkgray guifg=dimgray
 "hi CursorLineNr ctermbg=brown ctermfg=black
-hi CursorLineNr ctermbg=235 ctermfg=brown
-hi comment ctermfg=110
+hi CursorLineNr ctermbg=235 ctermfg=brown guifg=brown
+hi comment ctermfg=110 guifg=#80a0d0
 "hi comment ctermfg=darkgray
 "hi comment ctermfg=60
 "hi comment ctermfg=116

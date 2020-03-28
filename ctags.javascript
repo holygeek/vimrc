@@ -1,0 +1,6 @@
+--regex-JavaScript=/export const ([a-zA-Z0-9_]+)/\1/d,definition/
+--regex-JavaScript=/^const ([a-zA-Z0-9_]+) =/\1/d,definition/
+--regex-JavaScript=/([a-zA-Z0-9_]+): [a-zA-Z0-9_, ()]+ => \{/\1/d,definition/
+--regex-JavaScript=/^\s\s*([a-zA-Z0-9_]+) [:=] [a-zA-Z0-9_, ()]+ => \{/\1/d,definition/
+--regex-JavaScript=/\<function\s([a-zA-Z0-9_]+)\s*\(/\1/d,definition/
+--regex-JavaScript=/class ([a-zA-Z0-9_]+)/\1/d,definition/

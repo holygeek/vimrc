@@ -9,13 +9,13 @@ fi
 realvi="/usr/local/bin/$bin"
 
 run_vi_normally() {
-	LD_LIBRARY_PATH= $realvi "$@"
+	LD_LIBRARY_PATH= $realvi -c "let termname='${TERM_NAME:-none}'" "$@"
 }
 
 open_with_line_number() {
 	arg=${1?need arg}
 	arg=$(echo $arg|sed -e 's/:/ +/' -e 's/:.*//')
-	cmd="$realvi $arg"
+	cmd="$realvi -c 'let termname=\"${TERM_NAME:-none}\"' $arg"
 	echo "$cmd"
 	eval "$cmd"
 }

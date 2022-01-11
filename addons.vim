@@ -13,3 +13,5 @@ if isdirectory(expand("$HOME/.vim/daddons/vim-addon-manager"))
     let g:manpageview_winopen = "hsplit="
 
 endif
+
+let g:fugitive_gitlab_domains = ['https://gitlab.myteksi.net']

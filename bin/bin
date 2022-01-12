@@ -2,10 +2,40 @@
 #echo fix it
 #exit
 set -o noclobber
+
+me=$(basename $0)
+
+usage() {
+	echo "usage: $me [-h] [-d] ...
+  Options:
+    -d  create in ~/dev/bin
+    -h  Help"
+}
+
+foo=
+opt_create_in_dev=
+while getopts dh opt
+do
+  case "$opt" in
+    d) opt_create_in_dev=t;;
+    h) usage; exit ;;
+    \?) echo Unknown option ; exit;;
+  esac
+done
+shift $(($OPTIND -1))
+
 if [ -z "$1" ]; then
-	cd ~/bin; ls
+	cd ~/bin; ls; cd ~/dev/bin; ls
 else
-	cd ~/bin
+	if [ -e $HOME/dev/bin/$1 ]; then
+		cd $HOME/dev/bin
+		exec vim $1
+	fi
+	if [ -n "$opt_create_in_dev" ]; then
+		cd ~/dev/bin
+	else
+		cd ~/bin
+	fi
 	if [ -f "$1" ]; then
 		if [ ! -x "$1" ]; then
 		chmod +x "$1"

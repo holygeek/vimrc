@@ -11,6 +11,7 @@ install:
 	ln -sf `pwd`/bin/vet ~/bin
 	ln -sf `pwd`/bin/non-reentrant.sh ~/bin
 	ln -sf `pwd`/bin/git-find-merge-base ~/bin
+	ln -sf `pwd`/bin/vimcolors ~/bin/
 	ln -sf `pwd`/bin/vimgrep ~/bin
 	ln -sf `pwd`/bin/rss ~/bin
 	for symname in vim view vimdiff viewdiff; do ln -sf `pwd`/bin/vi $$HOME/bin/$$symname; done

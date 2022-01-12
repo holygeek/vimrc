@@ -1,4 +1,4 @@
-set conceallevel=1
+set conceallevel=2
 if g:BG == 'white'
     hi Conceal ctermbg=white
 else

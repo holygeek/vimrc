@@ -19,6 +19,9 @@ install:
 	ln -sf `pwd`/bin/git-branch.rc ~/bin
 	ln -sf `pwd`/bin/vd ~/bin
 
+repos:
+	for d in $$(find . -depth '+1' -type d -name .git); do d=$${d%/.git}; echo $$d; git -C $$d remote -v;done > $@.txt
+
 git_template:
 	git config --global init.templatedir '~/.vim/git_template'
 	git config --global alias.ctags '!.git/hooks/ctags'

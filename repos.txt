@@ -1,0 +1,39 @@
+./disabled-pack/vim-foldsearch.disabled
+origin	https://github.com/embear/vim-foldsearch.git (fetch)
+origin	https://github.com/embear/vim-foldsearch.git (push)
+./disabled-pack/coc.nvim.disabled
+origin	https://github.com/neoclide/coc.nvim.git (fetch)
+origin	https://github.com/neoclide/coc.nvim.git (push)
+./YouCompleteMe
+origin	https://github.com/Valloric/YouCompleteMe (fetch)
+origin	https://github.com/Valloric/YouCompleteMe (push)
+./pack/nice/start/vim-fugitive-gitlab.vim
+origin	https://github.com/shumphrey/fugitive-gitlab.vim.git (fetch)
+origin	https://github.com/shumphrey/fugitive-gitlab.vim.git (push)
+./pack/nice/start/vim-mdx-js
+origin	https://github.com/jxnblk/vim-mdx-js.git (fetch)
+origin	https://github.com/jxnblk/vim-mdx-js.git (push)
+./pack/nice/start/kotlin-vim
+origin	git://github.com/udalov/kotlin-vim.git (fetch)
+origin	git://github.com/udalov/kotlin-vim.git (push)
+./pack/nice/start/vim-hclfmt
+origin	https://github.com/fatih/vim-hclfmt.git (fetch)
+origin	https://github.com/fatih/vim-hclfmt.git (push)
+./pack/nice/start/vim-fugitive
+origin	https://github.com/tpope/vim-fugitive (fetch)
+origin	https://github.com/tpope/vim-fugitive (push)
+./pack/nice/start/vim-SyntaxRange
+origin	git://github.com/inkarkat/vim-SyntaxRange.git (fetch)
+origin	git://github.com/inkarkat/vim-SyntaxRange.git (push)
+./pack/nice/opt/vim-go
+origin	https://github.com/fatih/vim-go (fetch)
+origin	https://github.com/fatih/vim-go (push)
+./pack/nice/opt/govim
+origin	https://github.com/govim/govim.git (fetch)
+origin	https://github.com/govim/govim.git (push)
+./pack/plugins/start/vimwiki
+origin	https://github.com/vimwiki/vimwiki.git (fetch)
+origin	https://github.com/vimwiki/vimwiki.git (push)
+./pack/jvirtanen/start/vim-hcl
+origin	git://github.com/jvirtanen/vim-hcl.git (fetch)
+origin	git://github.com/jvirtanen/vim-hcl.git (push)

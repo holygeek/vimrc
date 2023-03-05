@@ -603,3 +603,19 @@ function! GitBranch()
   end
   return out[0]
 endfun
+
+def! CheckSwap()
+# /Users/nazri.ramliy/tmp/vimswap/sc_driver_auth_required.go.swp: Vim swap file, version 9.0, pid 28195, user nazri.ramliy, host ITMY006423-MAC, file ~nazri.ramliy/gopath/src/gitlab.myteksi.net/gophers/go/user-trust/grab-safety/logic/daxselfieauth/sc_driver_auth_required.go
+# ~/gopath/src/gitlab.myteksi.net/gophers/go/user-trust/grab-safety/logic/daxselfieauth(git) master 11:02:44
+# $ wherevim|grep 28195
+# ~/gopath/src/gitlab.myteksi.net/gophers/go/user-trust/grab-safety/logic/daxselfieauth(git) master 11:02:56
+# !1! $ wherevim -l|grep 28195
+#        \--- 28195 nazri.ramliy /opt/local/bin/vim -c let termname='s.13' sc_driver_auth_required.go
+  var file = systemlist('file ' .. v:swapname)
+  if len(file) < 1
+    return
+  endif
+  var pid = substitute(file[0], '.*, pid ', '', '')
+  pid = substitute(pid, ',.*', '', '')
+  echo system("pstree -p " .. pid)
+enddef

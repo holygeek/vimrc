@@ -52,3 +52,5 @@ autocmd WinEnter,BufEnter * call mine#setTmuxWindowName()
 
 au BufRead *.go set sw=8 sts=8 ts=8
 au BufWritePost *.go set sw=8 sts=8 ts=8
+
+au SwapExists * call CheckSwap()

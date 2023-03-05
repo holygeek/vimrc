@@ -39,6 +39,7 @@ au BufReadPost,VimResized *.pl,*.pm
       \ if len(&ft) && &ft !~ '\v^('. join(noeighties, '|') . ')$'|call SetColumnBG()|endif
 
 au BufNewFile * call mine#injectSkeleton(expand('<afile>'))
+au StdinReadPost * let l = getline('1')|if len(l) == 1 && (l[0] == '[' || l[0] == '{')|set ft=json|endif
 
 au BufWritePost * if len(&filetype) == 0|filetype detect|end
 

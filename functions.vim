@@ -383,15 +383,21 @@ if has("reltime")
     let seconds = diff[0]
     let ms = diff[1]
     " How fast can you hit Q twice?
-    if seconds == 0 && ms < 200000
+    echom seconds .. "seconds " .. ms .. "ms"
+    let maxDelay = 200000
+    if has("prof_nsec")
+      let maxDelay = 200000000
+    endif
+    if seconds == 0 && ms < maxDelay
       return ":q!\<cr>"
     endif
 
     return ":q\<cr>"
   endfun
+  nnoremap <expr> Q Quit()
+else
+  nnoremap <expr> Q :q<cr>
 endif
-
-nnoremap <expr> Q Quit()
 
 let g:timediffopt = ''
 command! TimeDiff :call TimeDiff()

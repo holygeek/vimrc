@@ -23,6 +23,10 @@ function! OpenOtherFile()
     let other = substitute(file, '\.c$', '.h', '')
   elseif match(file, '\.h$') >= 0
     let other = substitute(file, '\.h$', '.c', '')
+  elseif match(file, '_test\.go$') >= 0
+    let other = substitute(file, '_test\.go$', '.go', '')
+  elseif match(file, '\.go$') >= 0
+    let other = substitute(file, '\.go$', '_test.go', '')
   else
     return
   endif

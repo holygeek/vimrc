@@ -163,6 +163,14 @@ function! FindAndSetLocalTags()
   endif
 endfun
 
+function! FindAndAddCscope()
+  let dir = GetCurrentFileDirOrCurrentDir()
+  let cscopefile = TravelUpFindFile(dir, 'cscope.out')
+  if strlen(cscopefile) > 0 && filereadable(cscopefile)
+    exec 'cscope add ' . cscopefile
+  endif
+endfu
+
 function! FindAndSetMgitTagsFromDir(dir)
   let dir = a:dir
   let cwdlen = strlen(dir)

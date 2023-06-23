@@ -9,15 +9,17 @@ usage() {
 	echo "usage: $me [-h] [-d] ...
   Options:
     -d  create in ~/dev/bin
+    -v  create in ~/dev/vim/bin
     -h  Help"
 }
 
 foo=
-opt_create_in_dev=
-while getopts dh opt
+opt_target_dir=
+while getopts dhv opt
 do
   case "$opt" in
-    d) opt_create_in_dev=t;;
+    d) opt_target_dir=~/dev/bin;;
+    v) opt_target_dir=~/dev/vim/bin;;
     h) usage; exit ;;
     \?) echo Unknown option ; exit;;
   esac
@@ -25,14 +27,18 @@ done
 shift $(($OPTIND -1))
 
 if [ -z "$1" ]; then
-	cd ~/bin; ls; cd ~/dev/bin; ls
+	cd ~/bin; ls; cd ~/dev/bin; ls; cd ~/.vim/bin; ls
 else
 	if [ -e $HOME/dev/bin/$1 ]; then
 		cd $HOME/dev/bin
 		exec vim $1
 	fi
-	if [ -n "$opt_create_in_dev" ]; then
-		cd ~/dev/bin
+	if [ -e $HOME/.vim/bin/$1 ]; then
+		cd $HOME/.vim/bin
+		exec vim $1
+	fi
+	if [ -n "$opt_target_dir" ]; then
+		cd "$opt_target_dir" || exit 1
 	else
 		cd ~/bin
 	fi

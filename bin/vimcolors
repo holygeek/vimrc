@@ -1,2 +1,24 @@
 #!/bin/sh
-vi -S ~/.vim/showcolors.vim
+
+me=$(basename $0)
+
+usage() {
+	echo "usage: $me [-h] ...
+  Options:
+    -b <bgcolor>
+      Show colors with background <bgcolor>
+    -h  Help"
+}
+
+opt_bgcolor=black
+while getopts hb: opt
+do
+  case "$opt" in
+    b) opt_bgcolor=$OPTARG;;
+    h) usage; exit ;;
+    \?) echo Unknown option ; exit;;
+  esac
+done
+shift $(($OPTIND -1))
+
+BGCOLOR=$opt_bgcolor vi -S ~/.vim/showcolors.vim

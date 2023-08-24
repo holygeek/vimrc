@@ -1,0 +1,11 @@
+#!/bin/sh
+# funcs
+# Created: Tue Feb 28 09:36:43 +08 2023
+
+{
+git grep -E -o '^func (\([^)]*\) )?[A-Za-z0-9_]*' -- '*.go'|
+	grep -Ev '(^Test|FromPB$|ToPB$|^internal/|_mock_|func Test)'|
+	gsed -e 's/.*func \(([^)]*) \)\?//'
+git grep -E -o '^var [A-Za-z0-9_]* = func' -- '*.go'|
+	gsed -e 's/.*://' -e 's/var //' -e 's/ = .*//'
+} | sort | uniq

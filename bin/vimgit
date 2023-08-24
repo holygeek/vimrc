@@ -1,0 +1,61 @@
+#!/bin/sh
+
+usage() {
+	echo "usage: vimgit [-e <pattern>|-g] ...
+  Options:
+    -e <pattern>
+        exclude files matching <pattern>
+    -F <pattern>
+        Highlight <pattern>
+    -g
+        exlude files matching '/mock|_test.go'
+    -h
+        Help"
+}
+
+foo=
+exclude_regex=
+opt_ro=
+highlight_pat=
+while getopts ghe:RF: opt
+do
+  case "$opt" in
+    e) exclude_regex=$OPTARG;;
+    g) exclude_regex='(mock[a-z_]*\.go:|_test\.go:)';;
+    h) usage; exit ;;
+    R) opt_ro=-R;;
+    F) highlight_pat=$OPTARG;;
+    \?) echo Unknown option ; exit;;
+  esac
+done
+shift $(($OPTIND -1))
+
+
+qf_grep=/tmp/qf_vimgit.txt.$$
+trap "rm -f $qf_grep" EXIT
+shift
+
+if [ -n "$exclude_regex" ]; then
+	git grep -H -n "$@" | grep -E -v "$exclude_regex" > $qf_grep
+else
+	git grep -H -n "$@" > $qf_grep
+fi
+
+if test -s "$qf_grep"; then
+	vicmd=
+	if [ -z "$highlight_pat" ]; then
+		ere_opt=
+		for i; do
+			case "$i" in
+				'--') break ;;
+				'-E') ere_opt='\\v' ;;
+			esac
+			highlight_pat=$(echo $i|sed -e 's,/,\\/,g' -e 's/=/\\=/g')
+		done
+	fi
+	vicmd='-c "match quickfixregex /'$ere_opt"$highlight_pat"'/" -c "/'$ere_opt"$highlight_pat"'"'
+	eval vi $vicmd $opt_ro -q $qf_grep
+else
+	: echo >&2 "no match found"
+	exit 1
+fi

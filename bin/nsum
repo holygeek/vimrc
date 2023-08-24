@@ -1,0 +1,12 @@
+#!/bin/zsh
+# nsum
+# Created: Tue Mar 10 22:22:39 +08 2020
+
+sum=0
+while read line; do
+	for d in $(echo $line); do
+		#echo "(($sum + $d))"
+		sum=$(($sum + $d))
+	done
+done
+echo $sum

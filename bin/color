@@ -1,0 +1,12 @@
+ #!/bin/sh
+# red
+# Created: Thu Apr 13 12:48:55 +08 2023
+color=$(basename $0)
+vi -c 'set shm+=I' \
+-c 'set nonu nornu' \
+-c 'set laststatus=0' \
+-c "hi normal guifg=$color guibg=$color" \
+-c "hi nontext guifg=$color guibg=$color" \
+-c 'redraw!' \
+-c 'sleep 2' \
+-c 'q'

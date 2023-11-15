@@ -1,0 +1,26 @@
+#!/bin/bash
+#white
+#blue
+#green
+#yellow
+#brown
+#red
+#purple
+
+#vi -S $(dirname $0)/$(basename $0).vim
+
+vi -S <(echo "
+set shm+=I
+set nonu nornu
+set laststatus=0
+
+for color in keys(v:colornames)
+	exec printf(\"hi normal guifg='%s' guibg='%s'\", color, color)
+	exec printf(\"hi nontext guifg='%s' guibg='%s'\", color, color)
+	redraw!
+	if getchar(1)
+		break
+	endif
+	sleep 300m
+endfor
+q")

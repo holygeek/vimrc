@@ -1,0 +1,4 @@
+#!/bin/sh
+# tmuxcheck
+# Created: Fri 14 Feb 2025 08:31:54 +08
+tmux ls|cat -n

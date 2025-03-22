@@ -1,0 +1,4 @@
+#!/bin/sh
+# gt
+# Created: Fri Mar 21 09:05:25 +08 2025
+go test $(dirname $(git list $*))

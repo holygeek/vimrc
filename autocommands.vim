@@ -10,6 +10,9 @@ au BufReadPost *.{[ch],ps,vim,go} call FindAndSetLocalTags()
 au BufReadPost ~/.shell/opt.rc
 \ set completefunc=CompleteZshOptions |
 
+au BufReadPost ~/.claude/settings.json
+\ set ts=2 sts=2 sw=2 expandtab
+
 au BufReadPost /usr/share/doc/rpm/*
 \ syn match hide "\\\(end\)\?\(section \?\|verbatim\)" conceal |
 \ set conceallevel=2

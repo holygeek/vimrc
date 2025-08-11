@@ -185,15 +185,25 @@ function mine#setupGo()
   endif
 endfu
 
+let g:set_tmux_title = 1
 function mine#setTmuxWindowName()
+  if g:set_tmux_title == 0
+    return
+  end
   if $SSH_CONNECTION != ""
     return
   endif
-  let curr_title = system("tmux display-message -p '#W'")
-  if v:shell_error
+
+  try
+    silent! let curr_title = system("tmux display-message -p '#W'")
+    if v:shell_error
+      return
+    end
+  catch /.*/
     return
-  end
-  if len(curr_title) > 0 && curr_title[0] == '*'
+  endtry
+
+  if len(curr_title) > 0 && (curr_title[0] == '*' || curr_title[0] == '#')
     return
   end
 
@@ -201,5 +211,9 @@ function mine#setTmuxWindowName()
   if len(fname) == 0
     let fname = "vim@" . substitute(getcwd(), $HOME, '\~', '')
   endif
-  call system("tmux rename-window '" . fname . "'")
+  let fname = substitute(fname, ' ', '_', 'g')
+  "call system("tmux rename-window '" . fname . "'")
+  if fname != curr_title
+    silent! call system("tmux rename-window " . fname)
+  endif
 endfun

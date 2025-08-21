@@ -1,49 +1,64 @@
 set termguicolors
-" Omni completion
+"A " Omni completion
 "hi Search ctermbg=33
 "hi Search ctermbg=brown ctermfg=white
 "hi Search ctermbg=17 ctermfg=white
-hi Search ctermbg=110 ctermfg=black
-hi Pmenu ctermfg=black ctermbg=darkgray guifg=dimgray
-hi PmenuSel ctermfg=black ctermbg=gray guifg=gray
-"hi LineNr ctermfg=darkgray guifg=dimgray
-"hi LineNr ctermfg=248 ctermbg=18
-"hi LineNr ctermbg=233 ctermfg=darkgray
+
+"hi Search term=none cterm=none ctermbg=110 ctermfg=black guibg=brown guifg=white
+hi Search term=none cterm=none ctermbg=110 ctermfg=black guibg=yellow guifg=black
+hi CurSearch term=none cterm=none guifg=black guibg=rosybrown
+
+
+hi pmenu ctermfg=black ctermbg=darkgray guibg=dimgray guifg=black
+hi PmenuSel ctermfg=black ctermbg=gray guibg=green guifg=blue
+" hi LineNr ctermfg=darkgray guifg=dimgray
+hi LineNr ctermfg=248 ctermbg=18
+" hi LineNr ctermbg=233 ctermfg=darkgray
 hi LineNr ctermbg=0 ctermfg=darkgray guifg=dimgray
-"hi CursorLineNr ctermbg=brown ctermfg=black
-hi CursorLineNr ctermbg=235 ctermfg=brown guifg=brown
-hi comment ctermfg=110 guifg=#80a0d0
-"hi comment ctermfg=darkgray
-"hi comment ctermfg=60
-"hi comment ctermfg=116
 
-" Color tryouts:
-":nmap j :exec ':hi comment ctermfg=' . (K + 1) . "\|let K = K + 1\|echo
-"K"<CR>
-":nmap k :exec ':hi comment ctermfg=' . (K - 1) . "\|let K = K - 1\|echo
-"K"<CR>
+" These two are needed for CursorLineNr
+set cursorlineopt=number
+set cursorline
+hi CursorLineNr cterm=none ctermbg=235 ctermfg=brown guifg=brown
 
-hi folded ctermfg=darkgray ctermbg=black
-"  guifg=gray guibg=black
+
+"A " Color tryouts:
+"A ":nmap j :exec ':hi comment ctermfg=' . (K + 1) . "\|let K = K + 1\|echo
+"A "K"<CR>
+"A ":nmap k :exec ':hi comment ctermfg=' . (K - 1) . "\|let K = K - 1\|echo
+"A "K"<CR>
+
+"hi folded ctermfg=darkgray ctermbg=black
+hi folded guifg=darkgreen guibg=black cterm=bold
 
 hi MatchParen cterm=underline ctermbg=none
 
 hi SpellBad ctermfg=red ctermbg=none
 
-hi SignColumn ctermbg=black guibg=NONE
-
 "syn match braces "[{}]"
 "hi braces ctermfg=darkgray
 
-so ~/.vim/diffcolor.vim
+"hi StatusLine term=reverse ctermfg=blue ctermbg=white
+"hi StatusLineNC ctermfg=darkgray ctermbg=black
 
-hi StatusLine term=reverse ctermfg=blue ctermbg=black
-hi StatusLineNC ctermfg=darkgray ctermbg=black
-hi NonText ctermfg=darkgray
+hi TabLineSel term=underline cterm=underline ctermfg=black ctermbg=darkgreen guifg=black guibg=darkgreen
+hi TabLine    term=underline cterm=underline ctermfg=black ctermbg=black                 guibg=black
 
-if g:BG == 'white'
-    source ~/.vim/lightcolors.vim
-endif
+hi quickfixregex term=none guibg=khaki guifg=mediumblue
+hi visual guibg=black
 
-hi TabLineFill cterm=none
-hi TabLine ctermbg=none
+" Highlights for text copied from kibana log
+syn match Date '"\v(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) \d+, \d\d\d\d \@ \d\d:\d\d:\d\d\.\d\d\d \+\d\d:\d\d"'
+hi Date ctermfg=green
+syn match KibanaIPAddr '\<ip-\d\{1,3}\(-\d\{1,3}\)\{3}'
+syn match DottedIPAddr '\<\d\{1,3}\(\.\d\{1,3}\)\{3}'
+hi link DottedIPAddr KibanaIpAddr
+hi KibanaIpAddr ctermfg=green
+"    Message=foo bar baz
+" Highlight  ^^^^^^^^^^^ only:
+syn match KibanaText '[^"]' contained
+syn match KibanaMessagePreamble 'Message=' contained
+syn match KibanaMessage 'Message=[^"]*' contains=KibanaMessagePreamble,KibanaText
+hi  KibanaText guifg=brown
+
+hi SignColumn guibg=black

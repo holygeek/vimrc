@@ -1,0 +1,31 @@
+#!/bin/sh
+# notify
+# Created: Thu Aug 14 12:38:41 +08 2025
+set -e
+
+me=$(basename $0)
+
+usage() {
+	echo "usage: $me [-h] <notice message>
+  Options:
+    -h
+	Help"
+}
+
+while getopts h opt
+do
+	case "$opt" in
+		h) usage; exit ;;
+		\?) echo Unknown option ; exit;;
+	esac
+done
+shift $(($OPTIND -1))
+
+if [ -z "$1" ]; then
+	usage
+	exit 1
+fi
+
+echo \
+osascript -e "display notification \"$*\" with title \"notice\" sound name \"Glass\""
+osascript -e "display notification \"$*\" with title \"notice\" sound name \"Glass\""

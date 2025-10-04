@@ -1,0 +1,26 @@
+#!/bin/sh
+# panes
+# Created: Sat Oct  4 23:57:31 +08 2025
+set -e
+
+me=$(basename $0)
+
+usage() {
+	echo "usage: $me [-h] ...
+  Options:
+    -h
+	Help"
+}
+
+foo=
+while getopts hf: opt
+do
+	case "$opt" in
+		f) foo=$OPTARG;;
+		h) usage; exit ;;
+		\?) echo Unknown option ; exit;;
+	esac
+done
+shift $(($OPTIND -1))
+
+tmux list-panes -a -F '#{session_name}:#{window_index}.#{pane_index} #{pane_id} pid:#{pane_pid} #{?pane_active,ACTIVE,} #{pane_tty} #{pane_current_command} #{pane_current_path}'

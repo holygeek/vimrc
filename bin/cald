@@ -1,0 +1,10 @@
+#!/bin/sh
+# cald
+# Created: Fri Jul  4 12:08:15 +08 2025
+
+date=date
+if [ -x /opt/homebrew/bin/gdate ]; then
+	date=/opt/homebrew/bin/gdate
+fi
+cal $($date +%m\ %Y -d 'last month')
+cal

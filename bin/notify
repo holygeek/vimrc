@@ -8,13 +8,17 @@ me=$(basename $0)
 usage() {
 	echo "usage: $me [-h] <notice message>
   Options:
+    -d
+	Do not show dismiss button
     -h
 	Help"
 }
 
-while getopts h opt
+opt_show_dismiss_button=yes
+while getopts dh opt
 do
 	case "$opt" in
+		d) opt_show_dismiss_button=;;
 		h) usage; exit ;;
 		\?) echo Unknown option ; exit;;
 	esac
@@ -26,6 +30,8 @@ if [ -z "$1" ]; then
 	exit 1
 fi
 
-echo \
-osascript -e "display notification \"$*\" with title \"notice\" sound name \"Glass\""
-osascript -e "display notification \"$*\" with title \"notice\" sound name \"Glass\""
+if [ -n "$opt_show_dismiss_button" ]; then
+	osascript -e 'display dialog "'"$*"'" with title "Notice" buttons {"Dismiss"} default button "Dismiss"'
+else
+	osascript -e "display notification \"$*\" with title \"notice\" sound name \"Glass\""
+fi

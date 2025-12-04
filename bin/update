@@ -1,4 +1,11 @@
 #!/bin/sh
 # update
 # Created: Wed Dec 18 09:14:51 MYT 2013
-make --no-print-directory -C ~/src/install ${1:+'update'}$1
+action=
+if [ -n "$1" ]; then
+	action="update$1 ages"
+else
+	action='all ages'
+fi
+make --no-print-directory -C ~/src/install prefix=/opt/local $action
+#${1:+'update'}$1

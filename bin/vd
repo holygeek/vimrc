@@ -1,14 +1,44 @@
-#!/bin/sh
+#!/bin/zsh
 # vd
 # Created: Tue Mar 28 07:25:34 MYT 2017
-set -e
+#set -e
 
-ref=${1?need ref}
-case $1 in
-	*..*) range=$ref;;
-	*) range=${ref}^..${ref} ;;
-esac
+#ref=${1:-HEAD}
+#case $1 in
+#	*..*) range=$ref;;
+#	*) range=${ref}^..${ref} ;;
+#esac
+#
+#shift 1
 
-shift
-echo git difftool $range $*
-git difftool $range $*
+me=$(basename $0)
+
+usage() {
+	echo "usage: $me [-h] [-a <commit>] path/to/file.txt
+  Options:
+    -a <commit>
+        vimdiff file against its version at <commit>
+    -h
+	Help"
+}
+
+opt_commit=
+opt_cached=
+while getopts a:ch opt
+do
+	case "$opt" in
+		a) opt_commit=$OPTARG;;
+		c) opt_cached=--cached;;
+		h) usage; exit ;;
+		\?) echo Unknown option ; exit;;
+	esac
+done
+shift $(($OPTIND -1))
+
+if [ -z "$opt_commit" ]; then
+	echo git difftool $opt_cached $*
+	exec git difftool $opt_cached -y $(git list $*)
+fi
+
+file="$1"
+vimdiff "$file" <(git show $opt_commit:./$file)

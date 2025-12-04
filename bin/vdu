@@ -1,0 +1,8 @@
+#!/bin/zsh
+# vdu
+# Created: Thu Aug 21 23:56:20 +08 2025
+set -e
+
+file=${1?need path/to/file}
+
+vd -a $(git mb) $(git list $file)

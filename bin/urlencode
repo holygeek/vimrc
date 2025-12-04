@@ -1,0 +1,7 @@
+#!/bin/sh
+# urlencode
+# Created: Wed Sep 13 15:55:14 +08 2023
+# https://stackoverflow.com/questions/296536/how-to-urlencode-data-for-curl-command/10797966#10797966
+jq -rn --arg x "hello[world]" '$x|@uri'
+printf %s '{"hello":["world","there"}]'|jq -Rr @uri
+curl -Gs -w %{url_effective} --data-urlencode '{"hello":["world"]}' ./

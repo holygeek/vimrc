@@ -40,7 +40,7 @@ else
 	if [ -n "$opt_target_dir" ]; then
 		cd "$opt_target_dir" || exit 1
 	else
-		cd ~/bin
+		cd ~/.vim/bin
 	fi
 	if [ -f "$1" ]; then
 		if [ ! -x "$1" ]; then

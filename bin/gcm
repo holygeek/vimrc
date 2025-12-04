@@ -39,8 +39,11 @@ if [ -n "$do_diff_check" ]; then
 fi
 
 if [ -n "$1" ]; then
+	ticket=$(git rev-parse --abbrev-ref HEAD|grep '^[A-Za-z][A-Za-z0-9]*-[0-9][0-9]*'|sed -e 's/\(^[A-Za-z][A-Za-z0-9]*-[0-9][0-9]*\).*/\1/')
 	msg=$(git number -c echo "$*") &&
-	if [ -n "$usegcmprefix" -a -e .gcmprefix ]; then
+	if [ -n "$ticket" ]; then
+		msg="[$ticket] $msg"
+	elif [ -n "$usegcmprefix" -a -e .gcmprefix ]; then
 		prefix=$(head -1 .gcmprefix|grep -v '^#'|awk '{print $1}')
 		if [ -n "$prefix" ]; then
 			msg="$prefix $msg"

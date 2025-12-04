@@ -1,0 +1,28 @@
+#!/bin/sh
+# git-fou
+# Created: Thu Nov 13 11:16:17 +08 2025
+set -e
+
+me=$(basename $0)
+
+usage() {
+	echo "usage: $me [-h] ...
+  Options:
+    -h
+	Help"
+}
+
+foo=
+while getopts hf: opt
+do
+	case "$opt" in
+		f) foo=$OPTARG;;
+		h) usage; exit ;;
+		\?) echo Unknown option ; exit;;
+	esac
+done
+shift $(($OPTIND -1))
+
+branch=${1?need branch name}
+git fetch origin $branch
+up $branch

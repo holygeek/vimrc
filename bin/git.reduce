@@ -1,0 +1,7 @@
+#!/bin/sh
+# git.reduce
+# Created: Tue Jun 24 12:53:29 +08 2025
+git fsck --full &&
+git gc --aggressive --prune=now &&
+git repack -ad &&
+git prune

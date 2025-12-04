@@ -1,0 +1,49 @@
+#!/bin/sh
+# review
+# Created: Wed Jul 26 14:43:50 +08 2023
+set -eu
+
+me=$(basename $0)
+
+usage() {
+	echo "usage: $me [-h] [s] ...
+  Options:
+    -B  <branch>
+	Compare with <branch> instead of master
+    -b
+	ignore space change
+    -w
+	ignore all space
+    -s  stat
+    -h  Help"
+}
+
+opt_stat=
+opt_base_branch=master
+opt_git_diff_b=
+opt_git_diff_w=
+opt_relative=
+while getopts bB:hrsw opt
+do
+  case "$opt" in
+    h) usage; exit ;;
+    B) opt_base_branch=$OPTARG;;
+    b) opt_git_diff_b=-b;;
+    r) opt_relative=--relative;;
+    s) opt_stat='--stat --relative';;
+    w) opt_git_diff_w=-w;;
+    \?) echo Unknown option ; exit;;
+  esac
+done
+shift $(($OPTIND -1))
+
+branch=${1:-HEAD}
+
+case "$branch" in
+	HEAD):;;
+	origin/*) : ;;
+	*) branch="origin/$branch";;
+esac
+
+echo >&2 git diff $opt_relative $opt_git_diff_b $opt_git_diff_w $opt_stat $(git merge-base ${opt_base_branch} $branch)..$branch .
+         git diff $opt_relative $opt_git_diff_b $opt_git_diff_w $opt_stat $(git merge-base ${opt_base_branch} $branch)..$branch .

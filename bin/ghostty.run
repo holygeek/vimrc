@@ -1,0 +1,16 @@
+#!/bin/sh
+# ghostty.run
+# Created: Sun  5 Jan 2025 23:57:39 +08
+set -e
+session_name=$1
+shift
+# ghostty has no argument to set window position
+#open -n /Applications/Ghostty.app --args --title=ghostty.$session_name "$@"
+# see ~/.config/ghostty/config for documentation on its options
+#/Applications/Ghostty.app/Contents/MacOS/ghostty
+open -a Ghostty.app -n --args \
+--quit-after-last-window-closed=true \
+--macos-titlebar-style=hidden \
+--copy-on-select=clipboard \
+--macos-hidden=always \
+--title=$session_name "$@"

@@ -1,0 +1,28 @@
+#!/bin/zsh
+# ghosttys
+# Created: Fri Aug 29 16:13:02 +08 2025
+set -e
+
+me=$(basename $0)
+
+usage() {
+	echo "usage: $me [-h] ...
+  Options:
+    -h
+	Help"
+}
+
+foo=
+while getopts hf: opt
+do
+	case "$opt" in
+		f) foo=$OPTARG;;
+		h) usage; exit ;;
+		\?) echo Unknown option ; exit;;
+	esac
+done
+shift $(($OPTIND -1))
+
+for i in a f g h i k l r s v ; do
+	ghostty.run $i
+done

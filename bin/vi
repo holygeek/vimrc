@@ -6,16 +6,48 @@ if [ "$bin" = 'vi' ]; then
 	bin=vim
 fi
 
-realvi="/usr/local/bin/$bin"
+
+case "$OSTYPE" in
+	linux*) sed=sed;;
+	darwin*) sed=gsed;;
+	*) echo >&2 "unknonwn os '$OSTYPE'"; exit 1;
+esac
+
+realvi="/opt/local/bin/$bin"
+if [ -x "$HOME/opt/vim/bin/$bin" ]; then # path from src/install/vim.sh
+	realvi=$HOME/opt/vim/bin/$bin
+fi
+
+
+termname=none
+if [ -n "$TMUX" ]; then
+	termname=$(tmux display-message -p '#{session_name}.#{window_index}')
+fi
 
 run_vi_normally() {
-	LD_LIBRARY_PATH= $realvi -c "let termname='${TERM_NAME:-none}'" "$@"
+	LD_LIBRARY_PATH= $realvi -c "let termname=\"$termname\"" "$@"
 }
 
 open_with_line_number() {
 	arg=${1?need arg}
-	arg=$(echo $arg|sed -e 's/:/ +/' -e 's/:.*//')
-	cmd="$realvi -c 'let termname=\"${TERM_NAME:-none}\"' $arg"
+	#echo "ARG $arg"
+	case "$arg" in
+		*':'*':'*':'*) # line and column (git grep --column)
+			#echo >&2 "BEFORE $arg"
+			arg=$(echo $arg|$sed -e 's/:/ +/' -e 's/:\([0-9]\+\)/ -c "normal \1|"/' -e 's/:.*//' -e 's/-[0-9]*$//')
+			#echo >&2 " AFTER $arg"
+
+			;;
+		*:*:|*:*) #line only
+			arg=$(echo $arg|$sed -e 's/:/ +/' -e 's/:.*//' -e 's/-[0-9]*$//')
+			;;
+		*)
+			echo >&2 "no line number in '$arg'"
+			exit 1;
+			;;
+	esac
+	# arg=$(echo $arg|sed -e 's/:/ +/' -e 's/:.*//')
+	cmd="$realvi -c 'let termname=\"${termname}\"' $arg"
 	echo "$cmd"
 	eval "$cmd"
 }

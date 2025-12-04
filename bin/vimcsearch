@@ -1,19 +1,67 @@
 #!/bin/sh
 # vimcsearch
 # Created: Fri Apr 18 10:48:35 SGT 2014
+
+usage() {
+	echo "usage: vimcsearch [-e <pattern>|-g] ...
+  Options:
+    -e <pattern>
+        exclude files matching <pattern>
+    -f <regex>
+        include only files matching <regex>
+    -g
+        exlude files matching '/mock|_test.go'
+    -h
+        Help
+    -i
+        Case sensitive"
+}
+
+exclude_regex=
+i=
+file_regex=
+while getopts f:ghie: opt
+do
+  case "$opt" in
+    e) exclude_regex=$OPTARG;;
+    f) file_regex="-f \"$OPTARG\"";;
+    g) exclude_regex='(mock[a-z_]*\.go:|_test\.go:)';;
+    h) usage; exit ;;
+    i) i=-i;;
+    \?) echo Unknown option ; exit;;
+  esac
+done
+shift $(($OPTIND -1))
+
 qf=/tmp/vimsearch.quickfix.txt.$$
 trap "rm -f $qf" EXIT
 me=$(basename $0)
 
 cmd=csearch
 case "$me" in
-	*qcsearch)
-		cmd=qcsearch
-		;;
+	*qcsearch)  cmd=qcsearch ;; # Obsolete qcsearch?
+	*csearcd)  cmd=csearchd ;;
+	*csearchm)  cmd='csearch -e "_test.go|mock"';;
+	*csearchmd) cmd='csearch -e "_test.go|mock" -f $(pwd)' ;;
 esac
-$cmd -n "$@" > $qf
+
+#if [ -n "$exclude_regex" ]; then
+#	$cmd $i -n "$@" | grep -E -v "$exclude_regex" > $qf
+#else
+#	$cmd $i -n "$@" > $qf
+#fi
+if [ -n "$exclude_regex" ]; then
+	eval "$cmd $file_regex $i -n \"$@\"" | grep -E -v "$exclude_regex" > $qf
+else
+	eval "$cmd $file_regex $i -n \"$@\"" > $qf
+fi
 
 if [ ! -s $qf ]; then
 	exit 1
 fi
+#while [ -n "$1" ]; do
+#	regex="$1"
+#	shift
+#done
+#echo vi -c "/$regex" -q $qf
 vi -q $qf

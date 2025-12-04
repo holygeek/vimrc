@@ -5,6 +5,70 @@
 me=$(basename $0)
 
 usage() {
+	echo "usage: $me [-h] ...
+  Options:
+    -c <commit>
+        Diff against <commit> instead of merge-base
+    -e
+        Edit in vim
+    -h
+	Help
+    -l
+        List modified files and their numbers
+    -s
+        diff --stat"
+}
+
+opt_list=
+opt_edit=
+opt_stat=
+while getopts c:ehls opt
+do
+	case "$opt" in
+		c) opt_since_commit=$OPTARG;;
+		e) opt_edit=yes;;
+		h) usage; exit ;;
+		l) opt_list=yes;;
+		s) opt_stat=--stat;;
+		\?) echo Unknown option ; exit;;
+	esac
+done
+shift $(($OPTIND -1))
+
+get_base_commit() {
+	if [ -z "$opt_since_commit" ]; then
+		git mb
+	else
+		echo "$opt_since_commit"
+	fi
+}
+
+if [ -n "$opt_list" ]; then
+	git diff --relative $(get_base_commit)..|grep '^diff --git'|cat -n
+elif [ -n "$1" ]; then
+	if [ -n "$opt_edit" ]; then
+		case "$1" in
+			[0-9]|[0-9][0-9])
+				file=$(git diff --relative $(get_base_commit)..|grep '^diff --git'|head -$1|tail -1|awk '{print $3}');;
+			*)
+				file=$1;;
+		esac
+		echo \
+		vdu "$file"
+		vdu "$file"
+	else
+		git diff $opt_stat --relative $(get_base_commit)..|grep '^diff --git'|head -$1|tail -1|awk '{print $3}'
+	fi
+else
+	GIT_PAGER='diffliner' \
+	git diff $opt_stat --color=always --relative $(get_base_commit)..
+fi
+
+exit 0
+
+me=$(basename $0)
+
+usage() {
 	printf "SYNOPSIS
 	$me [-h]
 

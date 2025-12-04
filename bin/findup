@@ -1,0 +1,38 @@
+#!/bin/sh
+# findup
+# Created: Mon Oct  6 17:30:36 +08 2025
+set -e
+
+me=$(basename $0)
+
+usage() {
+	echo "usage: $me [-h] ...
+  Options:
+    -h
+	Help"
+}
+
+foo=
+while getopts hf: opt
+do
+	case "$opt" in
+		f) foo=$OPTARG;;
+		h) usage; exit ;;
+		\?) echo Unknown option ; exit;;
+	esac
+done
+shift $(($OPTIND -1))
+
+needle=${1?need filename to find}
+
+while ! [ -f "$needle" ]; do
+	if [ "$PWD" = '/' ]; then
+		break
+	fi
+	#echo PWD $PWD
+	cd ..
+done
+
+if [ -f "$needle" ]; then
+	exec readlink -f "$needle"
+fi

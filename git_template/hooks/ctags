@@ -43,15 +43,15 @@ fi
 
 trap run_tags_clean_if_exist 0
 
-if [ -f ${git_dir}/nocfilehere ]; then
-    # note:
-    # Create ${git_dir}/nocfiles to disable possible slow check to repo_has_c_file()
-    :
-elif [ -f $cscope_xref_file ]; then
-    generate_cscope_xref_file
-elif repo_has_c_file; then
-    generate_cscope_xref_file
-fi
+#if [ -f ${git_dir}/nocfilehere ]; then
+#    # note:
+#    # Create ${git_dir}/nocfiles to disable possible slow check to repo_has_c_file()
+#    :
+#elif [ -f $cscope_xref_file ]; then
+#    generate_cscope_xref_file
+#elif repo_has_c_file; then
+#    generate_cscope_xref_file
+#fi
 
 if [ -z "$1" ]; then
     test -n "$DEBUG" && echo \

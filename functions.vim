@@ -151,10 +151,10 @@ endfun
 " Recursively find tags file starting from the file's directory and going up
 function! FindAndSetLocalTags()
   let dir = GetCurrentFileDirOrCurrentDir()
-  if IsManagedByGit(dir)
-    " Delegate to fugitive
-    return
-  endif
+  "if IsManagedByGit(dir)
+  "  " Delegate to fugitive
+  "  return
+  "endif
 
   let tagfile = TravelUpFindFile(dir, 'tags')
 
@@ -460,6 +460,153 @@ function! ShowFuncName(function_regex)
   set nolazyredraw
 endfun
 
+def! FindPackageFunction(cWORD: string, verbose: bool = false)
+  var debug = 0
+  if verbose || exists('b:debugFindPackageFunction') && b:debugFindPackageFunction
+    debug = 1
+  endif
+  def Debug(text: string)
+    if !debug
+      return
+    endif
+    echom 'DEBUG: ' .. text
+  enddef
+
+  var fullname = cWORD
+  if count(cWORD, '.') >= 3 && cWORD =~ '\.String$'
+    fullname = substitute(fullname, '\.String', '', '')
+  endif
+  fullname = substitute(fullname, '^[(*&]\+\|(.*', '', '')
+  fullname = substitute(fullname, '^!', '', '')
+  if fullname !~ '\.'
+    echoerr fullname .. ' is not package scoped'
+    return
+  endif
+  Debug('fullname ' .. fullname)
+  var c = split(fullname, '\.')
+  var pkg = c[0]
+  var name = c[1]
+  name = substitute(name, '[^0-9A-z_].*', '', '')
+  var regex = '^\(\t\|import \)\(' .. pkg .. ' "\|".*/' .. pkg .. '"\)'
+  Debug('regex ' .. regex)
+  var pkgline = getline(search(regex, 'n'))
+  Debug('pkgline1 ' .. pkgline)
+  if pkgline == ""
+    echoerr "could not find import line for package " .. pkg
+    return
+  endif
+
+  pkgline = substitute(pkgline, 'import ', '', '')
+  Debug('pkgline2 ' .. pkgline)
+  var pkgpath = pkgline
+  Debug('pkgpath1 ' .. pkgpath)
+  if stridx(pkgline, ' ') > -1
+    pkgpath = split(pkgline, ' ')[1]
+    Debug('pkgpath2 ' .. pkgpath)
+  endif
+
+  var parentDir = expand('%:h')
+  new
+
+  pkgpath = substitute(pkgpath, '[\t"]', '', 'g')
+  var isgitrepo: bool = 1
+  var pkgdir: string
+  var dirs = split(pkgpath, '/')
+  var vendored = ""
+  if vendored != ''
+    if isdirectory(vendored)
+      pkgdir = vendor_dir .. pkgpath
+    else
+      # go.mod
+      pkgdir = trim(system("cd " .. parentDir .. ";" .. "go list -json " .. pkgpath .. "|jq -r '.Dir'"))
+      Debug("PKGDIR"  .. pkgdir)
+      isgitrepo = false
+    endif
+  else
+    pkgdir = trim(system("cd '" .. parentDir .. "'; go list -json " .. pkgpath .. "|jq -r '.Dir'"))
+    isgitrepo = 0
+    Debug('PKGPATH ' .. pkgpath)
+    Debug('PKGDIR  ' .. pkgdir)
+
+    if !isdirectory(expand(pkgdir))
+      # maybe go stdlib
+      if stridx(dirs[0], '.') == -1
+        pkgdir = '/usr/local/go/src/' .. pkgpath
+        isgitrepo = 0
+      endif
+    endif
+  endif
+  Debug('pkgdir ' .. pkgdir)
+
+  exec ':lcd ' .. pkgdir
+  const func_regex = 'git grep -n ' .. (isgitrepo ? '' : '--no-index') .. ' --no-recursive -P "(func( \([^)]+\))? |type |var |^	)' .. name .. '\b"'
+  Debug('name ' .. name)
+  Debug('func_regex ' .. func_regex)
+  lexpr system(func_regex)
+enddef
+
+def! ShowLocalDef(word: string)
+  const dir = expand('%:h')
+  const regex = word .. '  *='
+  const values = systemlist("git -C " .. dir .. " grep --max-depth 0 '" .. regex .. "'")
+  if len(values) != 1
+    echoerr "no match for regex '" .. regex .. "' in " .. dir .. " results: " .. join(values, ', ')
+  endif
+  const value = values[0]
+  var vv = substitute(value, '.*= ', '', '')
+  vv = substitute(vv, '"', '', 'g')
+  @g = vv .. "\n"
+  popup_atcursor(value, {})
+enddef
+
+def! ShowOrGotoDef()
+  const word = expand('<cword>')
+  if word =~? '^[a-z]*logtag[A-z]*$'
+    g:ShowLocalDef(word)
+  else
+    # g:FindPackageFunction(expand('<cWORD>'))
+    echom "set isk+=."
+    set isk+=.
+    var cword = expand('<cword>')
+    set isk-=.
+    try
+      g:FindPackageFunction(cword, false)
+    finally
+    endtry
+    #echom "set isk-"
+    #set isk-=.
+  endif
+enddef
+
+def! g:FindLocalConstantDefinition(identifier: string, Debug: func)
+  echoerr "TODO FIXME FindLocalConstantDefinition()"
+enddef
+
+def! g:FindExportedConstantDefinition(identifier: string, Debug: func)
+  echoerr "TODO FIXME exported"
+enddef
+
+def! FindConstantDefinition(cWORD: string, verbose: bool = false)
+  var debug = 0
+  if verbose || exists('b:debugFindConstantDefinition') && b:debugFindConstantDefinition
+    debug = 1
+  endif
+  def Debug(text: string)
+    if !debug
+      return
+    endif
+    echom 'DEBUG: ' .. text
+  enddef
+
+  var fullname = substitute(cWORD, '^[(*&]\+\|(.*', '', '')
+  fullname = substitute(fullname, '^!', '', '')
+  if fullname !~ '\.'
+    g:FindLocalConstantDefinition(cWORD, Debug)
+    return
+  endif
+  g:FindExportedConstantDefinition(cWORD, Debug)
+enddef
+
 function! FlipFold()
  if !exists("s:FlipFold")
    let s:Zfdm = &fdm
@@ -525,10 +672,10 @@ function! NextErrorOrBuffer()
     return
   endif
 
-  if len(getqflist()) > 0
-    cnext
-  elseif len(getloclist(0)) > 0
+  if len(getloclist(0)) > 0
     lnext
+  elseif len(getqflist()) > 0
+    cnext
   elseif len(tabpagebuflist())[0] > 1
     bnext
   else
@@ -542,10 +689,10 @@ function! PrevErrorOrBuffer()
     return
   endif
 
-  if len(getqflist()) > 0
-    cprev
-  elseif len(getloclist(0)) > 0
+  if len(getloclist(0)) > 0
     lprev
+  elseif len(getqflist()) > 0
+    cprev
   elseif len(tabpagebuflist())[0] > 1
     bprev
   else
@@ -600,7 +747,7 @@ function! CommitInfo(sha1)
     let sha1 = a:sha1
   endif
 
-  let msg = system("git show --no-patch --abbrev=10 --pretty='format:%h (%s)' " . sha1)
+  let msg = system("git show --no-patch --abbrev=10 --pretty='format:%h (%ci %an: %s)' " . sha1)
   exec "normal! a" . msg
 endfun
 
@@ -622,18 +769,33 @@ function! GitBranch()
   return out[0]
 endfun
 
+function! CodeSearch(cmd, word, in_file_dir = v:false)
+  let needle = a:word
+  if needle == ""
+    let needle = expand('<cword>')
+  endif
+  let dir = '.'
+  if a:in_file_dir| let dir = expand('%:h')| endif
+  new
+  if a:in_file_dir| exec 'lcd ' . dir| endif
+  "lexpr system('cd ' . dir . ';' . a:cmd . ' ' . needle)
+  lexpr system(a:cmd . ' ' . needle)
+endfun
+
 def! CheckSwap()
-# /Users/nazri.ramliy/tmp/vimswap/sc_driver_auth_required.go.swp: Vim swap file, version 9.0, pid 28195, user nazri.ramliy, host ITMY006423-MAC, file ~nazri.ramliy/gopath/src/gitlab.myteksi.net/gophers/go/user-trust/grab-safety/logic/daxselfieauth/sc_driver_auth_required.go
-# ~/gopath/src/gitlab.myteksi.net/gophers/go/user-trust/grab-safety/logic/daxselfieauth(git) master 11:02:44
-# $ wherevim|grep 28195
-# ~/gopath/src/gitlab.myteksi.net/gophers/go/user-trust/grab-safety/logic/daxselfieauth(git) master 11:02:56
-# !1! $ wherevim -l|grep 28195
-#        \--- 28195 nazri.ramliy /opt/local/bin/vim -c let termname='s.13' sc_driver_auth_required.go
   var file = systemlist('file ' .. v:swapname)
   if len(file) < 1
     return
   endif
   var pid = substitute(file[0], '.*, pid ', '', '')
   pid = substitute(pid, ',.*', '', '')
-  echo system("pstree -p " .. pid)
+  echo system("pstree -p " .. pid .. '|grep termname=')
+enddef
+
+def! New(path: string)
+  var p = substitute(path, ':.*', '', 'g')
+  exec 'new ' .. p
+  var lnum = substitute(path, '[^:]*:', '', '')
+  lnum = substitute(lnum, ':.*', '', '')
+  call cursor(str2nr(lnum), 1)
 enddef

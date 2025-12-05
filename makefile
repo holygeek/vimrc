@@ -29,3 +29,6 @@ where=.
 install_git_hooks:
 	ln -vs ~/.vim/git_template/hooks/post-* \
 	       ~/.vim/git_template/hooks/ctags $(where)/.git/hooks
+.PHONY: tags
+tags:
+	ctags -R .

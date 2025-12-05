@@ -3,6 +3,14 @@ set t_Co=256
 set t_AB=[48;5;%dm
 set t_AF=[38;5;%dm
 
+" url decode %s/%\(\x\x\)/\=nr2char('0x' .. submatch(1))/ge
+
+if has('filterpipe')
+	set noshelltemp
+endif
+
+set viminfo='500,<1000,s100,h
+
 if filereadable(".git/tags")
   " tags set during VimEnter is too late for vim -t tag to see, hence:
   set tags=.git/tags
@@ -14,19 +22,24 @@ let g:clang_library_path='/usr/lib'
 if filereadable(expand('~/.vim/autoload/pathogen.vim'))
   call pathogen#infect()
 endif
-if isdirectory(expand('~/.vim/vim-go'))
+if isdirectory(expand('~/.vim/pack/nice/start/vim-go'))
   let g:go_fmt_command = "goimports"
-  set rtp+=~/.vim/vim-go
+  let g:go_jump_to_error = 1
 elseif isdirectory(expand('~/go/misc/vim'))
   set rtp+=~/go/misc/vim
-  autocmd FileType go autocmd BufWritePre <buffer> Fmt
   autocmd FileType go compiler go
 endif
+
+if isdirectory(expand('~/code/fzf'))
+	set rtp+=~/code/fzf
+endif
+
 "if filereadable(expand('~/gocode/bin/gocode'))
 "  set rtp+=~/gocode/src/github.com/nsf/gocode/vim
 "endif
 set fo+=n
 let g:is_posix = 1
+let &background="dark"
 syn on
 filetype on
 filetype plugin indent on
@@ -39,6 +52,7 @@ endif
 if $TERM_NAME != 'bigterm'
   if g:BG == 'black'
     colorscheme desert256
+    "colorscheme solarized
   endif
 else
   let g:BG = 'white'
@@ -55,10 +69,25 @@ set smartcase
 set notitle
 set ruler
 	
-hi ModifiedFileStatus ctermbg=darkgreen ctermfg=black
-hi RO ctermfg=white ctermbg=red
+"hi ModifiedFileStatus ctermbg=darkgreen ctermfg=black
+"hi RO ctermfg=white ctermbg=red
 
-set statusline=%#Error#%{&paste?'[PASTE]':''}%#ModifiedFileStatus#%m%*%f\ %y\ %#RO#%r%*\ %l:%c%V\ %p%%%L\ %<%{expand('%:p:~:h')}\ %o
+func FileDir()
+	return expand('%:p:~:h')
+endfun
+
+func FileDirMaybeWithSlash()
+	let d = expand('%:h')
+	if len(d) == 0
+		return ""
+	end
+	return d . '/'
+endfun
+
+hi User1 ctermbg=black
+
+set statusline=%#Error#%{&paste?'[PASTE]':''}%#ModifiedFileStatus#%m%*%{FileDirMaybeWithSlash()}%1*%t%*\ %y\ %{exists('b:appname')?'('.b:appname.')':''}%#RO#%r%*\ %l:%c%V\ %p%%%L\ %<%{FileDir()}\ %{exists('b:env')&&len(b:env)>0?'('.b:env.')':''}\ %o\ %{exists('b:swapexists')?'\ RO!':''}
+" TODO add len(getqflist()) and len(getloclist(0))
 "%=+%-{@+[0:10]}\ *%-{@*[0:10]}
 
 set laststatus=2
@@ -77,18 +106,29 @@ set pt=<f12>
 if exists('+rnu')
   set nu rnu
 endif
+
 "let &showbreak = '» '
+"set showbreak='♐ '
 "let &showbreak = '♫ '
 "let &showbreak = '⚑ '
-let &showbreak = '♐ '
+
+" wide unicode gives error:
+"let &showbreak = '♐ '
 "let &showbreak = '⚓ '
+" Error detected while processing /Users/nazri.ramliy/.vim/vimrc:
+" line  131:
+" E595: 'showbreak' contains unprintable or wide character
+
 set secure
-set autoindent smartindent
+set autoindent " smartindent
 set shiftround
 "set wildmode=full:list wildmenu
 set wildmode=list:longest,full wildmenu
 set wildignore+=*.o,*.lo,*.so,*.gcda,*.gcno,*~
 "set wildignore+=config.*
+set showcmd
+
+set isfname+=@-@
 
 source ~/.vim/functions.vim
 source ~/.vim/autocommands.vim
@@ -111,7 +151,7 @@ if v:version <= 604
   call LoadIfExists('ycm')
   call LoadIfExists('work')
 else
-  let scriptnames = [ 'addons', 'clang', 'completion', 'local', 'ycm', 'work' ]
+  let scriptnames = [ 'addons', 'plug', 'clang', 'completion', 'local', 'ycm', 'work' ]
   for name in scriptnames
     call LoadIfExists(name)
   endfor
@@ -119,3 +159,19 @@ endif
 
 " go guru output
 set errorformat+=%f:%l.%c-%[%^:]%#:\ %m,%f:%l:%c:\ %m
+
+if IsInGitRepo()
+	set grepprg=git\ grep\ -n\ $*\ 
+end
+
+let g:netrw_browse_split = 1
+
+set timeoutlen=350
+
+"source ~/.vim/vimplug.vim
+
+if &diff
+	"colorscheme diff
+	"highlight! link DiffText guibg=rosybrown guifg=#cccccc
+	highlight! DiffText guibg=brown guifg=black
+endif

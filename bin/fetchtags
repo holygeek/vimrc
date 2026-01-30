@@ -1,0 +1,52 @@
+#!/bin/zsh
+# fetchtags
+# Created: Wed Oct  1 16:16:56 +08 2025
+set -e
+
+me=$(basename $0)
+
+usage() {
+	echo "usage: $me [-h] ...
+  Options:
+    -o
+	View in browser
+    -h
+	Help"
+}
+
+foo=
+opt_view_in_browser=
+while getopts hf:o opt
+do
+	case "$opt" in
+		o) opt_view_in_browser=yes;;
+		f) foo=$OPTARG;;
+		h) usage; exit ;;
+		\?) echo Unknown option ; exit;;
+	esac
+done
+shift $(($OPTIND -1))
+
+p=$1
+if [ -z "$p" ]; then
+	p=${${$(findup go.mod)#$(git rev-parse --show-toplevel)/}%/go.mod}
+fi
+
+if [ -n "$opt_view_in_browser" ]; then
+	url="$(git remote -v|head -1|awk '{print $2}'|sed -e 's,:,/,' -e 's,git@,https://,' -e 's,\.git$,,')/-/tags?sort=updated_desc&search=$p"
+	echo \
+	open "$url"
+	open "$url"
+	exit $?
+fi
+
+echo -n "fetch tags for $p? y/n: "
+read ans
+if [ "$ans" != 'y' ]; then
+	exit 1
+fi
+
+#p=${1?need tag path}
+echo \
+git fetch --tags origin "refs/tags/${p}/*:refs/tags/${p}/*"
+git fetch --tags origin "refs/tags/${p}/*:refs/tags/${p}/*"

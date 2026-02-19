@@ -14,7 +14,7 @@ var win_height = winheight(0)
 for [name, rgb] in items(v:colornames)
 	if stridx(name, ' ') >= 0|continue|endif
 	add(sy, "syn match " .. name .. " '\\<" .. name .. "\\>'")
-	add(hi, "hi " .. name .. " guifg=" .. rgb)
+	add(hi, "hi " .. name .. " guibg=" .. $BGCOLOR .. " guifg=" .. rgb)
 endfor
 
 append('$', sy)

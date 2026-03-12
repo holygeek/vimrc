@@ -1,0 +1,23 @@
+#!/bin/sh
+# caller
+# Created: Wed Mar  4 09:13:32 +08 2020
+set -eu
+
+#cmd=vimcsearch
+#cmd=vimcsmd
+cmd=vimcs
+if [ "$1" = '-l' ]; then
+	cmd=csearch\ -n
+	shift
+elif [ "$1" = '-f' ]; then
+	cmd=csearch\ -l
+	shift
+fi
+func=${1?need function name}
+
+if [ "$cmd" = "vimcs" ]; then
+	VIM_SET_TITLE=caller.$func \
+	$cmd -e 'mock|_test.go' -f $(pwd) '([.(]|, |= |if !?|(return|go|:  *) |^[ \t]*)'"$func"'[^0-9A-Za-z_]'
+else
+	$cmd -e 'mock|_test.go' -f $(pwd) '([.(]|, |= |if !?|(return|go|: *) |^[ \t]*)'"$func"'[^0-9A-Za-z_]'|sed -e "s|^$PWD/||"
+fi

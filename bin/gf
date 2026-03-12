@@ -1,0 +1,84 @@
+#!/bin/sh
+# gfunc
+# Created: Wed Aug 21 10:43:50 +08 2019
+set -e
+#vimgit -R -g grep -E "^[a-zA-Z0-9_()* ]* ${1?need function name}\>" -- '*.go'
+
+me=$(basename $0)
+
+usage() {
+	echo "usage: $me [-h] ...
+  Options:
+    -a
+	zsh completion: Complete from all functions instead of protobuf rpcs only
+    -g
+	use grep instead of codesearch
+    -l
+	List matches
+    -L
+	Search only in logic
+    -h  Help"
+}
+
+opt_logic=
+opt_list=
+opt_use_grep=
+while getopts aghlL opt
+do
+  case "$opt" in
+    a) : do nothing - this is a hint to _gf zsh completion ;;
+    g) opt_use_grep=yes;;
+    l) opt_list=yes;;
+    L) opt_logic='logic.*';;
+    h) usage; exit ;;
+    \?) echo Unknown option ; exit;;
+  esac
+done
+shift $(($OPTIND -1))
+
+case "$PWD" in
+	*/pkg/mod/*)
+		opt_use_grep=yes;;
+esac
+
+if [ -z "$1" ]; then
+	exec sh -c 'pb -r|sort'
+fi
+func=${1?need function name}
+
+is_codesearch_indexed=
+if echo $PWD|grep -q -E "$(cindex -list|sed -e "s,$HOME,,"|tr '\n' '|'|sed -e 's/|$//')"; then
+	is_codesearch_indexed=yes
+else
+	# not indexed by codesearch
+	if [ -z "$opt_use_grep" ]; then
+		opt_use_grep=yes
+	fi
+fi
+
+# Use vimgit
+#regex="^[a-zA-Z0-9_()* ]* $func\b"
+#vimgit -F "$func" -R -g grep -E "$regex" -- '*.go'
+
+git_no_index_opt() {
+	if ! git rev-parse --show-toplevel >/dev/null 2>&1; then
+		echo '--no-index'
+	fi
+}
+
+# Use vimcs
+#regex="^[a-zA-Z0-9_()* ]* $func[^A-Za-z0-9_]"
+regex="(^[a-zA-Z0-9_()* ]* $func[^A-Za-z0-9_]|$func :?= func)"
+if [ -n "$opt_list" ]; then
+	if [ -n "$opt_use_grep" ]; then
+		git grep $(git_no_index_opt) -E "$regex" -- "*.go"
+	else
+		cs -n -f "$(pwd).*${opt_logic}\.go$" "$regex"
+	fi
+else
+	if [ -n "$opt_use_grep" ]; then
+		vimgit grep $(git_no_index_opt) -E "$regex" -- "*.go"
+	else
+		vimcs -f "$(pwd).*${opt_logic}\.go$" "$regex"
+	fi
+fi

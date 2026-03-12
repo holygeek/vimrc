@@ -59,3 +59,22 @@ au BufWritePost *.go set sw=8 sts=8 ts=8
 au SwapExists * call CheckSwap()
 
 autocmd BufNewFile,BufRead ~/dev/aws/config setfiletype aws_config
+
+augroup GoManualFold
+  autocmd!
+  " Run when a Go buffer is detected
+  "autocmd FileType go call s:go_manual_fold()
+  autocmd BufReadPost *.go call s:go_manual_fold()
+augroup END
+function! s:go_manual_fold() abort
+  let l:max = 18
+  " Only fold if the first line starts with "// Copyright"
+  if getline(1) =~# '^// Copyright'
+    setlocal foldmethod=manual
+    let l:to = min([l:max, line('$')])
+    silent execute '1,' . l:to . 'fold'
+    " Optional: start folds closed
+    " setlocal foldenable
+    " setlocal foldlevel=0
+  endif
+endfunction

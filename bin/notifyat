@@ -1,0 +1,100 @@
+#!/bin/zsh
+# notifyat
+# Created: Tue Sep  2 12:21:26 +08 2025
+set -e
+
+me=$(basename $0)
+
+usage() {
+	echo "usage: $me [-h] <duration> [notification message]
+
+sleep <duration>; notify [notification message]
+
+  Options:
+    -h
+	Help"
+}
+
+foo=
+while getopts hf: opt
+do
+	case "$opt" in
+		f) foo=$OPTARG;;
+		h) usage; exit ;;
+		\?) echo Unknown option ; exit;;
+	esac
+done
+shift $(($OPTIND -1))
+
+if [ -z "$1" ]; then
+	usage
+	exit 1
+fi
+notify_time=$(gdate +%s -d "$1")
+now=$(gdate +%s)
+reminder_threhold_seconds=60
+sleep_seconds=$((notify_time - now - $reminder_threhold_seconds))
+reminder_at=$(gdate -d @$((now + sleep_seconds)))
+if [ $sleep_seconds -le 0 ]; then
+	echo >&2 "invalid sleep_seconds $sleep_seconds"
+	exit 1
+fi
+
+echo reminder set at $reminder_at
+
+# Sleep until a target wall-clock time in local timezone.
+# Usage:
+#   sleep_until "YYYY-MM-DD HH:MM:SS" [max_chunk_seconds]
+#   sleep_until 1735977000             # also accepts epoch seconds
+sleep_until() {
+  #emulate -L zsh
+  setopt nounset
+  local ts="${1:-}" chunk="${2:-300}" target now remain nap
+
+  if [[ -z "$ts" ]]; then
+    print -u2 "Usage: sleep_until \"YYYY-MM-DD HH:MM:SS\" [max_chunk_seconds] | EPOCH"
+    return 2
+  fi
+
+  if [[ "$ts" == <-> ]]; then
+    target="$ts"  # already epoch seconds
+  else
+    # BSD date on macOS: parse local time string to epoch
+    target=$(/bin/date -j -f '%Y-%m-%d %H:%M:%S' "$ts" +%s) || {
+      print -u2 "Invalid date/time: $ts"
+      return 1
+    }
+  fi
+
+  while :; do
+    now=$(date +%s)
+    remain=$(( target - now ))
+    (( remain <= 0 )) && break
+    nap=$(( remain < chunk ? remain : chunk ))
+    sleep "$nap"
+  done
+}
+
+# Sleep for N seconds in wall-clock terms, adjusting if the system sleeps.
+sleep_for_wallclock() {
+  #emulate -L zsh
+  local seconds="${1:-}" chunk="${2:-300}" target
+
+  if [[ -z "$seconds" || "$seconds" != <-> ]]; then
+    print -u2 "Usage: sleep_for_wallclock SECONDS [max_chunk_seconds]"
+    return 2
+  fi
+
+  target=$(( $(date +%s) + seconds ))
+  sleep_until "$target" "$chunk"
+}
+
+#/bin/sleep $sleep_seconds
+sleep_for_wallclock $sleep_seconds
+
+shift
+if [ -z "$1" ]; then
+	notify "$(date)\nnotifyat"
+else
+	notify "$(date)\n$*"
+fi

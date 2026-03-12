@@ -19,7 +19,7 @@ hi LineNr ctermbg=0 ctermfg=darkgray guifg=dimgray
 " These two are needed for CursorLineNr
 set cursorlineopt=number
 set cursorline
-hi CursorLineNr cterm=none ctermbg=235 ctermfg=brown guifg=brown
+hi CursorLineNR cterm=none ctermbg=235 ctermfg=brown guifg=brown
 
 
 "A " Color tryouts:
@@ -39,7 +39,9 @@ hi SpellBad ctermfg=red ctermbg=none
 "hi braces ctermfg=darkgray
 
 "hi StatusLine term=reverse ctermfg=blue ctermbg=white
-"hi StatusLineNC ctermfg=darkgray ctermbg=black
+hi StatusLineNC ctermfg=darkgray ctermbg=black
+"hi StatusLine guifg=gray69 guibg=teal
+hi StatusLine guifg=white guibg=teal
 
 hi TabLineSel term=underline cterm=underline ctermfg=black ctermbg=darkgreen guifg=black guibg=darkgreen
 hi TabLine    term=underline cterm=underline ctermfg=black ctermbg=black                 guibg=black

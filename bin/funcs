@@ -4,7 +4,7 @@
 
 {
 git grep -E -o '^func (\([^)]*\) )?[A-Za-z0-9_]*' -- '*.go'|
-	grep -Ev '(^Test|FromPB$|ToPB$|^internal/|_mock_|func Test)'|
+	grep -Ev '(^Test|FromPB$|ToPB$|_mock_|func Test)'|
 	gsed -e 's/.*func \(([^)]*) \)\?//'
 git grep -E -o '^var [A-Za-z0-9_]* = func' -- '*.go'|
 	gsed -e 's/.*://' -e 's/var //' -e 's/ = .*//'

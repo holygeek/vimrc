@@ -48,7 +48,8 @@ qf=/tmp/vimsearch.quickfix.txt.$$
 trap "rm -f $qf" EXIT
 me=$(basename $0)
 
-vimcs_cmd='csearch -e "_test.go" -f $(pwd)'
+vimcs_cmd='csearch -e "_test.go|\.pb\.go$|/z_api.go$|z_server/z_server.go$|mock|Test\\.java$|Tests?\\.kt$" -f $(pwd)'
+#cmd=csearch
 cmd=cs
 case "$me" in
 	# filename.go:47:  foo bar = baz
@@ -62,13 +63,13 @@ case "$me" in
 		;;
 	*qcsearch)  cmd=qcsearch ;; # Obsolete qcsearch?
 	*csearcd)  cmd=csearchd ;;
-	*csearchm)  cmd='csearch -e "_test.go"';;
+	*csearchm)  cmd='csearch -e "_test.go|mock"';;
 
 	*csd)  cmd='csearch -f $(pwd)' ;;
 	*csm)  cmd='csearch -e "_test.go|mock"';;
 	*csmd) cmd='csearch -e "_test.go|mock" -f $(pwd)' ;;
 
-	vimcaller) cmd="csearch -e '_test.go' -f $(pwd)"
+	vimcaller) cmd="csearch -e 'mock|_test.go' -f $(pwd)"
 		func=$1
 		#set -- '([.(]|, |= |if |return )'"$func"'[(,]'
 		set -- '([.(]|, |= |if !?|(return|go) |^[ \t]*)'"$func"'[(,]'

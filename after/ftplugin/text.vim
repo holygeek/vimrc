@@ -1,0 +1,1 @@
+hi visual guibg=black

@@ -512,7 +512,11 @@ def! FindPackageFunction(cWORD: string, verbose: bool = false)
   var isgitrepo: bool = 1
   var pkgdir: string
   var dirs = split(pkgpath, '/')
+  var vendor_dir = expand("$HOME/go/src/example.com/foo/vendor/")
   var vendored = ""
+  if dirs[0] != 'example.com'
+    vendored =  vendor_dir .. dirs[0]
+  endif
   if vendored != ''
     if isdirectory(vendored)
       pkgdir = vendor_dir .. pkgpath
@@ -523,10 +527,21 @@ def! FindPackageFunction(cWORD: string, verbose: bool = false)
       isgitrepo = false
     endif
   else
-    pkgdir = trim(system("cd '" .. parentDir .. "'; go list -json " .. pkgpath .. "|jq -r '.Dir'"))
-    isgitrepo = 0
-    Debug('PKGPATH ' .. pkgpath)
-    Debug('PKGDIR  ' .. pkgdir)
+    var use_go_module = 1
+    if use_go_module
+      pkgdir = trim(system("cd '" .. parentDir .. "'; go list -json " .. pkgpath .. "|jq -r '.Dir'"))
+      isgitrepo = 0
+      Debug('PKGPATH ' .. pkgpath)
+      Debug('PKGDIR  ' .. pkgdir)
+    else
+      Debug('dirs ' .. join(dirs, '/'))
+      if dirs[1] == 'snd' && dirs[2] == 'streamsdk'
+        pkgdir = "$HOME/" .. join(dirs[2 : ], '/')
+        Debug('snd/ pkgdir ' .. pkgdir)
+      else
+        pkgdir = "$HOME/gopath/src/" .. pkgpath
+      endif
+    endif
 
     if !isdirectory(expand(pkgdir))
       # maybe go stdlib

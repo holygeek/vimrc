@@ -125,7 +125,7 @@ set shiftround
 "set wildmode=full:list wildmenu
 set wildmode=list:longest,full wildmenu
 set wildignore+=*.o,*.lo,*.so,*.gcda,*.gcno,*~
-"set wildignore+=config.*
+set wildignore+=config.*
 set showcmd
 
 set isfname+=@-@

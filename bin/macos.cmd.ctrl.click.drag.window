@@ -1,0 +1,4 @@
+#!/bin/sh
+# macos.cmd.ctrl.click.drag.window
+# Created: Fri Apr  4 10:16:22 +08 2025
+defaults write -g NSWindowShouldDragOnGesture -bool true

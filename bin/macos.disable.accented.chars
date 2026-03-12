@@ -1,0 +1,4 @@
+#!/bin/sh
+# macos.disable.accented.chars
+# Created: Fri Apr  4 10:15:03 +08 2025
+defaults write -g ApplePressAndHoldEnabled -bool false

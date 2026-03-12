@@ -1,0 +1,1 @@
+/Users/nazri.ramliy/.vim/vim-plug/plug.vim

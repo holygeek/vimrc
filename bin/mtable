@@ -1,0 +1,29 @@
+#!/bin/sh
+# mtable
+# Created: Tue Mar 10 21:21:33 +08 2026
+set -e
+
+me=$(basename $0)
+
+usage() {
+	echo "usage: $me [-h] ...
+
+Formats markdown table
+
+Options:
+	-h
+	  Help"
+}
+
+foo=
+while getopts hf: opt
+do
+	case "$opt" in
+		f) foo=$OPTARG;;
+		h) usage; exit ;;
+		\?) echo Unknown option ; exit;;
+	esac
+done
+shift $(($OPTIND -1))
+
+column -t -s '|' -o '|'
